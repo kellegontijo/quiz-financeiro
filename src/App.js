@@ -70,7 +70,7 @@ const questions = [
       { text: "Sim, é muito constrangedor e prefiro guardar para mim.", value: 1, insight: "Esse sentimento é comum e uma grande barreira. Saiba que você não está sozinho(a) e pedir ajuda é um sinal de força." },
       { text: "Às vezes sinto, mas sei que preciso enfrentar e buscar soluções.", value: 2, insight: "Reconhecer a necessidade de agir é o primeiro passo. Existem especialistas dispostos a ajudar sem julgamentos." },
       { text: "Não, eu converso abertamente e busco informações sempre que preciso.", value: 3, insight: "Essa abertura é uma grande vantagem! Continue buscando conhecimento e compartilhando, pois isso acelera sua jornada." },
-      { text: "Nunca tive dificuldades financeito, então não sinto vergonha.", value: 4, insight: "Que bom! Manter a saúde financeira exige atenção constante e planejamento. Continue cultivando essa mentalidade." }
+      { text: "Nunca tive dificuldades financeiras, então não sinto vergonha.", value: 4, insight: "Que bom! Manter a saúde financeira exige atenção constante e planejamento. Continue cultivando essa mentalidade." }
     ]
   },
   {
@@ -264,18 +264,20 @@ function App() {
   // Função para formatar o nome: primeira letra maiúscula, preposições em minúsculas
   const formatName = (name) => {
     if (!name) return '';
-    return name.toLowerCase().split(' ').map((word, index, array) => {
+    // Esta função agora apenas capitaliza a primeira letra de cada palavra (mantém o nome completo)
+    return name.toLowerCase().split(' ').map((word) => {
       if (word.length === 0) return '';
-      // Lista de preposições comuns em português
-      const prepositions = ['de', 'da', 'do', 'dos', 'das', 'e', 'em', 'para', 'com', 'por', 'a', 'o', 'as', 'os'];
-      // Se for uma preposição e não for a primeira ou última palavra, mantém em minúsculas
-      if (prepositions.includes(word) && index !== 0 && index !== array.length - 1) {
-        return word;
-      }
-      // Capitaliza a primeira letra da palavra
       return word.charAt(0).toUpperCase() + word.slice(1);
     }).join(' ');
   };
+
+  // Nova função para obter apenas o primeiro nome para exibição na pergunta
+  const getFirstName = (fullName) => {
+    if (!fullName) return '';
+    const parts = fullName.split(' ');
+    return parts[0].charAt(0).toUpperCase() + parts[0].slice(1).toLowerCase();
+  };
+
 
   // Função para formatar o número de telefone (apenas dígitos, com '55' no início)
   const formatPhoneNumber = (phone) => {
@@ -302,7 +304,7 @@ function App() {
 
         A sensação de que o dinheiro 'some' e a preocupação constante com contas em atraso são sinais claros de que um novo caminho se faz necessário. **Mas não se preocupe, você não está sozinho(a) e essa realidade pode ser transformada!**
 
-        O medo do futuro e a 'bola de neve' das dívidas são sentimentos compreensíveis. O mais importante agora é reconhecer que buscar clareza é o primeiro passo para retomar o controle. Você merece uma uma vida financeira digna e tranquila.
+        O medo do futuro e a 'bola de neve' das dívidas são sentimentos compreensíveis. O mais importante agora é reconhecer que buscar clareza é o primeiro passo para retomar o control. Você merece uma uma vida financeira digna e tranquila.
 
         **A sua vida financeira é como um labirinto sem um mapa claro.** Você sabe que precisa sair, mas não vê as saídas. Este quiz foi apenas um sinal de que as respostas existem e estão mais próximas do que você imagina.
 
@@ -333,10 +335,6 @@ function App() {
         Parabéns! Suas respostas refletem um alto nível de consciência e controle sobre suas finanças pessoais. Você demonstra organização, planejamento e uma boa capacidade de lidar com o dinheiro, provavelmente já construindo reservas e talvez até investindo. Você trabalha duro e consegue ver os frutos do seu esforço.
 
         Apesar de sua solidez, o mundo financeiro está em constante evolução. Há sempre novas estratégias, otimizações e caminhos para fazer seu dinheiro trabalhar ainda mais para você, ou para alcançar objetivos ainda maiores e mais ambiciosos.
-
-        Você já superou muitas das preocupações financeiras comuns, mas talvez busque aprimorar seu legado, maximizar seus investimentos ou encontrar maneiras de ter ainda mais tempo livre e qualidade de vida.
-
-        **Sua vida financeira é como um belo jardim: você já o cultivou bem, mas sempre há maneiras de florescer ainda mais e colher mais frutos.** Este quiz confirmou seu bom desempenho e a sua busca por excelência.
 
         **Você já é um(a) grande realizador(a)!** Imagine o que podemos construir juntos ao otimizar o que você já faz bem. Descubra como levar suas finanças para o próximo nível e transformar seu potencial em resultados extraordinários.
       `;
@@ -606,69 +604,77 @@ function App() {
            style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
 
         {quizState === 'welcome' && (
-          <div className="text-center">
-            <h2 className={`text-3xl sm:text-4xl font-bold uppercase mb-4 leading-tight ${userGender ? `text-${activeTheme.textHighlight}` : 'text-black'}`}>
-              BEM-VINDA(O)!
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-8">
-              Para começarmos, qual é o seu nome e gênero?
-            </p>
-            <form onSubmit={(e) => { e.preventDefault(); handleStartQuiz(); }} className="space-y-4 max-w-sm mx-auto">
-              <input
-                type="text"
-                placeholder="Seu Nome"
-                value={userName}
-                onChange={(e) => setUserName(formatName(e.target.value))} // Nome formatado aqui
-                required
-                className="w-full p-3 rounded-lg border-2 border-blue-400 focus:border-blue-200 focus:outline-none text-gray-800 placeholder-gray-500"
-              />
-              <div className="flex justify-center space-x-4 mt-4">
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="feminino"
-                    checked={userGender === 'feminino'}
-                    onChange={(e) => setUserGender(e.target.value)}
-                    className="form-radio text-pink-600 h-5 w-5"
-                  />
-                  <span className="ml-2 text-gray-700">Feminino</span>
-                </label>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="masculino"
-                    checked={userGender === 'masculino'}
-                    onChange={(e) => setUserGender(e.target.value)}
-                    className="form-radio text-blue-600 h-5 w-5"
-                  />
-                  <span className="ml-2 text-gray-700">Masculino</span>
-                </label>
-                <label className="inline-flex items-center">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="outros"
-                    checked={userGender === 'outros'}
-                    onChange={(e) => setUserGender(e.target.value)}
-                    className="form-radio text-teal-600 h-5 w-5"
-                  />
-                  <span className="ml-2 text-gray-700">Outros</span>
-                </label>
-              </div>
-              <button
-                type="submit"
-                className={`w-full font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 hover:scale-105
-                  ${userGender
-                    ? `bg-${activeTheme.primary} hover:bg-${activeTheme.primaryHover} text-white`
-                    : 'bg-black hover:bg-gray-800 text-white' // Inicial preto
-                  }`}
-                disabled={isLoading}
-              >
-                {isLoading ? 'CARREGANDO...' : 'COMEÇAR O QUIZ'}
-              </button>
-            </form>
+          <div className="text-center min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8" style={{
+            backgroundImage: `url('https://placehold.co/1920x1080/FFFFFF/FFFFFF/png?text=')`, // Fundo branco sólido para a tela de boas-vindas
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed',
+          }}>
+            <div className="relative z-10 bg-white rounded-xl p-6 sm:p-8 lg:p-10 max-w-2xl w-full text-center" // Removido shadow-lg daqui
+                 style={{ backdropFilter: 'blur(5px)', WebkitBackdropFilter: 'blur(5px)' }}>
+              <h2 className={`text-3xl sm:text-4xl font-bold uppercase mb-4 leading-tight text-black`}> {/* Texto preto */}
+                BEM-VINDA(O)!
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-8"> {/* Texto cinza */}
+                Para começarmos, qual é o seu nome e gênero?
+              </p>
+              <form onSubmit={(e) => { e.preventDefault(); handleStartQuiz(); }} className="space-y-4 max-w-sm mx-auto">
+                <input
+                  type="text"
+                  placeholder="Seu Nome"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)} // Permite nome completo com espaços
+                  required
+                  className="w-full p-3 rounded-lg border-2 border-blue-400 focus:border-blue-200 focus:outline-none text-gray-800 placeholder-gray-500"
+                />
+                <div className="flex justify-center space-x-4 mt-4">
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="feminino"
+                      checked={userGender === 'feminino'}
+                      onChange={(e) => setUserGender(e.target.value)}
+                      className="form-radio text-pink-600 h-5 w-5"
+                    />
+                    <span className="ml-2 text-gray-700">Feminino</span> {/* Texto cinza */}
+                  </label>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="masculino"
+                      checked={userGender === 'masculino'}
+                      onChange={(e) => setUserGender(e.target.value)}
+                      className="form-radio text-blue-600 h-5 w-5"
+                    />
+                    <span className="ml-2 text-gray-700">Masculino</span> {/* Texto cinza */}
+                  </label>
+                  <label className="inline-flex items-center">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="outros"
+                      checked={userGender === 'outros'}
+                      onChange={(e) => setUserGender(e.target.value)}
+                      className="form-radio text-teal-600 h-5 w-5"
+                    />
+                    <span className="ml-2 text-gray-700">Outros</span> {/* Texto cinza */}
+                  </label>
+                </div>
+                <button
+                  type="submit"
+                  className={`w-full font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 hover:scale-105
+                    ${userGender
+                      ? `bg-${activeTheme.primary} hover:bg-${activeTheme.primaryHover} text-white`
+                      : 'bg-black hover:bg-gray-800 text-white' // Inicial preto
+                    }`}
+                  disabled={isLoading}
+                >
+                  {isLoading ? 'CARREGANDO...' : 'COMEÇAR O QUIZ'}
+                </button>
+              </form>
+            </div>
           </div>
         )}
 
@@ -698,7 +704,7 @@ function App() {
                 Questão {currentQuestionIndex + 1} de {questions.length}
               </p>
               <p className="text-xl sm:text-2xl text-gray-800 mb-6 font-medium">
-                {currentQuestionData.icon} Olá, {userName}! {currentQuestionData.question.replace('{userName}', userName)}
+                {currentQuestionData.icon} Olá, {getFirstName(userName)}! {currentQuestionData.question.replace('{userName}', userName)}
               </p>
               <div className="grid grid-cols-1 gap-4">
                 {currentQuestionData.options.map((option, index) => (
@@ -763,7 +769,7 @@ function App() {
             <h2 className="text-3xl sm:text-4xl font-bold text-blue-800 uppercase mb-6 leading-tight">
               PROCESSANDO SEUS RESULTADOS...
             </h2>
-            <p className="text-xl text-gray-700">
+            <p className="text-lg text-gray-700">
               Aguarde um momento enquanto preparamos seu relatório personalizado, {userName}.
             </p>
             {/* Você pode adicionar um spinner ou animação aqui */}
