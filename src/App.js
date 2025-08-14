@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
-// Importação dos ícones Lucide React
 import { DollarSign, Clock, Wallet, Map, HeartCrack, TrendingDown, Shield, Lightbulb, Snowflake, CheckCircle } from 'lucide-react';
 
-
-// Certifique-se de que o Tailwind CSS esteja carregado no ambiente
-// Adicione <script src="https://cdn.tailwindcss.com"></script> no seu HTML, se necessário.
+// ====================================================================================
+// DADOS E CONFIGURAÇÕES (Poderiam estar em arquivos separados)
+// ====================================================================================
 
 const questions = [
   {
     id: 'q1',
     question: "Você trabalha duro, se esforça todos os dias, mas sente que o dinheiro simplesmente 'some' antes do fim do mês? Qual opção mais se aproxima da sua realidade?",
-    icon: <Clock className="inline-block mr-2 text-blue-500" size={24} />, // Ícone de relógio/tempo
+    icon: <Clock className="inline-block mr-2 text-blue-500" size={24} />,
     options: [
       { text: "Sim, parece que o dinheiro evapora e nunca vejo a 'cor' dele.", value: 1, insight: "Essa sensação é comum e, muitas vezes, está ligada a gastos invisíveis." },
       { text: "Às vezes, consigo equilibrar, mas qualquer imprevisto me desorganiza.", value: 2, insight: "É um sinal de que a estrutura financeira pode estar frágil. Pequenos ajustes podem criar uma base mais sólida." },
@@ -21,7 +20,7 @@ const questions = [
   {
     id: 'q2',
     question: "Quando você pensa em 'dívidas', qual tipo mais te tira o sono ou te aperta o coração no dia a dia?",
-    icon: <TrendingDown className="inline-block mr-2 text-red-500" size={24} />, // Ícone de dívida/tendência de queda
+    icon: <TrendingDown className="inline-block mr-2 text-red-500" size={24} />,
     options: [
       { text: "Contas básicas em atraso (água, luz, aluguel), que geram preocupação constante.", value: 1, insight: "Atrasar contas essenciais é um alerta. Existem formas de organizar e priorizar esses pagamentos." },
       { text: "Cartão de crédito e cheque especial, com aqueles juros altíssimos.", value: 2, insight: "Essas são as dívidas mais agressivas. Elas podem ser um grande peso, mas existem estratégias para dominá-las." },
@@ -32,7 +31,7 @@ const questions = [
   {
     id: 'q3',
     question: "Sua mente fica 'ligada' nas contas e nas preocupações com dinheiro mesmo quando você está trabalhando ou tentando relaxar?",
-    icon: <Lightbulb className="inline-block mr-2 text-yellow-500" size={24} />, // Ícone de pensamento/preocupação
+    icon: <Lightbulb className="inline-block mr-2 text-yellow-500" size={24} />,
     options: [
       { text: "Sim, é difícil me concentrar e parece que as preocupações me seguem para todo lado.", value: 1, insight: "É um ciclo vicioso: preocupação financeira afeta bem-estar e produtividade. Romper esse ciclo começa com organização." },
       { text: "Às vezes sinto um peso, mas consigo focar no que preciso fazer.", value: 2, insight: "Esse 'peso' pode ser um sinal de estresse financeiro. Abordar as finanças pode liberar sua mente." },
@@ -41,7 +40,7 @@ const questions = [
     ]
   },
   {
-    id: 'q4_dificuldade', // Versão para quem tem dificuldade
+    id: 'q4_dificuldade',
     question: "Considerando seus desafios, {userName}, se você pudesse resolver um problema financeiro HOJE, qual seria a sua prioridade número 1?",
     icon: <DollarSign className="inline-block mr-2 text-red-500" size={24} />,
     options: [
@@ -52,7 +51,7 @@ const questions = [
     ]
   },
   {
-    id: 'q4_otimizacao', // Versão para quem busca otimização
+    id: 'q4_otimizacao',
     question: "Com seu nível de organização, {userName}, qual seria seu próximo grande passo financeiro para otimizar seus recursos?",
     icon: <DollarSign className="inline-block mr-2 text-green-500" size={24} />,
     options: [
@@ -62,10 +61,11 @@ const questions = [
       { text: "Diversificar minhas fontes de renda ou buscar novas oportunidades de crescimento.", value: 4, insight: "Excelente! Buscar novas fontes de renda acelera sua jornada para a liberdade financeira e a realização de objetivos ambiciosos." }
     ]
   },
+    // Mantendo as outras questões (q5 a q10) como no original
   {
     id: 'q5',
     question: "Você já sentiu vergonha ou culpa por suas dificuldades financeiras, a ponto de evitar falar sobre o assunto ou buscar ajuda?",
-    icon: <HeartCrack className="inline-block mr-2 text-purple-500" size={24} />, // Ícone de vergonha/coração partido
+    icon: <HeartCrack className="inline-block mr-2 text-purple-500" size={24} />,
     options: [
       { text: "Sim, é muito constrangedor e prefiro guardar para mim.", value: 1, insight: "Esse sentimento é comum e uma grande barreira. Saiba que você não está sozinho(a) e pedir ajuda é um sinal de força." },
       { text: "Às vezes sinto, mas sei que preciso enfrentar e buscar soluções.", value: 2, insight: "Reconhecer a necessidade de agir é o primeiro passo. Existem especialistas dispostos a ajudar sem julgamentos." },
@@ -76,7 +76,7 @@ const questions = [
   {
     id: 'q6',
     question: "Você se vê gastando por impulso, talvez depois de um dia estressante, e só se arrepende quando a fatura chega?",
-    icon: <Wallet className="inline-block mr-2 text-orange-500" size={24} />, // Ícone de carteira/gastos
+    icon: <Wallet className="inline-block mr-2 text-orange-500" size={24} />,
     options: [
       { text: "Sim, muitas vezes minhas emoções me levam a gastos desnecessários.", value: 1, insight: "Esse é o comportamento comum que impacta o orçamento. Entender a ligação entre emoções e gastos é crucial para quebrar esse ciclo." },
       { text: "Às vezes acontece, mas tento me controlar e me arrependo menos.", value: 2, insight: "Você está no caminho certo! Pequenas estratégias podem fortalecer seu controle e te ajudar a fazer escolhas mais conscientes." },
@@ -87,7 +87,7 @@ const questions = [
   {
     id: 'q7',
     question: "Se você precisasse de R$ 1.000,00 para uma emergência hoje (ex: doença, carro quebrou), você teria essa quantia disponível sem se endividar?",
-    icon: <Shield className="inline-block mr-2 text-indigo-500" size={24} />, // Ícone de escudo/segurança
+    icon: <Shield className="inline-block mr-2 text-indigo-500" size={24} />,
     options: [
       { text: "Não, eu teria que pegar emprestado ou usar o cartão de crédito.", value: 1, insight: "Essa é a realidade de muitos, mas construir uma reserva de emergência é um pilar da segurança financeira. É mais simples do que parece." },
       { text: "Talvez, eu teria que verificar minhas contas e talvez apertar um pouco.", value: 2, insight: "Um planejamento mais claro e o início de uma reserva, mesmo pequena, podem trazer mais tranquilidade para imprevistos." },
@@ -98,7 +98,7 @@ const questions = [
   {
     id: 'q8',
     question: "Qual a sensação mais forte que você tem em relação ao seu futuro financeiro?",
-    icon: <Snowflake className="inline-block mr-2 text-cyan-500" size={24} />, // Ícone de futuro/mudança
+    icon: <Snowflake className="inline-block mr-2 text-cyan-500" size={24} />,
     options: [
       { text: "Incerteza e medo de não conseguir sair das dívidas ou ter uma vida digna.", value: 1, insight: "Esse medo é compreensível, mas existe um caminho para a clareza e um futuro financeiro mais seguro. Você não precisa passar por isso sozinho." },
       { text: "Esperança, mas sem saber exatamente por onde começar para melhorar.", value: 2, insight: "A esperança é um grande motor! O próximo passo é transformar essa esperança em um plano de ação claro e prático." },
@@ -109,7 +109,7 @@ const questions = [
   {
     id: 'q9',
     question: "Você já sentiu que, por mais que tente, suas dívidas parecem uma 'bola de neve' que só cresce, mesmo você trabalhando sem parar?",
-    icon: <TrendingDown className="inline-block mr-2 text-red-500" size={24} />, // Ícone de dívida/tendência de queda
+    icon: <TrendingDown className="inline-block mr-2 text-red-500" size={24} />,
     options: [
       { text: "Sim, parece que eu pago, mas nunca vejo o fim e as dívidas se multiplicam.", value: 1, insight: "Essa sensação de 'bola de neve' é um dos maiores desafios. É crucial identificar e quebrar esse ciclo com a estratégia certa." },
       { text: "Às vezes, mas consigo controlar e fazer ela diminuir.", value: 2, insight: "Você já tem algum controle, o que é ótimo! Agora é refinar as estratégias para eliminar essa 'bola de neve' de vez." },
@@ -120,7 +120,7 @@ const questions = [
   {
     id: 'q10',
     question: "Você acredita que ter um 'mapa' claro da sua vida financeira e um plano personalizado para sair das dificuldades faria a diferença para você?",
-    icon: <Map className="inline-block mr-2 text-green-500" size={24} />, // Ícone de mapa/direção
+    icon: <Map className="inline-block mr-2 text-green-500" size={24} />,
     options: [
       { text: "Com certeza! Me sinto perdido e preciso de um guia para mudar minha situação.", value: 1, insight: "Essa é a base para a transformação! Um mapa claro e um plano personalizado te dão direção e confiança." },
       { text: "Talvez, mas acho que é muito complicado ou caro para mim.", value: 2, insight: "Pode parecer complicado, mas com a orientação certa, é mais acessível do que você imagina. O investimento na sua clareza financeira se paga." },
@@ -130,174 +130,102 @@ const questions = [
   }
 ];
 
-// Definição dos temas de cores
-const themeColors = {
+// Definição dos temas de cores para Tailwind CSS
+// As classes completas são usadas para garantir que o compilador do Tailwind as detecte.
+const themeClasses = {
   masculino: {
-    primary: 'blue-600', // Azul principal para botões, barra de progresso
-    primaryHover: 'blue-700',
-    textHighlight: 'blue-800', // Azul escuro para destaque na headline
-    progressBarBg: 'blue-600', // Cor inicial da barra de progólio (sólida)
-    buttonBorder: 'blue-700', // Borda dos botões de resposta
-    inputBorder: 'blue-400',
-    inputFocusBorder: 'blue-200',
-    insightBg: 'blue-200', // Fundo do insight
-    insightText: 'gray-800', // Texto do insight
-    errorBg: 'red-100', // Fundo do erro
-    errorText: 'red-800', // Texto do erro
+    primary: 'bg-blue-600 hover:bg-blue-700',
+    textHighlight: 'text-blue-800',
+    progressBarBg: 'bg-blue-600',
+    buttonBorder: 'border-blue-700',
+    buttonHover: 'hover:bg-blue-100',
+    buttonSelected: 'bg-blue-600 text-white border-blue-700',
+    inputBorder: 'border-blue-400 focus:border-blue-200',
+    insightBg: 'bg-blue-100',
+    insightText: 'text-blue-800',
+    insightBorder: 'border-t-blue-100',
+    errorBg: 'bg-red-100',
+    errorText: 'text-red-800',
   },
   feminino: {
-    primary: 'purple-700', // Lilás/Roxo principal
-    primaryHover: 'purple-800',
-    textHighlight: 'purple-900', // Roxo mais escuro para destaque na headline
-    progressBarBg: 'purple-700', // Cor inicial da barra de progresso (sólida)
-    buttonBorder: 'purple-700', // Borda dos botões de resposta
-    inputBorder: 'purple-400',
-    inputFocusBorder: 'purple-200',
-    insightBg: 'purple-200', // Fundo do insight
-    insightText: 'gray-800', // Texto do insight
-    errorBg: 'red-100', // Fundo do erro
-    errorText: 'red-800', // Texto do erro
+    primary: 'bg-purple-700 hover:bg-purple-800',
+    textHighlight: 'text-purple-900',
+    progressBarBg: 'bg-purple-700',
+    buttonBorder: 'border-purple-700',
+    buttonHover: 'hover:bg-purple-100',
+    buttonSelected: 'bg-purple-700 text-white border-purple-800',
+    inputBorder: 'border-purple-400 focus:border-purple-200',
+    insightBg: 'bg-purple-100',
+    insightText: 'text-purple-800',
+    insightBorder: 'border-t-purple-100',
+    errorBg: 'bg-red-100',
+    errorText: 'text-red-800',
   },
-  outros: { // Tema neutro/meio-termo
-    primary: 'teal-600', // Verde-água/ciano
-    primaryHover: 'teal-700',
-    textHighlight: 'cyan-800', // Ciano escuro para destaque
-    progressBarBg: 'teal-600', // Cor inicial da barra de progresso (sólida)
-    buttonBorder: 'teal-700',
-    inputBorder: 'teal-400',
-    inputFocusBorder: 'teal-200',
-    insightBg: 'cyan-200', // Fundo do insight
-    insightText: 'gray-800', // Texto do insight
-    errorBg: 'red-100', // Fundo do erro
-    errorText: 'red-800', // Texto do erro
+  outros: {
+    primary: 'bg-teal-600 hover:bg-teal-700',
+    textHighlight: 'text-cyan-800',
+    progressBarBg: 'bg-teal-600',
+    buttonBorder: 'border-teal-700',
+    buttonHover: 'hover:bg-teal-100',
+    buttonSelected: 'bg-teal-600 text-white border-teal-700',
+    inputBorder: 'border-teal-400 focus:border-teal-200',
+    insightBg: 'bg-teal-100',
+    insightText: 'text-teal-800',
+    insightBorder: 'border-t-teal-100',
+    errorBg: 'bg-red-100',
+    errorText: 'text-red-800',
   },
 };
 
-
-function App() {
-  const [quizState, setQuizState] = useState('welcome'); // 'welcome', 'quiz', 'processing', 'leadForm', 'results'
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selectedOptionValue, setSelectedOptionValue] = useState(null); // Armazena o valor da opção selecionada
-  const [currentInsightText, setCurrentInsightText] = useState(''); // Estado para o texto do insight
-  const [showInsight, setShowInsight] = useState(false); // Estado para controlar a visibilidade do insight
-  const [userName, setUserName] = useState('');
-  const [userGender, setUserGender] = useState(''); // Novo estado para o gênero
-  const [userEmail, setUserEmail] = useState('');
-  const [userWhatsapp, setUserWhatsapp] = useState('');
-  const [userIncomeRange, setUserIncomeRange] = useState('');
-  const [userDebtRange, setUserDebtRange] = useState('');
-  const [userAnswers, setUserAnswers] = useState([]); // Armazena as respostas do quiz
-  const [quizSessionId, setQuizSessionId] = useState(null); // ID único da sessão do quiz
-  const [initialUrlParams, setInitialUrlParams] = useState({}); // Parâmetros da URL
-  const [isLoading, setIsLoading] = useState(false); // Estado de carregamento para webhooks
-  const [firstQuestionAnswerValue, setFirstQuestionAnswerValue] = useState(null); // Armazena a resposta da Q1 para branching
-  const [lgpdConsent, setLgpdConsent] = useState(false); // Estado para o consentimento LGPD
-  const [formError, setFormError] = useState(''); // Estado para a mensagem de erro do formulário
-
-  // Determina o tema ativo com base no gênero
-  const activeTheme = userGender && themeColors[userGender] ? themeColors[userGender] : themeColors.outros;
-
-
-  // Carrega o script do Cal.com e o inicializa
-  useEffect(() => {
-    // Verifica se o script já foi carregado para evitar duplicação
-    if (!window.Cal) {
-      (function (C, A, L) {
-        let p = function (a, ar) { a.q.push(ar); };
-        let d = C.document;
-        C.Cal = C.Cal || function () {
-          let cal = C.Cal;
-          let ar = arguments;
-          if (!cal.loaded) {
-            cal.ns = {};
-            cal.q = cal.q || [];
-            d.head.appendChild(d.createElement("script")).src = A;
-            cal.loaded = true;
-          }
-          if (ar[0] === L) {
-            const api = function () { p(api, arguments); };
-            const namespace = ar[1];
-            api.q = api.q || [];
-            if(typeof namespace === "string"){
-              cal.ns[namespace] = cal.ns[namespace] || api;
-              p(cal.ns[namespace], ar);
-              p(cal, ["initNamespace", namespace]);
-            } else p(cal, ar);
-            return;
-          }
-          p(cal, ar);
-        };
-      })(window, "https://app.cal.com/embed/embed.js", "init");
-    }
-
-    // Inicializa o Cal.com com a nova configuração
-    window.Cal("init", "diagnostico", {origin:"https://app.cal.com"});
-    window.Cal.ns.diagnostico("ui", {"theme":"light","cssVarsPerTheme":{"light":{"cal-brand":"#09a682"},"dark":{"cal-brand":"#fafafa"}},"hideEventTypeDetails":false,"layout":"month_view"});
-
-    // Captura parâmetros da URL ao carregar o componente
-    const params = new URLSearchParams(window.location.search);
-    const paramsObj = {};
-    for (let [key, value] of params.entries()) {
-      paramsObj[key] = value;
-    }
-    setInitialUrlParams(paramsObj);
-    setQuizSessionId(crypto.randomUUID()); // Gera um ID de sessão único
-  }, []);
-
-  const incomeRanges = [
+const incomeRanges = [
     { value: '', label: 'Selecione sua faixa de renda' },
     { value: 'ate-2000', label: 'Até R$ 2.000' },
     { value: '2001-5000', label: 'R$ 2.001 a R$ 5.000' },
     { value: '5001-10000', label: 'R$ 5.001 a R$ 10.000' },
     { value: 'acima-10000', label: 'Acima de R$ 10.000' },
-  ];
+];
 
-  const debtRanges = [
+const debtRanges = [
     { value: '', label: 'Selecione sua faixa de dívida' },
     { value: 'sem-dividas', label: 'Sem dívidas' },
     { value: 'ate-5000', label: 'Até R$ 5.000' },
     { value: '5001-20000', label: 'R$ 5.001 a R$ 20.000' },
     { value: 'acima-20000', label: 'Acima de R$ 20.000' },
-  ];
+];
 
-  // Função para formatar o nome: primeira letra maiúscula, preposições em minúsculas
-  const formatName = (name) => {
-    if (!name) return '';
-    // Esta função agora apenas capitaliza a primeira letra de cada palavra (mantém o nome completo)
-    return name.toLowerCase().split(' ').map((word) => {
-      if (word.length === 0) return '';
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    }).join(' ');
-  };
+// ====================================================================================
+// FUNÇÕES HELPERS (Poderiam estar em um arquivo helpers.js)
+// ====================================================================================
 
-  // Nova função para obter apenas o primeiro nome para exibição na pergunta
-  const getFirstName = (fullName) => {
-    if (!fullName) return '';
-    const parts = fullName.split(' ');
-    return parts[0].charAt(0).toUpperCase() + parts[0].slice(1).toLowerCase();
-  };
+const formatName = (name) => {
+  if (!name) return '';
+  return name.toLowerCase().split(' ').map((word) => {
+    if (word.length === 0) return '';
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(' ');
+};
 
+const getFirstName = (fullName) => {
+  if (!fullName) return '';
+  const parts = fullName.split(' ');
+  return parts[0].charAt(0).toUpperCase() + parts[0].slice(1).toLowerCase();
+};
 
-  // Função para formatar o número de telefone (apenas dígitos, com '55' no início)
-  const formatPhoneNumber = (phone) => {
-    if (!phone) return '';
-    // Remove todos os caracteres não numéricos
-    let cleanedPhone = phone.replace(/\D/g, '');
+const formatPhoneNumber = (phone) => {
+  if (!phone) return '';
+  let cleanedPhone = phone.replace(/\D/g, '');
+  if (cleanedPhone.length > 2 && !cleanedPhone.startsWith('55')) {
+    cleanedPhone = '55' + cleanedPhone;
+  }
+  return cleanedPhone;
+};
 
-    // Adiciona '55' se não estiver presente no início
-    if (!cleanedPhone.startsWith('55')) {
-      cleanedPhone = '55' + cleanedPhone;
-    }
-    return cleanedPhone;
-  };
+const getFinancialProfile = (score) => {
+  let title, description;
 
-  const getFinancialProfile = () => {
-    let title, description, color;
-
-    if (score >= 10 && score <= 20) {
-      title = "Perfil Financeiro: Iniciante - Alerta Vermelho! 🚨";
-      description = `
+  if (score >= 10 && score <= 20) {
+    title = "Perfil Financeiro: Iniciante - Alerta Vermelho! 🚨";
+    description = `
         **Pontuação: ${score} de 40 pontos**
 
         Suas respostas indicam que você está vivendo uma fase desafiadora em suas finanças. É provável que você se sinta sobrecarregado(a), confuso(a) e talvez até envergonhado(a) por sua situação. Parece que, apesar de todo o seu esforço e trabalho, o dinheiro simplesmente 'escorre' entre seus dedos, e as dívidas podem estar se acumulando de forma preocupante.
@@ -310,10 +238,9 @@ function App() {
 
         **Acredite: sair dessa situação é totalmente possível!** O que falta, muitas vezes, não é dinheiro, mas um mapa detalhado e um plano de ação personalizado.
       `;
-      color = "text-black"; // Alterado para preto
-    } else if (score >= 21 && score <= 30) {
-      title = "Perfil Financeiro: Intermediário - Em Busca de Caminhos! 🗺️";
-      description = `
+  } else if (score >= 21 && score <= 30) {
+    title = "Perfil Financeiro: Intermediário - Em Busca de Caminhos! 🗺️";
+    description = `
         **Pontuação: ${score} de 40 pontos**
 
         Você já demonstra algum nível de consciência e esforço para organizar suas finanças, mas ainda sente que falta um 'algo a mais' para realmente ter controle e ver seu dinheiro crescer. Imprevistos financeiros podem desestabilizar seu planejamento, e talvez você ainda esteja usando o crédito de forma que gera preocupações.
@@ -326,10 +253,9 @@ function App() {
 
         **Você está no caminho certo!** Agora, é hora de transformar essa busca por clareza em ação. Um plano personalizado pode ser o catalisador que você precisa para acelerar sua jornada.
       `;
-      color = "text-black"; // Alterado para preto
-    } else { // score >= 31 && score <= 40
-      title = "Perfil Financeiro: Conhecedor - Potencial a Otimizar! ✨";
-      description = `
+  } else { // score >= 31 && score <= 40
+    title = "Perfil Financeiro: Conhecedor - Potencial a Otimizar! ✨";
+    description = `
         **Pontuação: ${score} de 40 pontos**
 
         Parabéns! Suas respostas refletem um alto nível de consciência e controle sobre suas finanças pessoais. Você demonstra organização, planejamento e uma boa capacidade de lidar com o dinheiro, provavelmente já construindo reservas e talvez até investindo. Você trabalha duro e consegue ver os frutos do seu esforço.
@@ -338,565 +264,523 @@ function App() {
 
         **Você já é um(a) grande realizador(a)!** Imagine o que podemos construir juntos ao otimizar o que você já faz bem. Descubra como levar suas finanças para o próximo nível e transformar seu potencial em resultados extraordinários.
       `;
-      color = "text-black"; // Alterado para preto
-    }
+  }
+  return { title, description, color: "text-black" }; // Cor é sempre preta agora
+};
 
-    return { title, description, color };
-  };
+// ====================================================================================
+// COMPONENTES DA UI
+// ====================================================================================
 
-  const generateDetailedReport = (answers, totalScore, name, financialProfileTitle, profileDescriptionText) => {
-    let report = `Olá, ${name}!\n\n`;
-    report += `Com base nas suas respostas no nosso quiz "10 Simples Passos para Descobrir Seu Perfil Financeiro", geramos um relatório detalhado que vai te ajudar a entender melhor a sua situação atual e os próximos passos para a clareza financeira.\n\n`;
-    report += `--- \n\n`;
-    report += `### Seu Perfil Financeiro: ${financialProfileTitle}\n\n`;
-    report += `Sua pontuação total foi de **${totalScore} de 40 pontos**.\n\n`;
-    report += `Você se encaixa no perfil: ${profileDescriptionText}\n\n`; // Use the detailed profile description already generated
+// --- Tela de Boas-vindas ---
+function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handleStartQuiz, isLoading, activeThemeClasses }) {
+  const [formError, setFormError] = useState('');
 
-    report += `### Suas Respostas Revelam:\n\n`;
-    answers.forEach((answer, index) => {
-      // Encontra a pergunta original para obter o insight text
-      // Precisa lidar com o branching da Q4
-      let originalQuestionData;
-      if (answer.questionIndex === 3) { // Se for a Q4
-        const q1AnswerValue = answers.find(ans => ans.questionIndex === 0)?.selectedValue; // Busca a resposta da Q1 no array de respostas
-        if (q1AnswerValue <= 2) {
-          originalQuestionData = questions.find(q => q.id === 'q4_dificuldade');
-        } else {
-          originalQuestionData = questions.find(q => q.id === 'q4_otimizacao');
-        }
-      } else {
-        originalQuestionData = questions[answer.questionIndex];
-      }
-      
-      const selectedOptionOriginal = originalQuestionData.options.find(opt => opt.text === answer.selectedOption);
-      const insight = selectedOptionOriginal ? selectedOptionOriginal.insight : "Sem insight específico.";
-
-      report += `**Questão ${index + 1}:** "${answer.question}"\n`;
-      report += `**Sua Resposta:** "${answer.selectedOption}"\n`;
-      report += `**O que isso significa:** ${insight}\n\n`;
-    });
-
-    report += `--- \n\n`;
-    report += `Este relatório é um primeiro passo crucial para você entender sua vida financeira. Ele é a base para construirmos, juntos, um futuro mais tranquilo e próspero.\n\n`;
-    report += `**PRONTO(A) PARA TRANSFORMAR SEUS DESAFIOS EM CONQUISTAS?**\n\n`;
-    report += `Para agendar sua reunião online individual para um diagnóstico financeiro aprofundado e receber este relatório completo em seu e-mail/WhatsApp, fique atento(a) às nossas comunicações!\n`;
-    report += `Nesta sessão exclusiva, você terá:\n`;
-    report += `- Clareza total da sua real situação financeira.\n`;
-    report += `- Um mapa detalhado da sua vida financeira.\n`;
-    report += `- Caminhos claros e personalizados para seguir.\n\n`;
-    report += `Atenciosamente,\n`;
-    report += `Sua Equipe de Finanças.\n\n`;
-
-    return report;
-  };
-
-  const handleStartQuiz = async () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (userName.trim() === '') {
       setFormError('Por favor, digite seu nome para começar!');
       return;
     }
-    if (userGender === '') { // Validação para o gênero
+    if (userGender === '') {
       setFormError('Por favor, selecione seu gênero para começar!');
       return;
     }
-
-    setFormError(''); // Limpa qualquer erro anterior
-    setIsLoading(true);
-    try {
-      // URL da sua webhook de Produção do n8n
-      const webhookUrl = 'https://webhook.kellegontijo.com/webhook/quizdf';
-
-      // Não enviaremos o nome inicial separadamente aqui, mas ele será parte do payload final.
-      // Apenas avançamos para o quiz.
-      setQuizState('quiz');
-
-    } catch (error) {
-      console.error('Erro ao iniciar o quiz:', error);
-      setFormError('Ocorreu um erro ao iniciar o quiz. Por favor, tente novamente.');
-    } finally {
-      setIsLoading(false);
-    }
+    setFormError('');
+    handleStartQuiz();
   };
-
-  const handleAnswerClick = (value, insightText) => { // Adicionado insightText como parâmetro
-    if (selectedOptionValue !== null) return; // Impede múltiplas seleções
-    setSelectedOptionValue(value);
-    setScore(prevScore => prevScore + value);
-    setCurrentInsightText(insightText); // Define o texto do insight
-    setShowInsight(true); // Mostra o insight
-
-    // Armazena a resposta da pergunta atual
-    setUserAnswers(prevAnswers => [
-      ...prevAnswers,
-      {
-        questionIndex: currentQuestionIndex,
-        question: questions[currentQuestionIndex].question,
-        selectedOption: questions[currentQuestionIndex].options.find(opt => opt.value === value).text,
-        selectedValue: value,
-      },
-    ]);
-  };
-
-  const handleNextQuestion = () => {
-    setSelectedOptionValue(null); // Reseta a seleção para a próxima pergunta
-    setCurrentInsightText(''); // Limpa o texto do insight
-    setShowInsight(false); // Esconde o insight
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      setQuizState('processing'); // Vai para o estado de processamento antes do formulário
-      setTimeout(() => {
-        setQuizState('leadForm'); // Depois de um pequeno delay, mostra o formulário
-      }, 1000); // 1 segundo de delay para simular processamento
-    }
-  };
-
-  const handlePreviousQuestion = () => {
-    if (currentQuestionIndex > 0) {
-      // Remove a última resposta do array e ajusta o score
-      setUserAnswers(prevAnswers => {
-        const newAnswers = [...prevAnswers];
-        const lastAnswer = newAnswers.pop();
-        if (lastAnswer) {
-          setScore(prevScore => prevScore - lastAnswer.selectedValue);
-          // Se voltar da Q4, precisamos resetar firstQuestionAnswerValue para que o branching funcione novamente
-          if (currentQuestionIndex === 3) { // Se estiver voltando da Q4 (índice 3)
-            setFirstQuestionAnswerValue(null); // Reseta a resposta da Q1
-          }
-        }
-        return newAnswers;
-      });
-      setSelectedOptionValue(null); // Reseta a seleção visual do botão
-      setCurrentInsightText(''); // Limpa o insight
-      setShowInsight(false); // Esconde o insight
-      setCurrentQuestionIndex(currentQuestionIndex - 1); // Volta para a pergunta anterior
-    }
-  };
-
-
-  const handleLeadCapture = async (e) => {
-    e.preventDefault();
-
-    // Validação dos campos do formulário
-    if (!userEmail.trim()) {
-      setFormError('Por favor, preencha o campo E-mail.');
-      return;
-    }
-    if (!userWhatsapp.trim()) {
-      setFormError('Por favor, preencha o campo WhatsApp.');
-      return;
-    }
-    if (!userIncomeRange) {
-      setFormError('Por favor, selecione sua faixa de renda.');
-      return;
-    }
-    if (!userDebtRange) {
-      setFormError('Por favor, selecione sua faixa de dívida.');
-      return;
-    }
-    if (!lgpdConsent) {
-      setFormError('Para continuar, você precisa aceitar a Política de Privacidade e Tratamento de Dados.');
-      return;
-    }
-
-    setFormError(''); // Limpa qualquer erro anterior
-    setIsLoading(true);
-    try {
-      // URL da sua webhook de Produção do n8n
-      const webhookUrl = 'https://webhook.kellegontijo.com/webhook/quizdf';
-
-      // Tratamento dos dados antes de enviar
-      const formattedUserName = formatName(userName);
-      const formattedUserEmail = userEmail.toLowerCase();
-      const formattedUserWhatsapp = formatPhoneNumber(userWhatsapp);
-      const selectedIncomeLabel = incomeRanges.find(range => range.value === userIncomeRange)?.label || userIncomeRange;
-      const selectedDebtLabel = debtRanges.find(range => range.value === userDebtRange)?.label || userDebtRange;
-
-      // Gera o relatório detalhado completo
-      const detailedReport = generateDetailedReport(userAnswers, score, formattedUserName, getFinancialProfile().title, getFinancialProfile().description);
-
-      const payload = {
-        quizSessionId: quizSessionId,
-        userName: formattedUserName,
-        userGender: userGender, // Inclui o gênero no payload
-        userEmail: formattedUserEmail,
-        userWhatsapp: formattedUserWhatsapp,
-        userIncomeRange: selectedIncomeLabel, // Envia o label tratado
-        userDebtRange: selectedDebtLabel,     // Envia o label tratado
-        totalScore: score,
-        financialProfile: getFinancialProfile().title,
-        profileDescription: getFinancialProfile().description, // Descrição geral do perfil
-        detailedReportContent: detailedReport, // O NOVO CAMPO COM O RELATÓRIO DETALHADO
-        quizAnswers: userAnswers,
-        initialUrlParams: initialUrlParams, // Inclui os parâmetros da URL inicial (para redundância)
-        lgpdConsent: lgpdConsent, // Inclui o status do consentimento LGPD
-      };
-
-      const response = await fetch(webhookUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erro HTTP! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log('Dados enviados com sucesso para o n8n:', result);
-
-      alert(`Obrigado, ${formattedUserName}! Seus dados foram enviados com sucesso. Entraremos em contato em breve para agendar seu diagnóstico.`);
-      setQuizState('results'); // Após capturar o lead, mostra os resultados
-
-    } catch (error) {
-      console.error('Erro ao enviar dados para o n8n:', error);
-      setFormError('Ocorreu um erro ao enviar seus dados. Por favor, tente novamente.'); // Exibe erro no formulário
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getCurrentQuestionData = () => {
-    // Se for a pergunta 4 (índice 3), decide qual versão usar
-    if (currentQuestionIndex === 3) {
-      if (firstQuestionAnswerValue <= 2) { // Dificuldade
-        return questions.find(q => q.id === 'q4_dificuldade');
-      } else { // Otimização
-        return questions.find(q => q.id === 'q4_otimizacao');
-      }
-    }
-    // Retorna a pergunta normal para as outras
-    return questions[currentQuestionIndex];
-  };
-
-  const currentQuestionData = getCurrentQuestionData(); // Usa a função para obter a pergunta correta
-  const profile = getFinancialProfile();
-
-  // Função para calcular a cor da barra de progresso (HSL)
-  const getProgressBarColor = (progressPercentage) => {
-    // A barra de progresso será sempre da cor primária do tema ativo
-    // Usamos a cor primária do tema para a barra de progresso
-    return `var(--tw-bg-${activeTheme.progressBarBg.replace('-', '-')})`;
-  };
-
-
-  const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
+  
+  const startButtonClass = userGender ? `${activeThemeClasses.primary} text-white` : 'bg-black hover:bg-gray-800 text-white';
 
   return (
-    // Fundo geral branco
-    <div className="min-h-screen relative flex items-center justify-center p-4 sm:p-6 lg:p-8 font-inter bg-white"> {/* Fundo geral branco */}
-      {/* Container da imagem de fundo - sem blur direto aqui, ele virá do backdrop-filter do box do quiz */}
-      <div className="absolute inset-0 z-0 opacity-5" style={{ /* Opacidade geral muito baixa para ser quase uma textura */
-          backgroundImage: `url('https://placehold.co/1920x1080/2C3E50/E0E0E0/png?text=Casal+Analisando+Contas')`, // Imagem contextual de placeholder
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-      }}>
-          {/* Sobreposição dupla para o efeito tom sobre tom e contraste */}
-          <div className="absolute inset-0 bg-gray-800 opacity-10"></div> {/* Cinza escuro com baixa opacidade */}
-          <div className="absolute inset-0 bg-black opacity-5"></div> {/* Preto com opacidade muito baixa */}
-      </div>
-
-      {/* Conteúdo principal do quiz - elevado acima do fundo, com fundo branco e backdrop-filter */}
-      <div className="relative z-10 bg-white rounded-xl shadow-lg p-6 sm:p-8 lg:p-10 max-w-2xl w-full text-center"
-           style={{ backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
-
-        {quizState === 'welcome' && (
-          <div className="text-center min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8" style={{
-            backgroundImage: `url('https://placehold.co/1920x1080/FFFFFF/FFFFFF/png?text=')`, // Fundo branco sólido para a tela de boas-vindas
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
-          }}>
-            <div className="relative z-10 bg-white rounded-xl p-6 sm:p-8 lg:p-10 max-w-2xl w-full text-center" // Removido shadow-lg daqui
-                 style={{ backdropFilter: 'blur(5px)', WebkitBackdropFilter: 'blur(5px)' }}>
-              <h2 className={`text-3xl sm:text-4xl font-bold uppercase mb-4 leading-tight text-black`}> {/* Texto preto */}
-                BEM-VINDA(O)!
-              </h2>
-              <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-8"> {/* Texto cinza */}
-                Para começarmos, qual é o seu nome e gênero?
-              </p>
-              <form onSubmit={(e) => { e.preventDefault(); handleStartQuiz(); }} className="space-y-4 max-w-sm mx-auto">
-                <input
-                  type="text"
-                  placeholder="Seu Nome"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)} // Permite nome completo com espaços
-                  required
-                  className="w-full p-3 rounded-lg border-2 border-blue-400 focus:border-blue-200 focus:outline-none text-gray-800 placeholder-gray-500"
-                />
-                <div className="flex justify-center space-x-4 mt-4">
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="feminino"
-                      checked={userGender === 'feminino'}
-                      onChange={(e) => setUserGender(e.target.value)}
-                      className="form-radio text-pink-600 h-5 w-5"
-                    />
-                    <span className="ml-2 text-gray-700">Feminino</span> {/* Texto cinza */}
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="masculino"
-                      checked={userGender === 'masculino'}
-                      onChange={(e) => setUserGender(e.target.value)}
-                      className="form-radio text-blue-600 h-5 w-5"
-                    />
-                    <span className="ml-2 text-gray-700">Masculino</span> {/* Texto cinza */}
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="outros"
-                      checked={userGender === 'outros'}
-                      onChange={(e) => setUserGender(e.target.value)}
-                      className="form-radio text-teal-600 h-5 w-5"
-                    />
-                    <span className="ml-2 text-gray-700">Outros</span> {/* Texto cinza */}
-                  </label>
-                </div>
-                <button
-                  type="submit"
-                  className={`w-full font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 hover:scale-105
-                    ${userGender
-                      ? `bg-${activeTheme.primary} hover:bg-${activeTheme.primaryHover} text-white`
-                      : 'bg-black hover:bg-gray-800 text-white' // Inicial preto
-                    }`}
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'CARREGANDO...' : 'COMEÇAR O QUIZ'}
-                </button>
-              </form>
+    <div className="text-center">
+      <h2 className="text-3xl sm:text-4xl font-bold uppercase mb-4 leading-tight text-gray-800">
+        Bem-vinda(o)!
+      </h2>
+      <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-8">
+        Para começarmos, qual é o seu nome e gênero?
+      </p>
+      <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto">
+        <input
+          type="text"
+          placeholder="Seu Nome Completo"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          required
+          className="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-blue-400 focus:outline-none text-gray-800 placeholder-gray-500"
+        />
+        <div className="flex justify-center space-x-4 mt-4">
+          <label className="inline-flex items-center cursor-pointer">
+            <input type="radio" name="gender" value="feminino" checked={userGender === 'feminino'} onChange={(e) => setUserGender(e.target.value)} className="form-radio text-pink-600 h-5 w-5" />
+            <span className="ml-2 text-gray-700">Feminino</span>
+          </label>
+          <label className="inline-flex items-center cursor-pointer">
+            <input type="radio" name="gender" value="masculino" checked={userGender === 'masculino'} onChange={(e) => setUserGender(e.target.value)} className="form-radio text-blue-600 h-5 w-5" />
+            <span className="ml-2 text-gray-700">Masculino</span>
+          </label>
+          <label className="inline-flex items-center cursor-pointer">
+            <input type="radio" name="gender" value="outros" checked={userGender === 'outros'} onChange={(e) => setUserGender(e.target.value)} className="form-radio text-teal-600 h-5 w-5" />
+            <span className="ml-2 text-gray-700">Outro</span>
+          </label>
+        </div>
+        {formError && (
+            <div className={`p-3 rounded-md text-sm font-medium mt-4 bg-red-100 text-red-800`}>
+                {formError}
             </div>
-          </div>
         )}
-
-        {quizState === 'quiz' && (
-          <>
-            {/* Barra de Progresso Visual com Porcentagem */}
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-full bg-gray-200 rounded-full h-2.5">
-                <div
-                  className={`h-2.5 rounded-full transition-all duration-500 ease-out bg-${activeTheme.progressBarBg}`} // Cor sólida do tema
-                  style={{
-                    width: `${progressPercentage}%`,
-                  }}
-                ></div>
-              </div>
-              <span className="ml-3 text-sm font-medium text-gray-700">{Math.round(progressPercentage)}%</span>
-            </div>
-
-            <h2 className={`text-3xl sm:text-4xl font-bold text-black uppercase mb-2 leading-tight`}>
-              10 SIMPLES PASSOS PARA DESCOBRIR <span className={`text-${activeTheme.textHighlight} font-bold`}>SEU PERFIL FINANCEIRO</span>
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-6 normal-case">
-              Entenda os reais motivos escondidos que te fazem trabalhar tanto e mesmo assim não ver a cor do seu dinheiro...
-            </p>
-            <div className="mb-8">
-              <p className="text-lg sm:text-xl text-blue-600 font-semibold mb-4">
-                Questão {currentQuestionIndex + 1} de {questions.length}
-              </p>
-              <p className="text-xl sm:text-2xl text-gray-800 mb-6 font-medium">
-                {currentQuestionData.icon} Olá, {getFirstName(userName)}! {currentQuestionData.question.replace('{userName}', userName)}
-              </p>
-              <div className="grid grid-cols-1 gap-4">
-                {currentQuestionData.options.map((option, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      // Se for a primeira pergunta, armazena o valor da resposta para o branching
-                      if (currentQuestionIndex === 0) {
-                        setFirstQuestionAnswerValue(option.value);
-                      }
-                      handleAnswerClick(option.value, option.insight); // Passa o insightText
-                    }}
-                    className={`
-                      w-full p-4 rounded-lg text-lg font-medium transition-all duration-300 ease-in-out border relative
-                      ${selectedOptionValue === null
-                        ? `bg-white hover:bg-${activeTheme.insightBg} text-gray-800 shadow-sm border-${activeTheme.buttonBorder}`
-                        : option.value === selectedOptionValue
-                          ? `bg-${activeTheme.primary} text-white shadow-md border-${activeTheme.primaryHover} transform scale-95` // Cor primária do tema para selecionado
-                          : 'bg-gray-100 text-gray-500 border-gray-200 cursor-not-allowed'
-                      }
-                      ${selectedOptionValue !== null ? 'cursor-not-allowed' : ''}
-                    `}
-                    disabled={selectedOptionValue !== null}
-                  >
-                    {option.text}
-                    {selectedOptionValue === option.value && ( // Pop-up de insight
-                      <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 p-2 bg-${activeTheme.insightBg} text-${activeTheme.insightText} text-sm rounded-md shadow-lg whitespace-nowrap z-20`}>
-                        <span className="font-bold">Dica Extra: </span>{currentInsightText}
-                        <div className={`absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-${activeTheme.insightBg} bottom-[-4px]`}></div>
-                      </div>
-                    )}
-                  </button>
-                ))}
-              </div>
-              <div className="flex items-center mt-8 w-full space-x-4"> {/* Usado flex e space-x-4 para espaçamento */}
-                {currentQuestionIndex > 0 && ( // Mostra o botão Voltar a partir da segunda pergunta
-                  <button
-                    onClick={handlePreviousQuestion}
-                    className={`py-5 px-6 rounded-md text-xl font-bold text-white bg-black hover:bg-gray-800 transition-all duration-300 ease-in-out shadow-md uppercase w-40`} // Largura fixa e padding py-5
-                    disabled={isLoading}
-                  >
-                    VOLTAR
-                  </button>
-                )}
-                {/* O botão Próxima Questão agora sempre usa as cores do tema ativo */}
-                <button
-                  onClick={handleNextQuestion}
-                  className={`py-5 rounded-md text-xl font-bold text-white uppercase transition-all duration-300 ease-in-out shadow-lg flex-grow
-                    bg-${activeTheme.primary} hover:bg-${activeTheme.primaryHover}
-                  `}
-                  disabled={selectedOptionValue === null}
-                >
-                  {currentQuestionIndex === questions.length - 1 ? "VER MEU PERFIL" : "PRÓXIMA QUESTÃO"}
-                </button>
-              </div>
-            </div>
-          </>
-        )}
-
-        {quizState === 'processing' && (
-          <div className="text-center py-20">
-            <h2 className="text-3xl sm:text-4xl font-bold text-blue-800 uppercase mb-6 leading-tight">
-              PROCESSANDO SEUS RESULTADOS...
-            </h2>
-            <p className="text-lg text-gray-700">
-              Aguarde um momento enquanto preparamos seu relatório personalizado, {userName}.
-            </p>
-            {/* Você pode adicionar um spinner ou animação aqui */}
-          </div>
-        )}
-
-        {quizState === 'leadForm' && (
-          <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-blue-800 uppercase mb-4 leading-tight">
-              SEU MAPA PARA A CLAREZA FINANCEIRA COMEÇA AQUI!
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-6">
-              Sua pontuação indica que você está na fase de **{profile.title.split(' - ')[0].replace('Perfil Financeiro: ', '')}**.
-              Para receber seu relatório completo e agendar seu diagnóstico financeiro gratuito e personalizado, {userName}, preencha seus dados abaixo.
-              As informações sobre sua renda e dívidas nos ajudam a preparar um diagnóstico ainda mais preciso para você!
-            </p>
-            <form onSubmit={handleLeadCapture} className="space-y-4 max-w-sm mx-auto">
-              <input
-                type="email"
-                placeholder="Seu Melhor E-mail"
-                value={userEmail}
-                onChange={(e) => { setUserEmail(e.target.value.toLowerCase()); setFormError(''); }} // Limpa erro ao digitar
-                required
-                className={`w-full p-3 rounded-lg border-2 border-${activeTheme.inputBorder} focus:border-${activeTheme.inputFocusBorder} focus:outline-none text-gray-800 placeholder-gray-500`}
-              />
-              <input
-                type="tel"
-                placeholder="Seu WhatsApp (com DDD)"
-                value={userWhatsapp}
-                onChange={(e) => { setUserWhatsapp(formatPhoneNumber(e.target.value)); setFormError(''); }} // Limpa erro ao digitar
-                required
-                className={`w-full p-3 rounded-lg border-2 border-${activeTheme.inputBorder} focus:border-${activeTheme.inputFocusBorder} focus:outline-none text-gray-800 placeholder-gray-500`}
-              />
-              <select
-                value={userIncomeRange}
-                onChange={(e) => { setUserIncomeRange(e.target.value); setFormError(''); }} // Limpa erro ao selecionar
-                required
-                className={`w-full p-3 rounded-lg border-2 border-${activeTheme.inputBorder} focus:border-${activeTheme.inputFocusBorder} focus:outline-none text-gray-800`}
-              >
-                {incomeRanges.map(range => (
-                  <option key={range.value} value={range.value}>{range.label}</option>
-                ))}
-              </select>
-              <select
-                value={userDebtRange}
-                onChange={(e) => { setUserDebtRange(e.target.value); setFormError(''); }} // Limpa erro ao selecionar
-                required
-                className={`w-full p-3 rounded-lg border-2 border-${activeTheme.inputBorder} focus:border-${activeTheme.inputFocusBorder} focus:outline-none text-gray-800`}
-              >
-                {debtRanges.map(range => (
-                  <option key={range.value} value={range.value}>{range.label}</option>
-                ))}
-              </select>
-              {/* Checkbox LGPD */}
-              <div className="flex items-start text-left text-gray-700 text-sm mt-4">
-                <input
-                  type="checkbox"
-                  id="lgpdConsent"
-                  checked={lgpdConsent}
-                  onChange={(e) => { setLgpdConsent(e.target.checked); setFormError(''); }} // Limpa erro ao marcar
-                  required
-                  className="mr-2 mt-1 form-checkbox h-4 w-4 text-blue-600"
-                />
-                <label htmlFor="lgpdConsent">
-                  Ao marcar esta caixa, você nos permite entrar em contato por e-mail e WhatsApp usando os dados fornecidos. Prometemos não compartilhar seus dados com terceiros e não enviar spam.
-                </label>
-              </div>
-              {formError && ( // Exibe a mensagem de erro se houver
-                <div className={`p-3 rounded-md text-sm font-medium mt-4 bg-${activeTheme.errorBg} text-${activeTheme.errorText}`}>
-                  {formError}
-                </div>
-              )}
-              <button
-                type="submit"
-                className={`w-full bg-${activeTheme.primary} hover:bg-${activeTheme.primaryHover} text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 hover:scale-105`}
-                disabled={isLoading}
-              >
-                {isLoading ? 'ENVIANDO...' : 'QUERO MEU DIAGNÓSTICO GRATUITO!'}
-              </button>
-            </form>
-          </div>
-        )}
-
-        {quizState === 'results' && (
-          <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-blue-800 uppercase mb-6 leading-tight">
-              SEU RELATÓRIO DE PERFIL FINANCEIRO COMPLETO
-            </h2>
-            <div className="p-6 bg-white rounded-lg border border-blue-700 shadow-inner mb-8 text-left">
-              <h3 className={`text-2xl sm:text-3xl font-bold ${profile.color} mb-3`}>
-                {profile.title}
-              </h3>
-              <p className="text-lg text-gray-800 leading-relaxed" dangerouslySetInnerHTML={{ __html: profile.description.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>') }} />
-            </div>
-
-            {/* Seção de Agendamento do Diagnóstico com botão Cal.com */}
-            <div className="bg-white border border-blue-700 p-6 rounded-lg shadow-xl mb-8">
-              <h3 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-4">
-                PRONTO PARA TRANSFORMAR SUAS FINANÇAS, {userName}?
-              </h3>
-              <p className="text-lg text-gray-800 mb-6">
-                Seu perfil financeiro já foi revelado. Agora, dê o próximo passo rumo à clareza e à liberdade!
-                Agende sua <span className="font-bold">reunião online individual</span> para um diagnóstico financeiro aprofundado.
-                Nesta sessão exclusiva, você terá:
-              </p>
-              <ul className="list-disc list-inside text-left text-gray-700 text-lg space-y-2 mb-6 max-w-md mx-auto">
-                <li><span className="font-semibold">Clareza total</span> da sua sua real situação financeira.</li>
-                <li>Um <span className="font-semibold">mapa detalhado</span> da sua vida financeira.</li>
-                <li><span className="font-semibold">Caminhos claros e personalizados</span> para seguir.</li>
-              </ul>
-              {/* Botão que ativa o pop-up do Cal.com */}
-              <button
-                data-cal-link="kgfinancas/diagnostico"
-                data-cal-namespace="diagnostico"
-                data-cal-config='{"layout":"month_view","theme":"light","cssVarsPerTheme":{"light":{"cal-brand":"#09a682"},"dark":{"cal-brand":"#fafafa"}},"hideEventTypeDetails":false}'
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-lg transform transition duration-300 hover:scale-105 inline-block text-xl uppercase"
-              >
-                AGENDAR MEU DIAGNÓSTICO GRATUITO!
-              </button>
-            </div>
-
-            {/* A seção do Programa de Mentoria Premium foi removida aqui */}
-          </div>
-        )}
-      </div>
+        <button type="submit" className={`w-full font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 hover:scale-105 ${startButtonClass}`} disabled={isLoading}>
+          {isLoading ? 'CARREGANDO...' : 'COMEÇAR O QUIZ'}
+        </button>
+      </form>
     </div>
   );
+}
+
+// --- Tela do Quiz ---
+function QuizScreen({
+    currentQuestionIndex,
+    userAnswers,
+    userName,
+    handleAnswerClick,
+    handleNextQuestion,
+    handlePreviousQuestion,
+    selectedOptionValue,
+    currentInsightText,
+    activeThemeClasses
+}) {
+    const totalQuestions = questions.filter(q => !q.id.includes('q4_')).length + 1; // 8 normais + 1 de branching + 1 final
+    const progressPercentage = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+
+    // Lógica para obter a pergunta correta (incluindo o branching da Q4)
+    const getCurrentQuestionData = () => {
+        const questionMap = questions.reduce((acc, q) => ({...acc, [q.id]: q }), {});
+        
+        if (currentQuestionIndex === 3) {
+            const q1Answer = userAnswers.find(a => a.questionId === 'q1');
+            const q1Value = q1Answer ? q1Answer.selectedValue : 1;
+            return q1Value <= 2 ? questionMap['q4_dificuldade'] : questionMap['q4_otimizacao'];
+        }
+        // Mapeia o índice para o ID da pergunta, pulando as de branching
+        const questionOrder = ['q1', 'q2', 'q3', 'q4_placeholder', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10'];
+        const currentQuestionId = questionOrder[currentQuestionIndex];
+
+        return questionMap[currentQuestionId];
+    };
+
+    const currentQuestionData = getCurrentQuestionData();
+
+    return (
+        <>
+            {/* Barra de Progresso */}
+            <div className="flex items-center justify-between mb-4">
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div className={`h-2.5 rounded-full transition-all duration-500 ease-out ${activeThemeClasses.progressBarBg}`} style={{ width: `${progressPercentage}%` }}></div>
+                </div>
+                <span className="ml-3 text-sm font-medium text-gray-700">{Math.round(progressPercentage)}%</span>
+            </div>
+
+            {/* Cabeçalho */}
+            <h2 className={`text-3xl sm:text-4xl font-bold text-black uppercase mb-2 leading-tight`}>
+                10 Passos para Descobrir <span className={`${activeThemeClasses.textHighlight} font-bold`}>Seu Perfil Financeiro</span>
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-6 normal-case">
+                Entenda os reais motivos que te fazem trabalhar tanto e mesmo assim não ver a cor do seu dinheiro...
+            </p>
+
+            {/* Corpo da Pergunta */}
+            <div className="mb-8">
+                <p className="text-lg sm:text-xl text-blue-600 font-semibold mb-4">
+                    Questão {currentQuestionIndex + 1} de {totalQuestions}
+                </p>
+                <p className="text-xl sm:text-2xl text-gray-800 mb-6 font-medium">
+                    {currentQuestionData.icon} Olá, {getFirstName(userName)}! {currentQuestionData.question.replace('{userName}', getFirstName(userName))}
+                </p>
+                <div className="grid grid-cols-1 gap-4">
+                    {currentQuestionData.options.map((option, index) => {
+                        const isSelected = option.value === selectedOptionValue;
+                        const isDisabled = selectedOptionValue !== null;
+                        
+                        let buttonClass = `bg-white text-gray-800 shadow-sm border ${activeThemeClasses.buttonBorder} ${activeThemeClasses.buttonHover}`;
+                        if (isDisabled) {
+                            buttonClass = isSelected 
+                                ? `${activeThemeClasses.buttonSelected} shadow-md transform scale-95` 
+                                : 'bg-gray-100 text-gray-500 border-gray-200 cursor-not-allowed';
+                        }
+
+                        return (
+                            <button
+                                key={index}
+                                onClick={() => handleAnswerClick(option.value, option.insight, currentQuestionData.id)}
+                                className={`w-full p-4 rounded-lg text-lg font-medium transition-all duration-300 ease-in-out relative ${buttonClass}`}
+                                disabled={isDisabled}
+                            >
+                                {option.text}
+                                {isSelected && (
+                                    <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 p-2 ${activeThemeClasses.insightBg} ${activeThemeClasses.insightText} text-sm rounded-md shadow-lg whitespace-nowrap z-20`}>
+                                        <span className="font-bold">Dica Extra: </span>{currentInsightText}
+                                        <div className={`absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent ${activeThemeClasses.insightBorder} bottom-[-4px]`}></div>
+                                    </div>
+                                )}
+                            </button>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* Botões de Navegação */}
+            <div className="flex items-center mt-8 w-full space-x-4">
+                {currentQuestionIndex > 0 && (
+                    <button onClick={handlePreviousQuestion} className="py-5 px-6 rounded-md text-xl font-bold text-white bg-black hover:bg-gray-800 transition-all duration-300 ease-in-out shadow-md uppercase w-40">
+                        VOLTAR
+                    </button>
+                )}
+                <button
+                    onClick={handleNextQuestion}
+                    className={`py-5 rounded-md text-xl font-bold text-white uppercase transition-all duration-300 ease-in-out shadow-lg flex-grow ${activeThemeClasses.primary}`}
+                    disabled={selectedOptionValue === null}
+                >
+                    {currentQuestionIndex === totalQuestions - 1 ? "VER MEU PERFIL" : "PRÓXIMA QUESTÃO"}
+                </button>
+            </div>
+        </>
+    );
+}
+
+// --- Tela do Formulário de Lead ---
+function LeadForm({
+    userName,
+    profileTitle,
+    handleLeadCapture,
+    isLoading,
+    userEmail, setUserEmail,
+    userWhatsapp, setUserWhatsapp,
+    userIncomeRange, setUserIncomeRange,
+    userDebtRange, setUserDebtRange,
+    lgpdConsent, setLgpdConsent,
+    activeThemeClasses,
+}) {
+    const [formError, setFormError] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!userEmail.trim() || !/\S+@\S+\.\S+/.test(userEmail)) {
+            setFormError('Por favor, preencha um e-mail válido.');
+            return;
+        }
+        if (!userWhatsapp.trim() || userWhatsapp.length < 12) { // 55 + DDD + 8/9 digitos
+            setFormError('Por favor, preencha um WhatsApp válido com DDD.');
+            return;
+        }
+        if (!userIncomeRange) {
+            setFormError('Por favor, selecione sua faixa de renda.');
+            return;
+        }
+        if (!userDebtRange) {
+            setFormError('Por favor, selecione sua faixa de dívida.');
+            return;
+        }
+        if (!lgpdConsent) {
+            setFormError('Para continuar, você precisa aceitar a Política de Privacidade.');
+            return;
+        }
+        setFormError('');
+        handleLeadCapture();
+    };
+
+    return (
+        <div className="text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-blue-800 uppercase mb-4 leading-tight">
+                SEU MAPA PARA A CLAREZA FINANCEIRA COMEÇA AQUI!
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-6">
+                Sua pontuação indica que você está na fase de <strong>{profileTitle.split(' - ')[0].replace('Perfil Financeiro: ', '')}</strong>.
+                Para receber seu relatório completo e agendar seu diagnóstico gratuito, {getFirstName(userName)}, preencha seus dados abaixo.
+            </p>
+            <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto">
+                <input type="email" placeholder="Seu Melhor E-mail" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:outline-none text-gray-800 placeholder-gray-500`} />
+                <input type="tel" placeholder="Seu WhatsApp (com DDD)" value={userWhatsapp} onChange={(e) => setUserWhatsapp(formatPhoneNumber(e.target.value))} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:outline-none text-gray-800 placeholder-gray-500`} />
+                <select value={userIncomeRange} onChange={(e) => setUserIncomeRange(e.target.value)} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:outline-none text-gray-800`}>
+                    {incomeRanges.map(range => <option key={range.value} value={range.value}>{range.label}</option>)}
+                </select>
+                <select value={userDebtRange} onChange={(e) => setUserDebtRange(e.target.value)} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:outline-none text-gray-800`}>
+                    {debtRanges.map(range => <option key={range.value} value={range.value}>{range.label}</option>)}
+                </select>
+                <div className="flex items-start text-left text-gray-700 text-sm mt-4">
+                    <input type="checkbox" id="lgpdConsent" checked={lgpdConsent} onChange={(e) => setLgpdConsent(e.target.checked)} required className="mr-2 mt-1 form-checkbox h-4 w-4 text-blue-600" />
+                    <label htmlFor="lgpdConsent">
+                        Ao marcar esta caixa, você nos permite entrar em contato por e-mail e WhatsApp. Prometemos não compartilhar seus dados com terceiros.
+                    </label>
+                </div>
+                {formError && (
+                    <div className={`p-3 rounded-md text-sm font-medium mt-4 ${activeThemeClasses.errorBg} ${activeThemeClasses.errorText}`}>
+                        {formError}
+                    </div>
+                )}
+                <button type="submit" className={`w-full ${activeThemeClasses.primary} text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 hover:scale-105`} disabled={isLoading}>
+                    {isLoading ? 'ENVIANDO...' : 'QUERO MEU DIAGNÓSTICO GRATUITO!'}
+                </button>
+            </form>
+        </div>
+    );
+}
+
+// --- Tela de Resultados ---
+function ResultsScreen({ userName, profile, formSubmitted }) {
+    const [showSuccessMessage, setShowSuccessMessage] = useState(formSubmitted);
+
+    return (
+        <div className="text-center">
+            {showSuccessMessage && (
+                <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 text-left" role="alert">
+                    <div className="flex">
+                        <div className="py-1"><CheckCircle className="fill-current h-6 w-6 text-green-500 mr-4" /></div>
+                        <div>
+                            <p className="font-bold">Dados enviados com sucesso!</p>
+                            <p className="text-sm">Seu relatório completo será enviado para seu e-mail e WhatsApp em breve.</p>
+                        </div>
+                         <button onClick={() => setShowSuccessMessage(false)} className="ml-auto -mx-1.5 -my-1.5 bg-green-100 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex h-8 w-8">
+                            <span className="sr-only">Fechar</span>
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            )}
+            <h2 className="text-3xl sm:text-4xl font-bold text-blue-800 uppercase mb-6 leading-tight">
+                Seu Relatório de Perfil Financeiro
+            </h2>
+            <div className="p-6 bg-white rounded-lg border border-blue-700 shadow-inner mb-8 text-left">
+                <h3 className={`text-2xl sm:text-3xl font-bold ${profile.color} mb-3`}>{profile.title}</h3>
+                <div className="text-lg text-gray-800 leading-relaxed space-y-4" dangerouslySetInnerHTML={{ __html: profile.description.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br/>') }} />
+            </div>
+            <div className="bg-white border border-blue-700 p-6 rounded-lg shadow-xl mb-8">
+                <h3 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-4">
+                    Pronto para transformar suas finanças, {getFirstName(userName)}?
+                </h3>
+                <p className="text-lg text-gray-800 mb-6">
+                    Agende sua <span className="font-bold">reunião online individual</span> para um diagnóstico aprofundado. Nesta sessão exclusiva, você terá:
+                </p>
+                <ul className="list-disc list-inside text-left text-gray-700 text-lg space-y-2 mb-6 max-w-md mx-auto">
+                    <li><span className="font-semibold">Clareza total</span> da sua real situação financeira.</li>
+                    <li>Um <span className="font-semibold">mapa detalhado</span> da sua vida financeira.</li>
+                    <li><span className="font-semibold">Caminhos claros e personalizados</span> para seguir.</li>
+                </ul>
+                <button
+                    data-cal-link="kgfinancas/diagnostico"
+                    data-cal-namespace="diagnostico"
+                    data-cal-config='{"layout":"month_view","theme":"light"}'
+                    className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-lg transform transition duration-300 hover:scale-105 inline-block text-xl uppercase"
+                >
+                    AGENDAR MEU DIAGNÓSTICO GRATUITO!
+                </button>
+            </div>
+        </div>
+    );
+}
+
+
+// ====================================================================================
+// COMPONENTE PRINCIPAL (APP)
+// ====================================================================================
+
+function App() {
+    // Estados principais
+    const [quizState, setQuizState] = useState('welcome'); // 'welcome', 'quiz', 'processing', 'leadForm', 'results'
+    const [isLoading, setIsLoading] = useState(false);
+    const [formSubmitted, setFormSubmitted] = useState(false);
+
+    // Estados do usuário
+    const [userName, setUserName] = useState('');
+    const [userGender, setUserGender] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [userWhatsapp, setUserWhatsapp] = useState('');
+    const [userIncomeRange, setUserIncomeRange] = useState('');
+    const [userDebtRange, setUserDebtRange] = useState('');
+    const [lgpdConsent, setLgpdConsent] = useState(false);
+
+    // Estados do Quiz
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [userAnswers, setUserAnswers] = useState([]);
+    const [score, setScore] = useState(0);
+    const [selectedOptionValue, setSelectedOptionValue] = useState(null);
+    const [currentInsightText, setCurrentInsightText] = useState('');
+    
+    // Estados de sessão e URL
+    const [quizSessionId, setQuizSessionId] = useState(null);
+    const [initialUrlParams, setInitialUrlParams] = useState({});
+
+    // Deriva o tema ativo com base no gênero
+    const activeThemeClasses = themeClasses[userGender] || themeClasses.outros;
+
+    // Efeito para inicializar Cal.com e capturar parâmetros da URL
+    useEffect(() => {
+        if (!window.Cal) {
+            (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if (typeof namespace === "string") { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]); } else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+        }
+        window.Cal("init", "diagnostico", { origin: "https://app.cal.com" });
+        window.Cal.ns.diagnostico("ui", { "theme": "light", "hideEventTypeDetails": false, "layout": "month_view" });
+
+        const params = new URLSearchParams(window.location.search);
+        const paramsObj = {};
+        for (let [key, value] of params.entries()) {
+            paramsObj[key] = value;
+        }
+        setInitialUrlParams(paramsObj);
+        setQuizSessionId(crypto.randomUUID());
+    }, []);
+
+    // Handlers
+    const handleStartQuiz = () => {
+        setQuizState('quiz');
+    };
+
+    const handleAnswerClick = (value, insightText, questionId) => {
+        if (selectedOptionValue !== null) return;
+        
+        const newScore = score + value;
+        setScore(newScore);
+        setSelectedOptionValue(value);
+        setCurrentInsightText(insightText);
+
+        const questionData = questions.find(q => q.id === questionId) || questions.find(q => q.id === 'q4_dificuldade') || questions.find(q => q.id === 'q4_otimizacao');
+        
+        setUserAnswers(prev => [...prev, {
+            questionId: questionId,
+            questionIndex: currentQuestionIndex,
+            question: questionData.question.replace('{userName}', getFirstName(userName)),
+            selectedOption: questionData.options.find(opt => opt.value === value).text,
+            selectedValue: value,
+        }]);
+    };
+
+    const handleNextQuestion = () => {
+        setSelectedOptionValue(null);
+        setCurrentInsightText('');
+        
+        const totalQuestions = questions.filter(q => !q.id.includes('q4_')).length + 1;
+        if (currentQuestionIndex < totalQuestions - 1) {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } else {
+            setQuizState('processing');
+            setTimeout(() => setQuizState('leadForm'), 1500);
+        }
+    };
+
+    const handlePreviousQuestion = () => {
+        if (currentQuestionIndex > 0) {
+            const lastAnswer = userAnswers[userAnswers.length - 1];
+            if (lastAnswer) {
+                setScore(score - lastAnswer.selectedValue);
+                setUserAnswers(prev => prev.slice(0, -1));
+            }
+            setSelectedOptionValue(null);
+            setCurrentInsightText('');
+            setCurrentQuestionIndex(currentQuestionIndex - 1);
+        }
+    };
+
+    const handleLeadCapture = async () => {
+        setIsLoading(true);
+        try {
+            const webhookUrl = 'https://webhook.kellegontijo.com/webhook/quizdf';
+
+            const formattedUserName = formatName(userName);
+            const profileData = getFinancialProfile(score);
+
+            const payload = {
+                quizSessionId,
+                userName: formattedUserName,
+                userGender,
+                userEmail: userEmail.toLowerCase(),
+                userWhatsapp: formatPhoneNumber(userWhatsapp),
+                userIncomeRange: incomeRanges.find(r => r.value === userIncomeRange)?.label || '',
+                userDebtRange: debtRanges.find(r => r.value === userDebtRange)?.label || '',
+                totalScore: score,
+                financialProfile: profileData.title,
+                profileDescription: profileData.description,
+                quizAnswers: userAnswers,
+                initialUrlParams,
+                lgpdConsent,
+            };
+
+            const response = await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) throw new Error(`Erro HTTP! status: ${response.status}`);
+            
+            setFormSubmitted(true);
+            setQuizState('results');
+
+        } catch (error) {
+            console.error('Erro ao enviar dados para o n8n:', error);
+            alert('Ocorreu um erro ao enviar seus dados. Por favor, tente novamente.'); // Fallback de erro
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Renderização condicional do conteúdo
+    const renderContent = () => {
+        switch (quizState) {
+            case 'quiz':
+                return <QuizScreen 
+                    currentQuestionIndex={currentQuestionIndex}
+                    userAnswers={userAnswers}
+                    userName={userName}
+                    handleAnswerClick={handleAnswerClick}
+                    handleNextQuestion={handleNextQuestion}
+                    handlePreviousQuestion={handlePreviousQuestion}
+                    selectedOptionValue={selectedOptionValue}
+                    currentInsightText={currentInsightText}
+                    activeThemeClasses={activeThemeClasses}
+                 />;
+            case 'processing':
+                return <div className="text-center py-20">
+                           <h2 className="text-3xl sm:text-4xl font-bold text-blue-800 uppercase mb-6">Processando...</h2>
+                           <p className="text-lg text-gray-700">Aguarde enquanto preparamos seu relatório, {getFirstName(userName)}.</p>
+                       </div>;
+            case 'leadForm':
+                return <LeadForm 
+                    userName={userName}
+                    profileTitle={getFinancialProfile(score).title}
+                    handleLeadCapture={handleLeadCapture}
+                    isLoading={isLoading}
+                    userEmail={userEmail} setUserEmail={setUserEmail}
+                    userWhatsapp={userWhatsapp} setUserWhatsapp={setUserWhatsapp}
+                    userIncomeRange={userIncomeRange} setUserIncomeRange={setUserIncomeRange}
+                    userDebtRange={userDebtRange} setUserDebtRange={setUserDebtRange}
+                    lgpdConsent={lgpdConsent} setLgpdConsent={setLgpdConsent}
+                    activeThemeClasses={activeThemeClasses}
+                />;
+            case 'results':
+                return <ResultsScreen 
+                    userName={userName}
+                    profile={getFinancialProfile(score)}
+                    formSubmitted={formSubmitted}
+                />;
+            case 'welcome':
+            default:
+                return <WelcomeScreen 
+                    userName={userName}
+                    setUserName={setUserName}
+                    userGender={userGender}
+                    setUserGender={setUserGender}
+                    handleStartQuiz={handleStartQuiz}
+                    isLoading={isLoading}
+                    activeThemeClasses={activeThemeClasses}
+                />;
+        }
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans">
+            <div className="relative z-10 bg-white rounded-xl shadow-2xl p-6 sm:p-8 lg:p-10 max-w-2xl w-full text-center">
+                {renderContent()}
+            </div>
+        </div>
+    );
 }
 
 export default App;
