@@ -70,7 +70,7 @@ const questions = [
       { text: "Sim, é muito constrangedor e prefiro guardar para mim.", value: 1, insight: "Esse sentimento é comum e uma grande barreira. Saiba que você não está sozinho(a) e pedir ajuda é um sinal de força." },
       { text: "Às vezes sinto, mas sei que preciso enfrentar e buscar soluções.", value: 2, insight: "Reconhecer a necessidade de agir é o primeiro passo. Existem especialistas dispostos a ajudar sem julgamentos." },
       { text: "Não, eu converso abertamente e busco informações sempre que preciso.", value: 3, insight: "Essa abertura é uma grande vantagem! Continue buscando conhecimento e compartilhando, pois isso acelera sua jornada." },
-      { text: "Nunca tive dificuldades financeiras, então não sinto vergonha.", value: 4, insight: "Que bom! Manter a saúde financeira exige atenção constante e planejamento. Continue cultivando essa mentalidade." }
+      { text: "Nunca tive dificuldades financeito, então não sinto vergonha.", value: 4, insight: "Que bom! Manter a saúde financeira exige atenção constante e planejamento. Continue cultivando essa mentalidade." }
     ]
   },
   {
@@ -136,7 +136,7 @@ const themeColors = {
     primary: 'blue-600', // Azul principal para botões, barra de progresso
     primaryHover: 'blue-700',
     textHighlight: 'blue-800', // Azul escuro para destaque na headline
-    progressBarBg: 'blue-600', // Cor inicial da barra de progresso (sólida)
+    progressBarBg: 'blue-600', // Cor inicial da barra de progólio (sólida)
     buttonBorder: 'blue-700', // Borda dos botões de resposta
     inputBorder: 'blue-400',
     inputFocusBorder: 'blue-200',
@@ -304,7 +304,7 @@ function App() {
 
         O medo do futuro e a 'bola de neve' das dívidas são sentimentos compreensíveis. O mais importante agora é reconhecer que buscar clareza é o primeiro passo para retomar o controle. Você merece uma uma vida financeira digna e tranquila.
 
-        **Sua vida financeira é como um labirinto sem um mapa claro.** Você sabe que precisa sair, mas não vê as saídas. Este quiz foi apenas um sinal de que as respostas existem e estão mais próximas do que você imagina.
+        **A sua vida financeira é como um labirinto sem um mapa claro.** Você sabe que precisa sair, mas não vê as saídas. Este quiz foi apenas um sinal de que as respostas existem e estão mais próximas do que você imagina.
 
         **Acredite: sair dessa situação é totalmente possível!** O que falta, muitas vezes, não é dinheiro, mas um mapa detalhado e um plano de ação personalizado.
       `;
@@ -405,7 +405,7 @@ function App() {
     setFormError(''); // Limpa qualquer erro anterior
     setIsLoading(true);
     try {
-      // URL da sua webhook de TESTE do n8n (anterior, sem parâmetros de rota)
+      // URL da sua webhook de Produção do n8n
       const webhookUrl = 'https://webhook.kellegontijo.com/webhook/quizdf';
 
       // Não enviaremos o nome inicial separadamente aqui, mas ele será parte do payload final.
@@ -504,7 +504,7 @@ function App() {
     setFormError(''); // Limpa qualquer erro anterior
     setIsLoading(true);
     try {
-      // URL da sua webhook de TESTE do n8n (anterior, sem parâmetros de rota)
+      // URL da sua webhook de Produção do n8n
       const webhookUrl = 'https://webhook.kellegontijo.com/webhook/quizdf';
 
       // Tratamento dos dados antes de enviar
@@ -712,12 +712,12 @@ function App() {
                       handleAnswerClick(option.value, option.insight); // Passa o insightText
                     }}
                     className={`
-                      w-full p-4 rounded-lg text-lg font-medium transition-all duration-300 ease-in-out border relative {/* Adicionado relative para posicionamento do insight */}
+                      w-full p-4 rounded-lg text-lg font-medium transition-all duration-300 ease-in-out border relative
                       ${selectedOptionValue === null
-                        ? `bg-white hover:bg-${activeTheme.insightBg} text-gray-800 shadow-sm border-${activeTheme.buttonBorder}` // Botão padrão: fundo branco, borda do tema, texto cinza escuro, hover cor do insight
+                        ? `bg-white hover:bg-${activeTheme.insightBg} text-gray-800 shadow-sm border-${activeTheme.buttonBorder}`
                         : option.value === selectedOptionValue
-                          ? `bg-${activeTheme.primary} text-white shadow-md border-${activeTheme.primaryHover} transform scale-95` // Botão selecionado: cor primária do tema
-                          : 'bg-gray-100 text-gray-500 border-gray-200 cursor-not-allowed' // Outros botões após a seleção: cinza claro, texto cinza
+                          ? `bg-${activeTheme.primary} text-white shadow-md border-${activeTheme.primaryHover} transform scale-95` // Cor primária do tema para selecionado
+                          : 'bg-gray-100 text-gray-500 border-gray-200 cursor-not-allowed'
                       }
                       ${selectedOptionValue !== null ? 'cursor-not-allowed' : ''}
                     `}
@@ -725,34 +725,30 @@ function App() {
                   >
                     {option.text}
                     {selectedOptionValue === option.value && ( // Pop-up de insight
-                      <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 p-2 bg-${activeTheme.insightBg} text-${activeTheme.insightText} text-sm rounded-md shadow-lg whitespace-nowrap z-20`}> {/* Fundo e texto do insight dinâmicos */}
+                      <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 p-2 bg-${activeTheme.insightBg} text-${activeTheme.insightText} text-sm rounded-md shadow-lg whitespace-nowrap z-20`}>
                         <span className="font-bold">Dica Extra: </span>{currentInsightText}
-                        {/* Triângulo apontador */}
-                        <div className={`absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-${activeTheme.insightBg} bottom-[-4px]`}></div> {/* Triângulo dinâmico */}
+                        <div className={`absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-${activeTheme.insightBg} bottom-[-4px]`}></div>
                       </div>
                     )}
                   </button>
                 ))}
               </div>
-              <div className="flex justify-between items-center mt-8 space-x-2 w-full"> {/* Usado flex e space-x-2 para alinhamento e espaçamento */}
+              <div className="flex items-center mt-8 w-full space-x-4"> {/* Usado flex e space-x-4 para espaçamento */}
                 {currentQuestionIndex > 0 && ( // Mostra o botão Voltar a partir da segunda pergunta
                   <button
                     onClick={handlePreviousQuestion}
-                    className={`py-3 px-6 rounded-md text-lg font-bold text-white bg-black hover:bg-gray-800 transition-all duration-300 ease-in-out shadow-md uppercase`}
+                    className={`py-5 px-6 rounded-md text-xl font-bold text-white bg-black hover:bg-gray-800 transition-all duration-300 ease-in-out shadow-md uppercase w-40`} // Largura fixa e padding py-5
                     disabled={isLoading}
                   >
                     VOLTAR
                   </button>
                 )}
+                {/* O botão Próxima Questão agora sempre usa as cores do tema ativo */}
                 <button
                   onClick={handleNextQuestion}
-                  className={`py-5 rounded-md text-xl font-bold text-white uppercase transition-all duration-300 ease-in-out shadow-lg
-                    ${selectedOptionValue === null
-                      ? `bg-${activeTheme.primary} hover:bg-${activeTheme.primaryHover}` // Cor primária do tema (azul, rosa, ciano)
-                      : `bg-${activeTheme.primary} hover:bg-${activeTheme.primaryHover}` // Cor primária do tema (azul, rosa, ciano)
-                    }
-                    ${currentQuestionIndex === 0 ? 'w-full' : 'flex-grow ml-auto'} {/* Ajusta largura e alinhamento se for a primeira pergunta */}
-                    `}
+                  className={`py-5 rounded-md text-xl font-bold text-white uppercase transition-all duration-300 ease-in-out shadow-lg flex-grow
+                    bg-${activeTheme.primary} hover:bg-${activeTheme.primaryHover}
+                  `}
                   disabled={selectedOptionValue === null}
                 >
                   {currentQuestionIndex === questions.length - 1 ? "VER MEU PERFIL" : "PRÓXIMA QUESTÃO"}
