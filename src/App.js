@@ -406,7 +406,7 @@ function App() {
     setIsLoading(true);
     try {
       // URL da sua webhook de TESTE do n8n (anterior, sem parâmetros de rota)
-      const webhookUrl = 'https://flows.kellegontijo.com/webhook-test/quiz-interativo';
+      const webhookUrl = 'https://webhook.kellegontijo.com/webhook/quizdf';
 
       // Não enviaremos o nome inicial separadamente aqui, mas ele será parte do payload final.
       // Apenas avançamos para o quiz.
@@ -505,7 +505,7 @@ function App() {
     setIsLoading(true);
     try {
       // URL da sua webhook de TESTE do n8n (anterior, sem parâmetros de rota)
-      const webhookUrl = 'https://flows.kellegontijo.com/webhook-test/quiz-interativo';
+      const webhookUrl = 'https://webhook.kellegontijo.com/webhook/quizdf';
 
       // Tratamento dos dados antes de enviar
       const formattedUserName = formatName(userName);
