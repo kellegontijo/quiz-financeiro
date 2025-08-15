@@ -29,10 +29,10 @@ const questions = [
     skill: 'Controle de Gastos',
     icon: <Clock className="inline-block mr-2 text-blue-500" size={24} />,
     options: [
-      { text: "Sim, parece que o dinheiro evapora.", value: 1, insight: "É o 'ralo financeiro'. No diagnóstico, vamos te dar um mapa para encontrar e tampar esses ralos." },
-      { text: "Às vezes equilibro, mas imprevistos me desorganizam.", value: 2, insight: "Isso mostra uma base frágil. No diagnóstico, vamos construir um 'escudo' para esses imprevistos." },
-      { text: "Consigo me organizar, mas falta para os meus sonhos.", value: 3, insight: "Você já tem o controle! No diagnóstico, vamos criar um 'acelerador' para seus sonhos." },
-      { text: "Tenho total controle e reservas.", value: 4, insight: "Excelente! No diagnóstico, podemos explorar como fazer seu dinheiro trabalhar ainda mais para você." }
+      { text: "Meu dinheiro evapora sem em nem mesmo perceber.", value: 1, insight: "É o 'ralo financeiro'. No diagnóstico, vamos te dar um mapa para encontrar e tampar esses ralos." },
+      { text: "Estou em completo caos. Desespero financeiro total.", value: 2, insight: "Isso mostra uma base frágil. No diagnóstico, vamos construir um 'escudo' para esses imprevistos." },
+      { text: "Tento me organizar, mas o dinheiro nunca sobra.", value: 3, insight: "Você já tem o controle! No diagnóstico, vamos criar um 'acelerador' para seus sonhos." },
+      { text: "Não tenho reserva de emergência.", value: 4, insight: "Excelente! No diagnóstico, podemos explorar como fazer seu dinheiro trabalhar ainda mais para você." }
     ]
   },
   {
@@ -43,13 +43,13 @@ const questions = [
     options: [
       { text: "Contas básicas em atraso (água, luz, aluguel).", value: 1, insight: "Priorizar o essencial é o foco. No diagnóstico, criaremos um plano de ação para te dar fôlego." },
       { text: "Cartão de crédito e cheque especial.", value: 2, insight: "Essas são as dívidas mais agressivas. No diagnóstico, vamos traçar uma estratégia para neutralizá-las." },
-      { text: "Empréstimos que comprometem o salário.", value: 3, insight: "Sentir o salário 'preso' é frustrante. No diagnóstico, vamos analisar como reduzir esse peso." },
+      { text: "Empréstimos.", value: 3, insight: "Sentir o salário 'preso' é frustrante. No diagnóstico, vamos analisar como reduzir esse peso." },
       { text: "Não tenho dívidas que me preocupem.", value: 4, insight: "Ótimo! Manter-se livre de dívidas é uma vitória. O diagnóstico te ajudará a blindar essa conquista." }
     ]
   },
   {
     id: 'q3',
-    question: "Sua mente fica 'ligada' nas contas mesmo quando tenta relaxar?",
+    question: "Sua pensamento fia 'sempre ligado' nas contas mesmo quando tenta relaxar?",
     skill: 'Mentalidade Financeira',
     icon: <BrainCircuit className="inline-block mr-2 text-yellow-500" size={24} />,
     options: [
@@ -90,9 +90,9 @@ const questions = [
     icon: <Award className="inline-block mr-2 text-purple-500" size={24} />,
     options: [
       { text: "Sobrevivência", value: 0, insight: "Obrigado por compartilhar. Sentir que está apenas 'sobrevivendo' é exaustivo. Nosso objetivo no diagnóstico é te levar para a fase de 'viver'." },
-      { text: "Confusão", value: 0, insight: "A confusão paralisa. O diagnóstico foi desenhado para ser o seu 'farol', trazendo clareza e direção." },
+      { text: "Desespero", value: 0, insight: "A confusão paralisa. O diagnóstico foi desenhado para ser o seu 'farol', trazendo clareza e direção." },
       { text: "Esperança", value: 0, insight: "Esperança é o melhor combustível! No diagnóstico, vamos transformar essa esperança em um plano de ação concreto." },
-      { text: "Controle", value: 0, insight: "Controle é uma base excelente. No diagnóstico, vamos usar esse controle para construir seus objetivos maiores." }
+      { text: "Ansiedade", value: 0, insight: "Controle é uma base excelente. No diagnóstico, vamos usar esse controle para construir seus objetivos maiores." }
     ]
   },
   {
@@ -115,8 +115,8 @@ const questions = [
     options: [
       { text: "Não, teria que pegar emprestado ou usar o cartão.", value: 1, insight: "Essa vulnerabilidade gera ansiedade. O diagnóstico te dará o passo a passo para construir sua reserva de paz." },
       { text: "Talvez, teria que verificar e apertar um pouco.", value: 2, insight: "Estar no 'fio da navalha' é arriscado. O diagnóstico vai te ajudar a criar uma folga segura." },
-      { text: "Sim, tenho uma reserva para isso.", value: 3, insight: "Excelente! Você já tem seu escudo. O diagnóstico vai te ajudar a fortalecê-lo e ir para o próximo nível." },
-      { text: "Tenho muito mais que isso em reservas.", value: 4, insight: "Você está muito bem protegido. O diagnóstico pode focar em como rentabilizar essas reservas." }
+      { text: "Não tenho limite no cartão e nem como pegar emprestado mais.", value: 3, insight: "Excelente! Você já tem seu escudo. O diagnóstico vai te ajudar a fortalecê-lo e ir para o próximo nível." },
+      { text: "Sim, tenho reserva de emergência.", value: 4, insight: "Você está muito bem protegido. O diagnóstico pode focar em como rentabilizar essas reservas." }
     ]
   },
   {
@@ -125,10 +125,10 @@ const questions = [
     skill: 'Mentalidade Financeira',
     icon: <Snowflake className="inline-block mr-2 text-cyan-500" size={24} />,
     options: [
-      { text: "Incerteza e medo.", value: 1, insight: "O medo vem da falta de clareza. O diagnóstico foi criado para transformar seu medo em confiança através de um plano." },
-      { text: "Esperança, mas sem saber por onde começar.", value: 2, insight: "Você tem o motor (esperança), só falta o mapa. O diagnóstico é exatamente este mapa que você precisa." },
-      { text: "Tranquilidade, pois estou planejando.", value: 3, insight: "Parabéns por construir sua tranquilidade! O diagnóstico pode te mostrar como manter e ampliar essa paz no longo prazo." },
-      { text: "Eu nem penso muito nisso.", value: 4, insight: "Não pensar no futuro é como navegar sem bússola. O diagnóstico te dará essa bússola de forma simples." }
+      { text: "Insegurança.", value: 1, insight: "O medo vem da falta de clareza. O diagnóstico foi criado para transformar seu medo em confiança através de um plano." },
+      { text: "Desespero. Sem saber o que fazer.", value: 2, insight: "Você tem o motor (esperança), só falta o mapa. O diagnóstico é exatamente este mapa que você precisa." },
+      { text: "Medo.", value: 3, insight: "Parabéns por construir sua tranquilidade! O diagnóstico pode te mostrar como manter e ampliar essa paz no longo prazo." },
+      { text: "Liberdade financeira.", value: 4, insight: "Não pensar no futuro é como navegar sem bússola. O diagnóstico te dará essa bússola de forma simples." }
     ]
   },
   {
