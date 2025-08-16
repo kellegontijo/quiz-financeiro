@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { DollarSign, Clock, Wallet, Map, HeartCrack, TrendingDown, Shield, Lightbulb, Snowflake, CheckCircle, Award, BrainCircuit, Target, ArrowRight, ArrowLeft, Send, Calendar, Share2, RefreshCw, PlayCircle, Copy } from 'lucide-react';
+import React from 'react';
+import { DollarSign, Clock, Wallet, Map, TrendingDown, Shield, Lightbulb, Snowflake, CheckCircle, Award, BrainCircuit, Target, ArrowRight, ArrowLeft, Send, Calendar, Share2, RefreshCw, Copy } from 'lucide-react';
 
 // ====================================================================================
 // ÍCONES PERSONALIZADOS (SVG)
@@ -25,62 +25,50 @@ const WhatsAppIcon = (props) => (
 const questions = [
   {
     id: 'q1',
-    question: "Você trabalha duro, mas sente que o dinheiro 'some' antes do fim do mês? Qual opção mais se aproxima da sua realidade?",
+    question: "Quando você olha para sua conta bancária, qual frase descreve melhor o sentimento?",
     skill: 'Controle de Gastos',
-    icon: <Clock className="inline-block mr-2 text-blue-500" size={24} />,
+    icon: <Wallet className="inline-block mr-2 text-orange-500" size={24} />,
     options: [
-      { text: "Meu dinheiro evapora sem em nem mesmo perceber.", value: 1, insight: "É o 'ralo financeiro'. No diagnóstico, vamos te dar um mapa para encontrar e tampar esses ralos." },
-      { text: "Estou em completo caos. Desespero financeiro total.", value: 2, insight: "Isso mostra uma base frágil. No diagnóstico, vamos construir um 'escudo' para esses imprevistos." },
-      { text: "Tento me organizar, mas o dinheiro nunca sobra.", value: 3, insight: "Você já tem o controle! No diagnóstico, vamos criar um 'acelerador' para seus sonhos." },
-      { text: "Não tenho reserva de emergência.", value: 4, insight: "Excelente! No diagnóstico, podemos explorar como fazer seu dinheiro trabalhar ainda mais para você." }
+      { text: "Recebo o salário e em poucos dias já acabou tudo.", value: 2, insight: "Isso indica um ciclo de 'corrida de ratos'. O dinheiro entra e sai sem um plano, gerando angústia." },
+      { text: "Estou sempre no vermelho, usando o limite do cheque especial.", value: 1, insight: "Viver no negativo virou o 'normal'. Precisamos quebrar esse ciclo urgentemente." },
+      { text: "Eu nem olho o extrato para não me assustar.", value: 3, insight: "A falta de clareza é um sintoma de quem está 'desligado'. Trazer luz aos números é o primeiro passo." },
+      { text: "Pago o básico e o resto vai para o cartão de crédito.", value: 2, insight: "O cartão virou uma extensão do salário, uma armadilha perigosa que vamos desarmar." }
     ]
   },
   {
     id: 'q2',
-    question: "Quando você pensa em 'dívidas', qual tipo mais te tira o sono?",
+    question: "Suas dívidas hoje são compostas principalmente por quê?",
     skill: 'Gestão de Dívidas',
     icon: <TrendingDown className="inline-block mr-2 text-red-500" size={24} />,
     options: [
-      { text: "Contas básicas em atraso (água, luz, aluguel).", value: 1, insight: "Priorizar o essencial é o foco. No diagnóstico, criaremos um plano de ação para te dar fôlego." },
-      { text: "Cartão de crédito e cheque especial.", value: 2, insight: "Essas são as dívidas mais agressivas. No diagnóstico, vamos traçar uma estratégia para neutralizá-las." },
-      { text: "Empréstimos.", value: 3, insight: "Sentir o salário 'preso' é frustrante. No diagnóstico, vamos analisar como reduzir esse peso." },
-      { text: "Não tenho dívidas que me preocupem.", value: 4, insight: "Ótimo! Manter-se livre de dívidas é uma vitória. O diagnóstico te ajudará a blindar essa conquista." }
+      { text: "Contas básicas atrasadas, como aluguel, água e luz.", value: 1, insight: "A base da sua segurança está ameaçada. A prioridade máxima é proteger suas necessidades essenciais." },
+      { text: "Uma bola de neve com cartão de crédito e cheque especial.", value: 1, insight: "Essas são as piores dívidas pelos juros abusivos. Precisamos de uma estratégia de ataque imediata." },
+      { text: "Vários empréstimos que fiz para resolver outras contas.", value: 1, insight: "Cobrir um buraco abrindo outro. Este é o sintoma clássico do descontrole. Vamos criar um plano de resgate." },
+      { text: "Parcelamentos de compras que, somados, viraram um monstro.", value: 2, insight: "As 'parcelinhas' parecem inofensivas, mas juntas sufocam. Precisamos organizar e entender o tamanho real do problema." }
     ]
   },
   {
     id: 'q3',
-    question: "Sua pensamento fia 'sempre ligado' nas contas mesmo quando tenta relaxar?",
+    question: "Qual destes pensamentos sobre dinheiro é mais comum para você?",
     skill: 'Mentalidade Financeira',
     icon: <BrainCircuit className="inline-block mr-2 text-yellow-500" size={24} />,
     options: [
-      { text: "Sim, as preocupações me seguem para todo lado.", value: 1, insight: "Isso é estresse financeiro. O diagnóstico te dará a clareza para desligar esse 'alerta' mental." },
-      { text: "Às vezes sinto um peso, mas consigo focar.", value: 2, insight: "Esse 'peso' consome sua energia. O diagnóstico vai te ajudar a transformar esse peso em poder de ação." },
-      { text: "Não, consigo me desligar bem das preocupações.", value: 3, insight: "Isso é uma habilidade poderosa! No diagnóstico, vamos usar essa força para acelerar seus planos." },
-      { text: "Eu nem penso muito nisso, só lido com o que aparece.", value: 4, insight: "Lidar só com o que aparece pode gerar sustos. O diagnóstico te dará um 'GPS' para o futuro." }
+      { text: "'Eu mereço!', mesmo sabendo que não posso pagar.", value: 2, insight: "O gasto emocional é uma forma de recompensa imediata que cobra um preço alto. Vamos encontrar formas mais saudáveis de se recompensar." },
+      { text: "'Depois eu vejo como pago', e a conta sempre chega.", value: 3, insight: "Procrastinar a dor financeira só a torna maior. Vamos te ajudar a encarar os números de frente, mas com um plano." },
+      { text: "'Não tem mais jeito', um sentimento de que perdeu o controle.", value: 1, insight: "A sensação de desespero paralisa. Mas acredite, sempre há um jeito. O que falta é o mapa certo." },
+      { text: "'Se eu tivesse mais dinheiro, tudo se resolveria.'", value: 2, insight: "Muitas vezes, o problema não é o quanto se ganha, mas como se gasta. Vamos focar na organização primeiro." }
     ]
   },
   {
     id: 'q4_dificuldade',
-    question: "Se você pudesse resolver um problema financeiro HOJE, qual seria sua prioridade nº 1?",
+    question: "Se você tivesse uma 'varinha mágica' para resolver um problema financeiro HOJE, qual seria?",
     skill: 'Planejamento Futuro',
     icon: <Target className="inline-block mr-2 text-red-500" size={24} />,
     options: [
-      { text: "Quitar minhas dívidas e ter 'nome limpo'.", value: 1, insight: "Essa liberdade é totalmente alcançável. O diagnóstico será seu plano de ação para a liberdade." },
-      { text: "Ter uma reserva de emergência para imprevistos.", value: 2, insight: "A reserva é seu 'colchão de paz'. No diagnóstico, vamos desenhar o plano para construí-la." },
-      { text: "Entender para onde vai meu dinheiro.", value: 3, insight: "Clareza é poder. O diagnóstico vai te dar o 'mapa do seu dinheiro' de forma simples." },
-      { text: "Pagar as contas básicas em dia sem sufoco.", value: 4, insight: "Essa é a base da tranquilidade. O diagnóstico vai te ajudar a construir essa base sólida." }
-    ]
-  },
-  {
-    id: 'q4_otimizacao',
-    question: "Com sua organização, qual seria seu próximo grande passo financeiro?",
-    skill: 'Planejamento Futuro',
-    icon: <Target className="inline-block mr-2 text-green-500" size={24} />,
-    options: [
-      { text: "Fazer meu dinheiro render mais e investir.", value: 1, insight: "Ótimo objetivo! O diagnóstico pode te mostrar os caminhos de investimento mais alinhados com você." },
-      { text: "Planejar grandes compras (casa, carro, viagem).", value: 2, insight: "Sonhos grandes pedem um bom plano. O diagnóstico será o projeto do seu sonho." },
-      { text: "Otimizar investimentos e buscar maior rentabilidade.", value: 3, insight: "Você já está no jogo! O diagnóstico pode refinar sua estratégia para um 'xeque-mate'." },
-      { text: "Diversificar minhas fontes de renda.", value: 4, insight: "Excelente visão! O diagnóstico pode te ajudar a identificar e planejar novas fontes de renda." }
+      { text: "Limpar meu nome e quitar todas as dívidas.", value: 1, insight: "Essa paz não tem preço e é totalmente alcançável. O diagnóstico será seu plano de ação para a liberdade." },
+      { text: "Ter R$ 1.000 guardado para uma emergência.", value: 3, insight: "A reserva é seu 'colchão de paz'. No diagnóstico, vamos desenhar o plano para construí-la, mesmo com dívidas." },
+      { text: "Saber exatamente para onde meu dinheiro está indo.", value: 2, insight: "Clareza é poder. O diagnóstico vai te dar o 'mapa do seu dinheiro' de forma simples e visual." },
+      { text: "Conseguir pagar as contas do mês sem usar o limite do banco.", value: 1, insight: "Essa é a base da tranquilidade. O diagnóstico vai te ajudar a construir essa base sólida." }
     ]
   },
   {
@@ -89,34 +77,34 @@ const questions = [
     skill: 'Mentalidade Financeira',
     icon: <Award className="inline-block mr-2 text-purple-500" size={24} />,
     options: [
-      { text: "Sobrevivência", value: 0, insight: "Obrigado por compartilhar. Sentir que está apenas 'sobrevivendo' é exaustivo. Nosso objetivo no diagnóstico é te levar para a fase de 'viver'." },
-      { text: "Desespero", value: 0, insight: "A confusão paralisa. O diagnóstico foi desenhado para ser o seu 'farol', trazendo clareza e direção." },
-      { text: "Esperança", value: 0, insight: "Esperança é o melhor combustível! No diagnóstico, vamos transformar essa esperança em um plano de ação concreto." },
-      { text: "Ansiedade", value: 0, insight: "Controle é uma base excelente. No diagnóstico, vamos usar esse controle para construir seus objetivos maiores." }
+      { text: "Sobrevivência", value: 0, insight: "Sentir que está apenas 'sobrevivendo' é exaustivo. Nosso objetivo é te levar para a fase de 'viver'." },
+      { text: "Desespero", value: 0, insight: "O desespero paralisa. O diagnóstico foi desenhado para ser o seu 'farol', trazendo clareza e direção." },
+      { text: "Vergonha", value: 0, insight: "A vergonha isola e impede de pedir ajuda. Saiba que você não está sozinho(a) e que há solução." },
+      { text: "Ansiedade", value: 0, insight: "A ansiedade vem da falta de controle. Vamos construir juntos um plano que te devolva a paz." }
     ]
   },
   {
     id: 'q6',
-    question: "Você se vê gastando por impulso, talvez depois de um dia estressante?",
+    question: "Qual situação de compra te descreve melhor?",
     skill: 'Controle de Gastos',
     icon: <Wallet className="inline-block mr-2 text-orange-500" size={24} />,
     options: [
-      { text: "Sim, minhas emoções me levam a gastos desnecessários.", value: 1, insight: "É o 'efeito recompensa'. No diagnóstico, vamos criar estratégias para você se recompensar sem sabotar suas finanças." },
-      { text: "Às vezes acontece, mas tento me controlar.", value: 2, insight: "Você já tem consciência, isso é meio caminho andado! O diagnóstico te dará ferramentas para fortalecer esse controle." },
-      { text: "Raramente, penso bem antes de gastar.", value: 3, insight: "Parabéns por essa disciplina! O diagnóstico pode te ajudar a usar essa habilidade para otimizar ainda mais." },
-      { text: "Não, sou muito racional com dinheiro.", value: 4, insight: "Sua racionalidade é um superpoder. No diagnóstico, vamos potencializar isso para alcançar grandes metas." }
+      { text: "Vejo uma promoção e parcelo, mesmo sem precisar do produto.", value: 2, insight: "O apelo da 'oferta imperdível' te domina. Vamos criar barreiras contra o consumo por impulso." },
+      { text: "Não tenho ideia de quanto gasto com apps de comida ou transporte.", value: 3, insight: "Esses 'pequenos' gastos diários são um ralo invisível. Vamos colocar uma lupa sobre eles." },
+      { text: "Quando saio com amigos, gasto sem pensar para acompanhar.", value: 2, insight: "A pressão social é uma grande inimiga das finanças. Vamos alinhar seus gastos à sua realidade, não à dos outros." },
+      { text: "Uso o cartão como se não houvesse amanhã.", value: 1, insight: "O cartão de crédito se tornou uma fonte de dinheiro que não é sua. Precisamos reverter essa percepção urgentemente." }
     ]
   },
   {
     id: 'q7',
-    question: "Se precisasse de R$ 1.000 para uma emergência hoje, você teria sem se endividar?",
+    question: "Uma emergência médica de R$ 500 acontece. Qual sua reação mais provável?",
     skill: 'Planejamento Futuro',
     icon: <Shield className="inline-block mr-2 text-indigo-500" size={24} />,
     options: [
-      { text: "Não, teria que pegar emprestado ou usar o cartão.", value: 1, insight: "Essa vulnerabilidade gera ansiedade. O diagnóstico te dará o passo a passo para construir sua reserva de paz." },
-      { text: "Talvez, teria que verificar e apertar um pouco.", value: 2, insight: "Estar no 'fio da navalha' é arriscado. O diagnóstico vai te ajudar a criar uma folga segura." },
-      { text: "Não tenho limite no cartão e nem como pegar emprestado mais.", value: 3, insight: "Excelente! Você já tem seu escudo. O diagnóstico vai te ajudar a fortalecê-lo e ir para o próximo nível." },
-      { text: "Sim, tenho reserva de emergência.", value: 4, insight: "Você está muito bem protegido. O diagnóstico pode focar em como rentabilizar essas reservas." }
+      { text: "Entro em pânico, pois não tenho de onde tirar.", value: 1, insight: "A falta de um plano para imprevistos nos deixa paralisados. Vamos criar essa rede de segurança para você." },
+      { text: "Peço emprestado para um amigo ou familiar.", value: 2, insight: "Recorrer a terceiros é uma solução temporária que pode gerar outros problemas. Vamos criar sua própria reserva." },
+      { text: "Passo no cartão de crédito e rezo para conseguir pagar.", value: 1, insight: "Resolver uma emergência criando uma nova dívida com juros é um ciclo perigoso. Vamos quebrá-lo." },
+      { text: "Deixo de pagar outra conta para cobrir a emergência.", value: 1, insight: "O 'cobertor curto'. Cobrir um santo e descobrir outro. Precisamos de um plano para que isso não aconteça mais." }
     ]
   },
   {
@@ -125,22 +113,22 @@ const questions = [
     skill: 'Mentalidade Financeira',
     icon: <Snowflake className="inline-block mr-2 text-cyan-500" size={24} />,
     options: [
-      { text: "Insegurança.", value: 1, insight: "O medo vem da falta de clareza. O diagnóstico foi criado para transformar seu medo em confiança através de um plano." },
-      { text: "Desespero. Sem saber o que fazer.", value: 2, insight: "Você tem o motor (esperança), só falta o mapa. O diagnóstico é exatamente este mapa que você precisa." },
-      { text: "Medo.", value: 3, insight: "Parabéns por construir sua tranquilidade! O diagnóstico pode te mostrar como manter e ampliar essa paz no longo prazo." },
-      { text: "Liberdade financeira.", value: 4, insight: "Não pensar no futuro é como navegar sem bússola. O diagnóstico te dará essa bússola de forma simples." }
+      { text: "Insegurança e medo do que pode acontecer.", value: 1, insight: "O medo vem da falta de clareza. O diagnóstico foi criado para transformar seu medo em confiança através de um plano." },
+      { text: "Desespero, sinto que minha situação não tem saída.", value: 1, insight: "Existe uma saída. O diagnóstico é o mapa que vai te mostrar o caminho, passo a passo." },
+      { text: "Confusão, não sei nem por onde começar a arrumar.", value: 3, insight: "Sentir-se perdido é normal. O diagnóstico vai te dar o primeiro passo, o mais importante de todos." },
+      { text: "Estagnação, sinto que trabalho só para pagar dívidas.", value: 2, insight: "A sensação de estagnação é frustrante. Vamos criar um plano para que você veja seu progresso, mês a mês." }
     ]
   },
   {
     id: 'q9',
-    question: "Suas dívidas parecem uma 'bola de neve' que só cresce?",
+    question: "Como você lida com as faturas e boletos que chegam?",
     skill: 'Gestão de Dívidas',
     icon: <TrendingDown className="inline-block mr-2 text-red-500" size={24} />,
     options: [
-      { text: "Sim, parece que pago, mas nunca vejo o fim.", value: 1, insight: "Essa é a armadilha da 'bola de neve'. O diagnóstico vai te dar a estratégia para quebrar esse ciclo vicioso." },
-      { text: "Às vezes, mas consigo controlar.", value: 2, insight: "Você já está lutando contra a bola de neve. O diagnóstico te dará as ferramentas para 'derretê-la' de vez." },
-      { text: "Não, minhas dívidas são controladas.", value: 3, insight: "Excelente controle! O diagnóstico pode te ajudar a quitar essas dívidas de forma ainda mais rápida." },
-      { text: "Eu não tenho dívidas.", value: 4, insight: "Parabéns, essa é uma grande conquista! O diagnóstico vai te ajudar a se manter assim e prosperar." }
+      { text: "Pago o mínimo do cartão para 'ganhar tempo'.", value: 1, insight: "Pagar o mínimo é a pior decisão financeira. É alimentar um monstro com juros. Vamos traçar um plano para quitar o total." },
+      { text: "Escolho quais contas pagar e quais deixar para depois.", value: 2, insight: "A tática do 'malabarista de boletos' é arriscada e cara. Vamos organizar suas contas por prioridade." },
+      { text: "Já renegociei dívidas, mas não consegui pagar e a situação piorou.", value: 1, insight: "Uma renegociação mal feita pode ser pior que a dívida original. Vamos analisar a melhor estratégia para o seu caso." },
+      { text: "Eu simplesmente ignoro as cobranças, não sei o que fazer.", value: 3, insight: "Ignorar o problema não o faz desaparecer. Vamos te dar as ferramentas para lidar com as cobranças de forma estratégica." }
     ]
   },
   {
@@ -149,10 +137,10 @@ const questions = [
     skill: 'Planejamento Futuro',
     icon: <Map className="inline-block mr-2 text-green-500" size={24} />,
     options: [
-      { text: "Com certeza! Me sinto perdido(a).", value: 1, insight: "Reconhecer isso é o primeiro passo para a mudança. Você está no lugar certo para encontrar seu mapa." },
-      { text: "Talvez, mas acho que é complicado ou caro.", value: 2, insight: "Muitos pensam isso, mas o diagnóstico é gratuito e vai te mostrar que a simplicidade é a chave." },
-      { text: "Acho que já sei o que fazer, só falta disciplina.", value: 3, insight: "Disciplina sem um bom plano é como remar sem direção. O diagnóstico vai potencializar sua disciplina." },
-      { text: "Não preciso, já tenho tudo organizado.", value: 4, insight: "Fantástico! Um olhar de fora pode revelar oportunidades que você ainda não viu. O diagnóstico pode ser esse olhar." }
+      { text: "Com certeza! Me sinto completamente perdido(a).", value: 1, insight: "Reconhecer isso é o primeiro passo para a mudança. Você está no lugar certo para encontrar seu mapa." },
+      { text: "Talvez, mas acho que minha situação é complicada demais.", value: 2, insight: "Toda situação, por mais complexa, tem um primeiro passo. O diagnóstico vai te mostrar qual é o seu." },
+      { text: "Já tentei de tudo e nada funciona, estou sem esperança.", value: 1, insight: "A frustração é compreensível. Talvez o que faltou não foi esforço, mas a estratégia certa para o seu caso." },
+      { text: "Se for simples e direto ao ponto, eu topo tentar.", value: 3, insight: "Simplicidade é a chave. Nosso plano é desenhado para ser prático e fácil de seguir, sem 'financês'." }
     ]
   }
 ];
@@ -232,7 +220,7 @@ const formatName = (name) => {
 
 const getFirstName = (fullName) => {
   if (!fullName) return '';
-  const parts = fullName.split(' ');
+  const parts = fullName.trim().split(' ');
   return parts[0].charAt(0).toUpperCase() + parts[0].slice(1).toLowerCase();
 };
 
@@ -249,32 +237,29 @@ const getFinancialProfile = (score) => {
   let title, description;
   const finalScore = score > 0 ? score : 10; 
 
-  if (finalScore >= 10 && finalScore <= 20) {
-    title = "Perfil Financeiro: Iniciante - Alerta Vermelho! 🚨";
+  if (finalScore <= 16) {
+    title = "Perfil Financeiro: Descontrolado(a) 🆘";
     description = `
-        **Pontuação: ${finalScore} de 36 pontos**
-        Suas respostas indicam uma fase desafiadora. É provável que se sinta sobrecarregado(a), com o dinheiro 'escorrendo' pelos dedos e dívidas se acumulando.
-        **Mas não se preocupe, essa realidade pode ser transformada!** O medo do futuro é compreensível. O mais importante é buscar clareza.
-        **Acredite: sair dessa situação é totalmente possível!** O que falta, muitas vezes, não é dinheiro, mas um mapa detalhado e um plano de ação personalizado.
+        **Pontuação: ${finalScore} de 30 pontos**
+        Suas respostas indicam um momento de grande urgência. É provável que você sinta que as dívidas formam uma bola de neve, usando um crédito para pagar outro e sem ver uma saída. A sensação de caos e desespero é constante.
+        **O mais importante agora é saber que existe um caminho.** O primeiro passo é criar um plano de resgate para estancar o problema e te dar um fôlego para respirar.
       `;
-  } else if (finalScore >= 21 && finalScore <= 30) {
-    title = "Perfil Financeiro: Intermediário - Em Busca de Caminhos! 🗺️";
+  } else if (finalScore <= 23) {
+    title = "Perfil Financeiro: Gastador(a) 💸";
     description = `
-        **Pontuação: ${finalScore} de 36 pontos**
-        Você já demonstra consciência e esforço para organizar suas finanças, mas sente que falta um 'algo a mais'. Imprevistos podem desestabilizar seu planejamento.
-        Você está pronto(a) para ir além. Já deu passos importantes, mas o caminho para a verdadeira liberdade financeira ainda requer direcionamento.
-        **Você está no caminho certo!** Agora, é hora de transformar essa busca por clareza em ação.
+        **Pontuação: ${finalScore} de 30 pontos**
+        Você trabalha muito, mas o dinheiro parece não ser suficiente para seus desejos. Suas dívidas provavelmente vêm de um padrão de vida que seu orçamento não comporta, com compras por impulso e o uso do cartão de crédito como complemento de renda.
+        **Você tem o poder de virar o jogo!** O foco será alinhar seus gastos aos seus verdadeiros objetivos, para que o dinheiro trabalhe para seus sonhos, e não contra eles.
       `;
   } else { 
-    title = "Perfil Financeiro: Conhecedor - Potencial a Otimizar! ✨";
+    title = "Perfil Financeiro: Desligado(a) 🧭";
     description = `
-        **Pontuação: ${finalScore} de 36 pontos**
-        Parabéns! Suas respostas refletem um alto nível de consciência e controle. Você demonstra organização, planejamento e uma boa capacidade de lidar com o dinheiro.
-        Apesar de sua solidez, há sempre novas estratégias e otimizações para fazer seu dinheiro trabalhar ainda mais para você.
-        **Você já é um(a) grande realizador(a)!** Imagine o que podemos construir juntos ao otimizar o que você já faz bem.
+        **Pontuação: ${finalScore} de 30 pontos**
+        Você paga suas contas, mas vive em um nevoeiro financeiro. As dívidas podem ter surgido por falta de planejamento ou por não dar a devida atenção às finanças. A sensação é de estar perdido(a), sem um mapa claro para o futuro.
+        **Clareza é o seu superpoder!** Vamos acender as luzes e criar um GPS financeiro simples para que você assuma o controle total do seu dinheiro e do seu futuro.
       `;
   }
-  return { title, description, color: "text-black" };
+  return { title, description };
 };
 
 
@@ -297,7 +282,7 @@ const calculateSkillScores = (answers) => {
     const finalScores = {};
     for (const skill in skills) {
         if (skills[skill].count > 0) {
-            const average = (skills[skill].total / (skills[skill].count * 4)) * 100;
+            const average = (skills[skill].total / (skills[skill].count * 3)) * 100; // Max value is now 3
             finalScores[skill] = Math.max(10, Math.round(average));
         } else {
             finalScores[skill] = 10;
@@ -375,8 +360,8 @@ const generateEmotionalReport = (userName, userAnswers) => {
             report += "2. Focar em quick wins: identificar um pequeno corte de gasto que gere alívio imediato.\n";
             report += "3. Apresentar o conceito de 'reserva de emergência' como um 'colchão de paz'.\n";
             break;
-        case 'Confusão':
-            report += "**Estado Emocional:** O cliente se sente perdido e sobrecarregado de informações (ou da falta delas). Não sabe por onde começar e provavelmente já tentou métodos que não funcionaram, gerando frustração.\n\n";
+        case 'Desespero':
+            report += "**Estado Emocional:** O cliente se sente perdido e sobrecarregado. Não sabe por onde começar e provavelmente já tentou métodos que não funcionaram, gerando frustração.\n\n";
             report += "**Estratégia de Comunicação:** Focar em 'clareza', 'simplicidade' e 'passo a passo'. A promessa principal é a de organizar o caos e entregar um mapa simples de seguir.\n\n";
             report += "**Ações para o Diagnóstico:**\n";
             report += "1. Usar a metáfora do 'GPS Financeiro'.\n";
@@ -391,13 +376,14 @@ const generateEmotionalReport = (userName, userAnswers) => {
             report += "2. Conectar os sonhos e objetivos dele a um plano numérico.\n";
             report += "3. Apresentar ferramentas práticas (planilhas, apps) que ele possa usar para transformar a esperança em ação.\n";
             break;
-        case 'Controle':
-            report += "**Estado Emocional:** O cliente já se sente no comando da sua vida financeira. Ele não está buscando uma 'salvação', mas sim 'otimização' e 'crescimento'.\n\n";
-            report += "**Estratégia de Comunicação:** Usar uma linguagem mais técnica e estratégica. Focar em 'otimização de resultados', 'próximo nível' e 'investimentos inteligentes'.\n\n";
+        case 'Ansiedade':
+        case 'Vergonha':
+            report += "**Estado Emocional:** O cliente sente o peso constante da dívida, o que gera ansiedade e medo do julgamento. A vergonha pode impedi-lo de procurar ajuda ou falar sobre o assunto.\n\n";
+            report += "**Estratégia de Comunicação:** Criar um ambiente seguro e sem julgamentos. Normalizar a situação, mostrando que muitos passam por isso. Focar em 'retomar o controle' para aliviar a ansiedade.\n\n";
             report += "**Ações para o Diagnóstico:**\n";
-            report += "1. Reconhecer e validar o bom trabalho que ele já faz.\n";
-            report += "2. Analisar os pontos fortes e sugerir melhorias incrementais.\n";
-            report += "3. Focar em estratégias de investimento, diversificação de renda ou planejamento de longo prazo (aposentadoria, sucessão).\n";
+            report += "1. Validar seus sentimentos e reforçar que ele não está sozinho.\n";
+            report += "2. Mostrar que o plano é uma ferramenta para reduzir a ansiedade.\n";
+            report += "3. Começar com passos pequenos e concretos para gerar sensação de progresso e controle.\n";
             break;
     }
     
@@ -410,7 +396,7 @@ const generateEmotionalReport = (userName, userAnswers) => {
 // ====================================================================================
 
 function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handleStartQuiz, isLoading }) {
-  const [formError, setFormError] = useState('');
+  const [formError, setFormError] = React.useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -433,10 +419,10 @@ function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handl
     <div className="p-4 rounded-lg bg-white">
       <div className="text-center">
         <h2 className="text-3xl sm:text-4xl font-bold uppercase mb-4 leading-tight text-gray-800">
-          Bem-vinda(o) ao Quiz!
+          Diagnóstico Financeiro
         </h2>
         <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-8">
-          Para começarmos, qual é o seu nome e gênero?
+          Descubra o perfil que te impede de sair das dívidas.
         </p>
         <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto">
           <input
@@ -467,7 +453,7 @@ function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handl
               </div>
           )}
           <button type="submit" className={`w-full font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 hover:scale-105 inline-flex items-center justify-center ${startButtonClass}`} disabled={isLoading}>
-            {isLoading ? 'CARREGANDO...' : 'COMEÇAR AGORA'}
+            {isLoading ? 'CARREGANDO...' : 'COMEÇAR DIAGNÓSTICO'}
             {!isLoading && <ArrowRight className="ml-2" />}
           </button>
         </form>
@@ -510,7 +496,7 @@ function MidpointSummaryScreen({ userName, userAnswers, onContinue }) {
             <div className="bg-blue-50 text-blue-800 rounded-lg p-4 max-w-md mx-auto mb-8">
                 <p className="font-semibold text-left">
                     <Lightbulb className="inline-block mr-2" size={20} />
-                    <strong>Primeira Dica:</strong>
+                    <strong>Primeira Análise:</strong>
                 </p>
                 <p className="text-left mt-1">{getMidpointInsight()}</p>
             </div>
@@ -529,15 +515,15 @@ function MidpointSummaryScreen({ userName, userAnswers, onContinue }) {
 }
 
 function ProcessingScreen({ userName }) {
-    const [messageIndex, setMessageIndex] = useState(0);
+    const [messageIndex, setMessageIndex] = React.useState(0);
     const messages = [
         "Analisando suas respostas...",
-        "Calculando seu perfil financeiro...",
+        "Calculando seu perfil de endividamento...",
         "Montando seu gráfico de habilidades...",
         `Quase pronto, ${getFirstName(userName)}!`
     ];
 
-    useEffect(() => {
+    React.useEffect(() => {
         const interval = setInterval(() => {
             setMessageIndex(prevIndex => (prevIndex + 1));
         }, 1200);
@@ -564,25 +550,12 @@ function ProcessingScreen({ userName }) {
 }
 
 
-function QuizScreen({ currentQuestionIndex, userAnswers, userName, handleAnswerClick, handleNextQuestion, handlePreviousQuestion, selectedOptionText, currentInsightText, activeThemeClasses }) {
-    const questionOrder = ['q1', 'q2', 'q3', 'q4_placeholder', 'q5_thermometer', 'q6', 'q7', 'q8', 'q9', 'q10'];
+function QuizScreen({ currentQuestionIndex, userAnswers, userName, handleAnswerClick, handleNextQuestion, handlePreviousQuestion, selectedOptionText, activeThemeClasses }) {
+    const questionOrder = ['q1', 'q2', 'q3', 'q4_dificuldade', 'q5_thermometer', 'q6', 'q7', 'q8', 'q9', 'q10'];
     const totalQuestions = questionOrder.length;
     const progressPercentage = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
-    const getCurrentQuestionData = () => {
-        const questionMap = questions.reduce((acc, q) => ({...acc, [q.id]: q }), {});
-        const currentQuestionId = questionOrder[currentQuestionIndex];
-
-        if (currentQuestionId === 'q4_placeholder') {
-            const q1Answer = userAnswers.find(a => a.questionId === 'q1');
-            const q1Value = q1Answer ? q1Answer.selectedValue : 1;
-            return q1Value <= 2 ? questionMap['q4_dificuldade'] : questionMap['q4_otimizacao'];
-        }
-        
-        return questionMap[currentQuestionId];
-    };
-
-    const currentQuestionData = getCurrentQuestionData();
+    const currentQuestionData = questions.find(q => q.id === questionOrder[currentQuestionIndex]);
 
     return (
         <>
@@ -594,15 +567,15 @@ function QuizScreen({ currentQuestionIndex, userAnswers, userName, handleAnswerC
             </div>
 
             <h2 className={`text-3xl sm:text-4xl font-bold text-black uppercase mb-2 leading-tight`}>
-                10 Passos para Descobrir <span className={`${activeThemeClasses.textHighlight} font-bold`}>Seu Perfil Financeiro</span>
+                Diagnóstico de Dívidas
             </h2>
             <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-6 normal-case">
-                Entenda os reais motivos que te fazem trabalhar tanto e mesmo assim não ver a cor do seu dinheiro...
+                Entenda os reais motivos que te levaram às dívidas e como sair delas.
             </p>
 
             <div className="mb-8">
                 <p className="text-lg sm:text-xl text-blue-600 font-semibold mb-4">
-                    Questão {currentQuestionIndex + 1} de {totalQuestions}
+                    Passo {currentQuestionIndex + 1} de {totalQuestions}
                 </p>
                 <p className="text-xl sm:text-2xl text-gray-800 mb-6 font-medium">
                     {currentQuestionData.icon} Olá, {getFirstName(userName)}! {currentQuestionData.question.replace('{userName}', getFirstName(userName))}
@@ -627,12 +600,6 @@ function QuizScreen({ currentQuestionIndex, userAnswers, userName, handleAnswerC
                                 disabled={isDisabled}
                             >
                                 {option.text}
-                                {isSelected && (
-                                    <div className={`absolute bottom-full left-1/2 transform -translate-x-1/2 -translate-y-2 p-3 ${activeThemeClasses.insightBg} ${activeThemeClasses.insightText} text-sm rounded-md shadow-lg w-max max-w-xs z-20`}>
-                                        <span className="font-bold">Dica: </span>{currentInsightText}
-                                        <div className={`absolute left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent ${activeThemeClasses.insightBorder} bottom-[-4px]`}></div>
-                                    </div>
-                                )}
                             </button>
                         );
                     })}
@@ -651,7 +618,7 @@ function QuizScreen({ currentQuestionIndex, userAnswers, userName, handleAnswerC
                     className={`py-5 rounded-md text-xl font-bold text-white uppercase transition-all duration-300 ease-in-out shadow-lg flex-grow inline-flex items-center justify-center ${activeThemeClasses.primary}`}
                     disabled={selectedOptionText === null}
                 >
-                    {currentQuestionIndex === totalQuestions - 1 ? "VER MEU PERFIL" : "PRÓXIMA QUESTÃO"}
+                    {currentQuestionIndex === totalQuestions - 1 ? "VER MEU PERFIL" : "PRÓXIMO PASSO"}
                     <ArrowRight className="ml-2" />
                 </button>
             </div>
@@ -671,7 +638,7 @@ function LeadForm({
     lgpdConsent, setLgpdConsent,
     activeThemeClasses,
 }) {
-    const [formError, setFormError] = useState('');
+    const [formError, setFormError] = React.useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -702,10 +669,10 @@ function LeadForm({
     return (
         <div className="text-center">
             <h2 className="text-3xl sm:text-4xl font-bold text-blue-800 uppercase mb-4 leading-tight">
-                SEU MAPA PARA A CLAREZA FINANCEIRA COMEÇA AQUI!
+                SEU MAPA PARA SAIR DAS DÍVIDAS COMEÇA AQUI!
             </h2>
             <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-6">
-                Sua pontuação indica que você está na fase de <strong>{profileTitle.split(' - ')[0].replace('Perfil Financeiro: ', '')}</strong>.
+                Seu perfil principal é de <strong>{profileTitle.split(':')[1].split(' ')[1]}</strong>.
                 Para receber seu relatório completo e agendar seu diagnóstico gratuito, {getFirstName(userName)}, preencha seus dados abaixo.
             </p>
             <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto">
@@ -805,14 +772,15 @@ function RadarChart({ scores, isPreview = false }) {
 }
 
 function ResultsScreen({ userName, profile, formSubmitted, userAnswers }) {
-    const [showSuccessMessage, setShowSuccessMessage] = useState(formSubmitted);
-    const [copySuccess, setCopySuccess] = useState('');
+    const [showSuccessMessage, setShowSuccessMessage] = React.useState(formSubmitted);
+    const [copySuccess, setCopySuccess] = React.useState('');
     const skillScores = calculateSkillScores(userAnswers);
     const strongestSkill = Object.keys(skillScores).reduce((a, b) => skillScores[a] > skillScores[b] ? a : b);
     const weakestSkill = Object.keys(skillScores).reduce((a, b) => skillScores[a] < skillScores[b] ? a : b);
 
     const shareUrl = window.location.href;
-    const shareText = encodeURIComponent(`Descobri meu perfil financeiro e ele é *${profile.title.split(':')[1].split('-')[0].trim()}*! 💡 Faça o teste você também e descubra o seu: ${shareUrl}`);
+    const shareText = encodeURIComponent(`Acabei de fazer um diagnóstico financeiro gratuito e descobri o que me impede de sair das dívidas! Eles liberaram algumas vagas para esse diagnóstico que era pago. Garanta a sua antes que acabe! O link é esse: ${shareUrl}`);
+    const textToCopy = `Acabei de fazer um diagnóstico financeiro gratuito e descobri o que me impede de sair das dívidas! Eles liberaram algumas vagas para esse diagnóstico que era pago. Garanta a sua antes que acabe! O link é esse: ${shareUrl}`;
 
     const handleShare = (platform) => {
         let url = '';
@@ -830,8 +798,6 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers }) {
     };
 
     const handleCopy = () => {
-        const textToCopy = `Descobri meu perfil financeiro e ele é ${profile.title.split(':')[1].split('-')[0].trim()}! 💡 Faça o teste você também e descubra o seu: ${shareUrl}`;
-        
         const textArea = document.createElement("textarea");
         textArea.value = textToCopy;
         document.body.appendChild(textArea);
@@ -881,13 +847,13 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers }) {
                 <div className="space-y-4">
                     <div className="bg-white p-4 rounded-lg border">
                         <p className="font-bold text-lg text-blue-600">Seu Perfil</p>
-                        <p className="text-gray-700">{profile.title.split(':')[1].split(' - ')[0].trim()}</p>
-                        <p className="text-sm text-gray-500 mt-1">Isso mostra o estágio atual da sua jornada financeira.</p>
+                        <p className="text-gray-700">{profile.title.split(':')[1].trim()}</p>
+                        <p className="text-sm text-gray-500 mt-1">Isso mostra o principal comportamento que alimenta suas dívidas.</p>
                     </div>
                     <div className="bg-white p-4 rounded-lg border">
-                        <p className="font-bold text-lg text-green-600">Seu Ponto Forte</p>
+                        <p className="font-bold text-lg text-green-600">Seu Ponto de Partida</p>
                         <p className="text-gray-700">{strongestSkill}</p>
-                        <p className="text-sm text-gray-500 mt-1">Essa é a sua maior habilidade! Vamos usá-la como alavanca para o seu crescimento.</p>
+                        <p className="text-sm text-gray-500 mt-1">Essa é a área onde você demonstra mais consciência. Vamos usá-la como alavanca.</p>
                     </div>
                     <div className="bg-white p-4 rounded-lg border">
                         <p className="font-bold text-lg text-orange-600">Sua Maior Oportunidade</p>
@@ -898,22 +864,22 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers }) {
             </div>
 
             <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-xl mb-8">
-                 <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Veja como a clareza financeira pode te ajudar a sair das dívidas</h3>
-                 <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-                    <iframe 
-                        src="https://www.youtube.com/embed/6GueqpXKTcE" 
-                        title="YouTube video player" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowFullScreen
-                        className="w-full h-full"
-                    ></iframe>
-                 </div>
+               <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Assista o vídeo abaixo e descubra o caminho para ter seu dinheiro sobrando em 8 semanas ou menos:</h3>
+               <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+                  <iframe 
+                      src="https://www.youtube.com/embed/6GueqpXKTcE" 
+                      title="YouTube video player" 
+                      frameBorder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowFullScreen
+                      className="w-full h-full"
+                  ></iframe>
+               </div>
             </div>
             
             <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-xl">
                 <h3 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-2">Pronto para o Próximo Passo?</h3>
-                 <p className="text-lg text-gray-600 mb-6">No diagnóstico, vamos usar seu <strong>{strongestSkill}</strong> para transformar sua <strong>{weakestSkill}</strong> em uma nova força. Vamos começar?</p>
+                 <p className="text-lg text-gray-600 mb-6">No diagnóstico, vamos usar seu ponto de partida em <strong>{strongestSkill}</strong> para transformar sua maior oportunidade em <strong>{weakestSkill}</strong> em uma nova força. Vamos começar?</p>
                 <div className="w-full">
                     <button
                         data-cal-link="kgfinancas/diagnostico"
@@ -926,7 +892,7 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers }) {
             </div>
             {/* Botões de compartilhamento para mobile */}
             <div className="md:hidden mt-8">
-                <p className="text-sm font-semibold text-gray-600 mb-2">COMPARTILHE SEU RESULTADO:</p>
+                <p className="text-sm font-semibold text-gray-600 mb-2">COMPARTILHE ESSA OPORTUNIDADE:</p>
                 <div className="flex justify-center space-x-4">
                     <button onClick={() => handleShare('whatsapp')} className="p-3 bg-green-100 text-green-600 rounded-full shadow-sm"><WhatsAppIcon /></button>
                     <button onClick={() => handleShare('facebook')} className="p-3 bg-blue-100 text-blue-600 rounded-full shadow-sm"><FacebookIcon /></button>
@@ -945,28 +911,27 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers }) {
 // ====================================================================================
 
 function App() {
-    const [quizState, setQuizState] = useState('welcome');
-    const [isLoading, setIsLoading] = useState(false);
-    const [formSubmitted, setFormSubmitted] = useState(false);
-    const [userName, setUserName] = useState('');
-    const [userGender, setUserGender] = useState('');
-    const [userEmail, setUserEmail] = useState('');
-    const [userWhatsapp, setUserWhatsapp] = useState('');
-    const [userIncomeRange, setUserIncomeRange] = useState('');
-    const [userDebtRange, setUserDebtRange] = useState('');
-    const [lgpdConsent, setLgpdConsent] = useState(false);
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [userAnswers, setUserAnswers] = useState([]);
-    const [score, setScore] = useState(0);
-    const [selectedOptionText, setSelectedOptionText] = useState(null);
-    const [currentInsightText, setCurrentInsightText] = useState('');
-    const [quizSessionId, setQuizSessionId] = useState(null);
-    const [initialUrlParams, setInitialUrlParams] = useState({});
-    const [showRestoreModal, setShowRestoreModal] = useState(false);
+    const [quizState, setQuizState] = React.useState('welcome');
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [formSubmitted, setFormSubmitted] = React.useState(false);
+    const [userName, setUserName] = React.useState('');
+    const [userGender, setUserGender] = React.useState('');
+    const [userEmail, setUserEmail] = React.useState('');
+    const [userWhatsapp, setUserWhatsapp] = React.useState('');
+    const [userIncomeRange, setUserIncomeRange] = React.useState('');
+    const [userDebtRange, setUserDebtRange] = React.useState('');
+    const [lgpdConsent, setLgpdConsent] = React.useState(false);
+    const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState(0);
+    const [userAnswers, setUserAnswers] = React.useState([]);
+    const [score, setScore] = React.useState(0);
+    const [selectedOptionText, setSelectedOptionText] = React.useState(null);
+    const [quizSessionId, setQuizSessionId] = React.useState(null);
+    const [initialUrlParams, setInitialUrlParams] = React.useState({});
+    const [showRestoreModal, setShowRestoreModal] = React.useState(false);
 
     const activeThemeClasses = themeClasses[userGender] || themeClasses.outros;
 
-    const saveStateToLocalStorage = useCallback((state) => {
+    const saveStateToLocalStorage = React.useCallback((state) => {
         try {
             const stateToSave = {
                 ...state,
@@ -980,13 +945,25 @@ function App() {
         }
     }, []);
     
-    useEffect(() => {
+    React.useEffect(() => {
         if(quizState !== 'welcome') {
             saveStateToLocalStorage({ quizState, userName, userGender, currentQuestionIndex, userAnswers, score });
         }
     }, [quizState, userName, userGender, currentQuestionIndex, userAnswers, score, saveStateToLocalStorage]);
     
-    useEffect(() => {
+    React.useEffect(() => {
+        // INSTRUÇÃO PARA IMAGEM NO COMPARTILHAMENTO (Facebook/WhatsApp):
+        // Para que uma imagem apareça ao compartilhar o link, adicione as seguintes
+        // tags <meta> dentro da tag <head> do seu arquivo index.html principal.
+        // Substitua 'URL_DA_SUA_IMAGEM.jpg' pela URL real da imagem que você quer mostrar.
+        /*
+        <meta property="og:title" content="Diagnóstico Financeiro Gratuito" />
+        <meta property="og:description" content="Descubra o perfil que te impede de sair das dívidas e receba um plano de ação." />
+        <meta property="og:image" content="URL_DA_SUA_IMAGEM.jpg" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="website" />
+        */
+
         try {
             const savedState = localStorage.getItem('quizProgress');
             if (savedState) {
@@ -1038,7 +1015,6 @@ function App() {
         setUserAnswers([]);
         setScore(0);
         setSelectedOptionText(null);
-        setCurrentInsightText('');
         setShowRestoreModal(false);
     };
 
@@ -1052,9 +1028,8 @@ function App() {
         }
         
         setSelectedOptionText(option.text);
-        setCurrentInsightText(option.insight.replace('{userName}', getFirstName(userName)));
 
-        const questionData = questions.find(q => q.id === questionId) || questions.find(q => q.id.startsWith('q4_'));
+        const questionData = questions.find(q => q.id === questionId);
         
         setUserAnswers(prev => [...prev, {
             questionId: questionId,
@@ -1067,7 +1042,6 @@ function App() {
 
     const handleNextQuestion = () => {
         setSelectedOptionText(null);
-        setCurrentInsightText('');
 
         const midpointIndex = 4;
         if (currentQuestionIndex === midpointIndex) {
@@ -1075,7 +1049,7 @@ function App() {
             return;
         }
 
-        const questionOrder = ['q1', 'q2', 'q3', 'q4_placeholder', 'q5_thermometer', 'q6', 'q7', 'q8', 'q9', 'q10'];
+        const questionOrder = ['q1', 'q2', 'q3', 'q4_dificuldade', 'q5_thermometer', 'q6', 'q7', 'q8', 'q9', 'q10'];
         const totalQuestions = questionOrder.length;
 
         if (currentQuestionIndex < totalQuestions - 1) {
@@ -1094,6 +1068,7 @@ function App() {
     const handlePreviousQuestion = () => {
         if (quizState === 'midpointSummary') {
             setQuizState('quiz');
+            setCurrentQuestionIndex(currentQuestionIndex); 
             return;
         }
 
@@ -1106,7 +1081,6 @@ function App() {
                 setUserAnswers(prev => prev.slice(0, -1));
             }
             setSelectedOptionText(null);
-            setCurrentInsightText('');
             setCurrentQuestionIndex(currentQuestionIndex - 1);
         }
     };
@@ -1173,9 +1147,8 @@ function App() {
                     handleNextQuestion={handleNextQuestion}
                     handlePreviousQuestion={handlePreviousQuestion}
                     selectedOptionText={selectedOptionText}
-                    currentInsightText={currentInsightText}
                     activeThemeClasses={activeThemeClasses}
-                 />;
+                   />;
             case 'midpointSummary':
                 return <MidpointSummaryScreen 
                     userName={userName}
