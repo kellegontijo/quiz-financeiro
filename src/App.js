@@ -852,7 +852,7 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeTh
                 url = `https://api.whatsapp.com/send?text=${shareText}`;
                 break;
             case 'facebook':
-                url = `https://www.facebook.com/sharer/sharer.php?u=https://quizdf.kellegontijo.com`;
+                url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
                 break;
             default:
                 return;
