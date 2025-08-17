@@ -107,17 +107,13 @@ const questions = [
       { text: "Deixo de pagar outra conta para cobrir a emergência.", value: 1, insight: "O 'cobertor curto'. Cobrir um santo e descobrir outro. Precisamos de um plano para que isso não aconteça mais." }
     ]
   },
-  {
-    id: 'q8',
-    question: "Qual a sensação mais forte sobre seu futuro financeiro?",
+   {
+    id: 'q8_slider',
+    type: 'slider',
+    question: "Numa escala de 0 a 10, qual o nível da sua preocupação com dinheiro hoje?",
     skill: 'Mentalidade Financeira',
     icon: <Snowflake className="inline-block mr-2 text-cyan-500" size={24} />,
-    options: [
-      { text: "Insegurança e medo do que pode acontecer.", value: 1, insight: "O medo vem da falta de clareza. O diagnóstico foi criado para transformar seu medo em confiança através de um plano." },
-      { text: "Desespero, sinto que minha situação não tem saída.", value: 1, insight: "Existe uma saída. O diagnóstico é o mapa que vai te mostrar o caminho, passo a passo." },
-      { text: "Confusão, não sei nem por onde começar a arrumar.", value: 3, insight: "Sentir-se perdido é normal. O diagnóstico vai te dar o primeiro passo, o mais importante de todos." },
-      { text: "Estagnação, sinto que trabalho só para pagar dívidas.", value: 2, insight: "A sensação de estagnação é frustrante. Vamos criar um plano para que você veja seu progresso, mês a mês." }
-    ]
+    labels: { min: 'Pouca', max: 'Pânico Total' }
   },
   {
     id: 'q9',
@@ -147,63 +143,69 @@ const questions = [
 
 const themeClasses = {
   masculino: {
-    primary: 'bg-blue-600 hover:bg-blue-700',
-    textHighlight: 'text-blue-800',
-    progressBarBg: 'bg-blue-600',
-    buttonBorder: 'border-blue-700',
-    buttonHover: 'hover:bg-blue-100',
-    buttonSelected: 'bg-blue-600 text-white border-blue-700',
-    inputBorder: 'border-blue-400 focus:border-blue-200',
-    insightBg: 'bg-blue-100',
-    insightText: 'text-blue-800',
-    insightBorder: 'border-t-blue-100',
-    errorBg: 'bg-red-100',
-    errorText: 'text-red-800',
+    primary: 'bg-[#189AB4] hover:bg-[#137a8f] text-white',
+    textHighlight: 'text-[#189AB4]',
+    progressBarBg: 'bg-[#189AB4]',
+    buttonBorder: 'border-slate-300',
+    buttonHover: 'hover:border-[#189AB4] hover:text-[#189AB4]',
+    buttonSelected: 'bg-[#189AB4] text-white border-[#189AB4]',
+    inputBorder: 'border-slate-300 focus:border-[#189AB4] focus:ring-[#189AB4]',
+    radio: 'text-[#189AB4] focus:ring-[#189AB4]',
+    circleBorder: 'border-[#189AB4]',
+    sliderThumb: 'bg-[#189AB4]',
   },
   feminino: {
-    primary: 'bg-purple-700 hover:bg-purple-800',
-    textHighlight: 'text-purple-900',
-    progressBarBg: 'bg-purple-700',
-    buttonBorder: 'border-purple-700',
-    buttonHover: 'hover:bg-purple-100',
-    buttonSelected: 'bg-purple-700 text-white border-purple-800',
-    inputBorder: 'border-purple-400 focus:border-purple-200',
-    insightBg: 'bg-purple-100',
-    insightText: 'text-purple-800',
-    insightBorder: 'border-t-purple-100',
-    errorBg: 'bg-red-100',
-    errorText: 'text-red-800',
+    primary: 'bg-[#A86A8A] hover:bg-[#8e5974] text-white',
+    textHighlight: 'text-[#A86A8A]',
+    progressBarBg: 'bg-[#A86A8A]',
+    buttonBorder: 'border-slate-300',
+    buttonHover: 'hover:border-[#A86A8A] hover:text-[#A86A8A]',
+    buttonSelected: 'bg-[#A86A8A] text-white border-[#A86A8A]',
+    inputBorder: 'border-slate-300 focus:border-[#A86A8A] focus:ring-[#A86A8A]',
+    radio: 'text-[#A86A8A] focus:ring-[#A86A8A]',
+    circleBorder: 'border-[#A86A8A]',
+    sliderThumb: 'bg-[#A86A8A]',
   },
   outros: {
-    primary: 'bg-teal-600 hover:bg-teal-700',
-    textHighlight: 'text-cyan-800',
-    progressBarBg: 'bg-teal-600',
-    buttonBorder: 'border-teal-700',
-    buttonHover: 'hover:bg-teal-100',
-    buttonSelected: 'bg-teal-600 text-white border-teal-700',
-    inputBorder: 'border-teal-400 focus:border-teal-200',
-    insightBg: 'bg-teal-100',
-    insightText: 'text-teal-800',
-    insightBorder: 'border-t-teal-100',
-    errorBg: 'bg-red-100',
-    errorText: 'text-red-800',
+    primary: 'bg-slate-700 hover:bg-slate-800 text-white',
+    textHighlight: 'text-slate-700',
+    progressBarBg: 'bg-slate-700',
+    buttonBorder: 'border-slate-300',
+    buttonHover: 'hover:border-slate-600 hover:text-slate-700',
+    buttonSelected: 'bg-slate-700 text-white border-slate-700',
+    inputBorder: 'border-slate-300 focus:border-slate-600 focus:ring-slate-600',
+    radio: 'text-slate-700 focus:ring-slate-600',
+    circleBorder: 'border-slate-700',
+    sliderThumb: 'bg-slate-700',
   },
 };
 
 const incomeRanges = [
     { value: '', label: 'Selecione sua faixa de renda' },
-    { value: 'ate-2000', label: 'Até R$ 2.000' },
-    { value: '2001-5000', label: 'R$ 2.001 a R$ 5.000' },
-    { value: '5001-10000', label: 'R$ 5.001 a R$ 10.000' },
-    { value: 'acima-10000', label: 'Acima de R$ 10.000' },
+    { value: 'ate-2000', label: 'Até R$2.000' },
+    { value: '2001-4000', label: 'Entre R$2.001 e R$4.000' },
+    { value: '4001-6000', label: 'Entre R$4.001 e R$6.000' },
+    { value: '6001-8000', label: 'Entre R$6.001 e R$8.000' },
+    { value: '8001-10000', label: 'Entre R$8.001 e R$10.000' },
+    { value: '10001-20000', label: 'Entre R$10.001 e R$20.000' },
+    { value: 'acima-20000', label: 'Acima de R$20.000' },
 ];
 
 const debtRanges = [
     { value: '', label: 'Selecione sua faixa de dívida' },
-    { value: 'sem-dividas', label: 'Sem dívidas' },
-    { value: 'ate-5000', label: 'Até R$ 5.000' },
-    { value: '5001-20000', label: 'R$ 5.001 a R$ 20.000' },
-    { value: 'acima-20000', label: 'Acima de R$ 20.000' },
+    { value: 'ate-4000', label: 'Até R$4.000' },
+    { value: '4001-6000', label: 'Entre R$4.001 e R$6.000' },
+    { value: '6001-8000', label: 'Entre R$6.001 e R$8.000' },
+    { value: '8001-10000', label: 'Entre R$8.001 e R$10.000' },
+    { value: '10001-20000', label: 'Entre R$10.001 e R$20.000' },
+    { value: 'acima-20000', label: 'Acima de R$20.000' },
+];
+
+const skillInfoData = [
+    { name: 'Controle de Gastos', description: 'Sua capacidade de saber para onde o dinheiro vai.' },
+    { name: 'Gestão de Dívidas', description: 'Sua habilidade de lidar e eliminar dívidas existentes.' },
+    { name: 'Mentalidade Financeira', description: 'Suas crenças e emoções em relação ao dinheiro.' },
+    { name: 'Planejamento Futuro', description: 'Sua preparação para emergências e objetivos de longo prazo.' },
 ];
 
 // ====================================================================================
@@ -289,6 +291,37 @@ const calculateSkillScores = (answers) => {
         }
     }
     return finalScores;
+};
+
+const getFirstAidTip = (weakestSkill) => {
+    switch (weakestSkill) {
+        case 'Gestão de Dívidas':
+            return {
+                title: "Primeiro Socorro: Gestão de Dívidas",
+                tip: "Pegue um papel e liste TODAS as suas dívidas, da menor para a maior. Apenas o ato de visualizar o 'inimigo' já diminui a ansiedade e é o primeiro passo para vencê-lo.",
+                icon: <TrendingDown size={24} className="text-slate-500" />
+            };
+        case 'Controle de Gastos':
+            return {
+                title: "Primeiro Socorro: Controle de Gastos",
+                tip: "Durante os próximos 3 dias, anote CADA centavo que gastar. Use um app ou um caderno. O objetivo não é se culpar, mas sim ganhar clareza sobre para onde seu dinheiro está indo.",
+                icon: <Wallet size={24} className="text-slate-500" />
+            };
+        case 'Mentalidade Financeira':
+            return {
+                title: "Primeiro Socorro: Mentalidade Financeira",
+                tip: "Escolha UMA pequena vitória financeira para esta semana (ex: não pedir delivery por 2 dias). Conquistá-la vai começar a treinar sua mente para o sucesso e o controle.",
+                icon: <BrainCircuit size={24} className="text-slate-500" />
+            };
+        case 'Planejamento Futuro':
+            return {
+                title: "Primeiro Socorro: Planejamento Futuro",
+                tip: "Abra sua conta do banco AGORA e transfira R$ 1,00 para a poupança. O valor não importa. O ato de começar a construir sua reserva de emergência é o que transforma.",
+                icon: <Shield size={24} className="text-slate-500" />
+            };
+        default:
+            return null;
+    }
 };
 
 const generateActionPlanReport = (userName, userAnswers, score) => {
@@ -413,48 +446,48 @@ function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handl
   };
   
   const activeThemeClasses = themeClasses[userGender] || themeClasses.outros;
-  const startButtonClass = userGender ? `${activeThemeClasses.primary} text-white` : 'bg-black hover:bg-gray-800 text-white';
+  const startButtonClass = userGender ? `${activeThemeClasses.primary}` : 'bg-slate-800 hover:bg-slate-900 text-white';
 
   return (
-    <div className="p-4 rounded-lg bg-white">
+    <div className="p-4">
       <div className="text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold uppercase mb-4 leading-tight text-gray-800">
+        <h2 className="text-3xl sm:text-4xl font-bold text-slate-800">
           Diagnóstico Financeiro
         </h2>
-        <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-8">
+        <p className="text-lg text-slate-500 mt-2 mb-8">
           Descubra o perfil que te impede de sair das dívidas.
         </p>
-        <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto">
+        <form onSubmit={handleSubmit} className="space-y-6 max-w-sm mx-auto">
           <input
             type="text"
             placeholder="Seu Nome Completo"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             required
-            className="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-blue-400 focus:outline-none text-gray-800 placeholder-gray-500"
+            className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`}
           />
-          <div className="flex justify-center space-x-4 mt-4">
+          <div className="flex justify-center space-x-4">
             <label className="inline-flex items-center cursor-pointer">
-              <input type="radio" name="gender" value="feminino" checked={userGender === 'feminino'} onChange={(e) => setUserGender(e.target.value)} className="form-radio text-pink-600 h-5 w-5" />
-              <span className="ml-2 text-gray-700">Feminino</span>
+              <input type="radio" name="gender" value="feminino" checked={userGender === 'feminino'} onChange={(e) => setUserGender(e.target.value)} className={`form-radio h-5 w-5 ${activeThemeClasses.radio}`} />
+              <span className="ml-2 text-slate-700">Feminino</span>
             </label>
             <label className="inline-flex items-center cursor-pointer">
-              <input type="radio" name="gender" value="masculino" checked={userGender === 'masculino'} onChange={(e) => setUserGender(e.target.value)} className="form-radio text-blue-600 h-5 w-5" />
-              <span className="ml-2 text-gray-700">Masculino</span>
+              <input type="radio" name="gender" value="masculino" checked={userGender === 'masculino'} onChange={(e) => setUserGender(e.target.value)} className={`form-radio h-5 w-5 ${activeThemeClasses.radio}`} />
+              <span className="ml-2 text-slate-700">Masculino</span>
             </label>
             <label className="inline-flex items-center cursor-pointer">
-              <input type="radio" name="gender" value="outros" checked={userGender === 'outros'} onChange={(e) => setUserGender(e.target.value)} className="form-radio text-teal-600 h-5 w-5" />
-              <span className="ml-2 text-gray-700">Outro</span>
+              <input type="radio" name="gender" value="outros" checked={userGender === 'outros'} onChange={(e) => setUserGender(e.target.value)} className={`form-radio h-5 w-5 ${activeThemeClasses.radio}`} />
+              <span className="ml-2 text-slate-700">Outro</span>
             </label>
           </div>
           {formError && (
-              <div className={`p-3 rounded-md text-sm font-medium mt-4 bg-red-100 text-red-800`}>
+              <div className={`p-3 rounded-md text-sm font-medium bg-red-100 text-red-700`}>
                   {formError}
               </div>
           )}
-          <button type="submit" className={`w-full font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 hover:scale-105 inline-flex items-center justify-center ${startButtonClass}`} disabled={isLoading}>
+          <button type="submit" className={`w-full font-bold py-3 px-6 rounded-lg shadow-sm transition-colors duration-200 inline-flex items-center justify-center ${startButtonClass}`} disabled={isLoading || !userGender}>
             {isLoading ? 'CARREGANDO...' : 'COMEÇAR DIAGNÓSTICO'}
-            {!isLoading && <ArrowRight className="ml-2" />}
+            {!isLoading && <ArrowRight className="ml-2" size={20} />}
           </button>
         </form>
       </div>
@@ -462,65 +495,54 @@ function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handl
   );
 }
 
-function MidpointSummaryScreen({ userName, userAnswers, onContinue }) {
-    const getMidpointInsight = () => {
-        const skillScores = calculateSkillScores(userAnswers);
-        const lowestSkill = Object.keys(skillScores).reduce((a, b) => skillScores[a] < skillScores[b] ? a : b);
-
-        switch (lowestSkill) {
-            case 'Gestão de Dívidas':
-                return "Já notamos que as dívidas podem ser um ponto de atenção. Estamos no caminho certo para criar um plano para elas!";
-            case 'Controle de Gastos':
-                return "Parece que entender para onde o dinheiro vai é um desafio. Estamos mapeando isso para te dar mais clareza!";
-            case 'Mentalidade Financeira':
-                return "Suas emoções e pensamentos sobre dinheiro são super importantes. Estamos analisando como fortalecê-los!";
-            case 'Planejamento Futuro':
-                return "Construir um futuro tranquilo é o objetivo. Já estamos identificando os melhores próximos passos para você!";
-            default:
-                return "Estamos montando um mapa detalhado da sua vida financeira.";
-        }
-    };
+function MidpointRadarScreen({ userName, userAnswers, onContinue, activeThemeClasses }) {
+    const skillInfo = [
+        { name: 'Controle de Gastos', icon: <Wallet size={20} />, description: 'Sua capacidade de saber para onde o dinheiro vai.' },
+        { name: 'Gestão de Dívidas', icon: <TrendingDown size={20} />, description: 'Sua habilidade de lidar e eliminar dívidas existentes.' },
+        { name: 'Mentalidade Financeira', icon: <BrainCircuit size={20} />, description: 'Suas crenças e emoções em relação ao dinheiro.' },
+        { name: 'Planejamento Futuro', icon: <Shield size={20} />, description: 'Sua preparação para emergências e objetivos de longo prazo.' },
+    ];
 
     return (
-        <div className="text-center py-10 animate-fade-in">
-            <div className="relative w-24 h-24 mx-auto mb-6">
-                <svg className="w-full h-full" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" strokeWidth="8" />
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#2563eb" strokeWidth="8" strokeDasharray="283" strokeDashoffset="141.5" transform="rotate(-90 50 50)" />
-                </svg>
-                <span className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-blue-600">50%</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
-                Você chegou na metade, {getFirstName(userName)}!
+        <div className="text-center py-10">
+            <h2 className="text-3xl font-bold text-slate-800 mb-2">
+                Seu Perfil em Construção
             </h2>
-            <div className="bg-blue-50 text-blue-800 rounded-lg p-4 max-w-md mx-auto mb-8">
-                <p className="font-semibold text-left">
-                    <Lightbulb className="inline-block mr-2" size={20} />
-                    <strong>Primeira Análise:</strong>
-                </p>
-                <p className="text-left mt-1">{getMidpointInsight()}</p>
-            </div>
-            <p className="text-lg text-gray-600 mb-8">
-                Continue respondendo para afinarmos seu diagnóstico. Falta pouco!
+            <p className="text-lg text-slate-500 mb-10">
+                O diagnóstico avalia 4 pilares essenciais da sua vida financeira.
             </p>
-            <RadarChart scores={calculateSkillScores(userAnswers)} isPreview={true} />
+            
+            <div className="text-left max-w-lg mx-auto mt-12 space-y-6">
+                {skillInfo.map(skill => (
+                    <div key={skill.name} className="flex items-center">
+                        <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center mr-4 bg-opacity-10 ${activeThemeClasses.textHighlight.replace('text-', 'bg-')}`}>
+                           <span className={activeThemeClasses.textHighlight}>{skill.icon}</span>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-slate-700 text-left">{skill.name}</h4>
+                            <p className="text-slate-500 text-sm text-left">{skill.description}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
             <button
                 onClick={onContinue}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transform transition duration-300 hover:scale-105 text-lg inline-flex items-center"
+                className={`text-white font-bold py-3 px-8 rounded-lg shadow-sm transition-colors duration-200 text-lg inline-flex items-center mt-12 ${activeThemeClasses.primary}`}
             >
-                Continuar para a 2ª parte <ArrowRight className="ml-2" />
+                Continuar para a 2ª parte <ArrowRight className="ml-2" size={20} />
             </button>
         </div>
     );
 }
 
-function ProcessingScreen({ userName }) {
+function ProcessingScreen({ activeThemeClasses }) {
     const [messageIndex, setMessageIndex] = React.useState(0);
     const messages = [
         "Analisando suas respostas...",
         "Calculando seu perfil de endividamento...",
         "Montando seu gráfico de habilidades...",
-        `Quase pronto, ${getFirstName(userName)}!`
+        `Quase pronto...`
     ];
 
     React.useEffect(() => {
@@ -532,26 +554,66 @@ function ProcessingScreen({ userName }) {
     }, []);
 
     return (
-        <div className="text-center py-20 flex flex-col items-center justify-center min-h-[300px]">
-            <div className="flex justify-center items-end h-24 space-x-2 mb-8">
-                <div className="w-6 bg-blue-500 animate-pulse-bar" style={{ animationDelay: '0s' }}></div>
-                <div className="w-6 bg-blue-500 animate-pulse-bar" style={{ animationDelay: '0.1s' }}></div>
-                <div className="w-6 bg-blue-500 animate-pulse-bar" style={{ animationDelay: '0.2s' }}></div>
-                <div className="w-6 bg-blue-500 animate-pulse-bar" style={{ animationDelay: '0.3s' }}></div>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
+        <div className="text-center py-20 flex flex-col items-center justify-center min-h-[400px]">
+            <svg className="animate-spin h-10 w-10 mb-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className={`opacity-75 ${activeThemeClasses.textHighlight}`} fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <h2 className="text-3xl font-bold text-slate-800 mb-4">
                 Processando...
             </h2>
-            <p className="text-lg text-gray-600 transition-opacity duration-500 h-6">
+            <p className="text-lg text-slate-500 transition-opacity duration-500 h-6">
                 {messages[messageIndex % messages.length]}
             </p>
         </div>
     );
 }
 
+function SliderQuestion({ question, onAnswer, activeThemeClasses }) {
+    const [value, setValue] = React.useState(5);
+    const [hasInteracted, setHasInteracted] = React.useState(false);
+
+    const handleInteractionEnd = () => {
+        let scoreValue;
+        if (value <= 3) {
+            scoreValue = 3;
+        } else if (value <= 7) {
+            scoreValue = 2;
+        } else {
+            scoreValue = 1;
+        }
+        onAnswer({
+            text: `Nível de preocupação: ${value}`,
+            value: scoreValue
+        });
+        setHasInteracted(true);
+    };
+
+    return (
+        <div className="py-4">
+            <input
+                type="range"
+                min="0"
+                max="10"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onMouseUp={handleInteractionEnd}
+                onTouchEnd={handleInteractionEnd}
+                className={`w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider-thumb ${activeThemeClasses.sliderThumb}`}
+                disabled={hasInteracted}
+            />
+            <div className="flex justify-between text-sm text-slate-500 mt-2">
+                <span>{question.labels.min}</span>
+                <span className={`font-bold text-lg ${activeThemeClasses.textHighlight}`}>{value}</span>
+                <span>{question.labels.max}</span>
+            </div>
+        </div>
+    );
+}
+
 
 function QuizScreen({ currentQuestionIndex, userAnswers, userName, handleAnswerClick, handleNextQuestion, handlePreviousQuestion, selectedOptionText, activeThemeClasses }) {
-    const questionOrder = ['q1', 'q2', 'q3', 'q4_dificuldade', 'q5_thermometer', 'q6', 'q7', 'q8', 'q9', 'q10'];
+    const questionOrder = ['q1', 'q2', 'q3', 'q4_dificuldade', 'q5_thermometer', 'q6', 'q7', 'q8_slider', 'q9', 'q10'];
     const totalQuestions = questionOrder.length;
     const progressPercentage = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
@@ -559,67 +621,68 @@ function QuizScreen({ currentQuestionIndex, userAnswers, userName, handleAnswerC
 
     return (
         <>
-            <div className="flex items-center justify-between mb-4">
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div className={`h-2.5 rounded-full transition-all duration-500 ease-out ${activeThemeClasses.progressBarBg}`} style={{ width: `${progressPercentage}%` }}></div>
+            <div className="flex items-center w-full mb-8">
+                <div className="w-full bg-slate-200 rounded-full h-1.5">
+                    <div className={`h-1.5 rounded-full transition-all duration-500 ease-out ${activeThemeClasses.progressBarBg}`} style={{ width: `${progressPercentage}%` }}></div>
                 </div>
-                <span className="ml-3 text-sm font-medium text-gray-700">{Math.round(progressPercentage)}%</span>
+                <span className="ml-4 text-sm font-semibold text-slate-500 w-12 text-right">{Math.round(progressPercentage)}%</span>
             </div>
 
-            <h2 className={`text-3xl sm:text-4xl font-bold text-black uppercase mb-2 leading-tight`}>
-                Diagnóstico de Dívidas
-            </h2>
-            <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-6 normal-case">
-                Entenda os reais motivos que te levaram às dívidas e como sair delas.
-            </p>
-
-            <div className="mb-8">
-                <p className="text-lg sm:text-xl text-blue-600 font-semibold mb-4">
-                    Passo {currentQuestionIndex + 1} de {totalQuestions}
+            <div className="mb-8 text-left">
+                <p className={`text-sm font-bold mb-2 ${activeThemeClasses.textHighlight}`}>
+                    PASSO {currentQuestionIndex + 1} DE {totalQuestions}
                 </p>
-                <p className="text-xl sm:text-2xl text-gray-800 mb-6 font-medium">
-                    {currentQuestionData.icon} Olá, {getFirstName(userName)}! {currentQuestionData.question.replace('{userName}', getFirstName(userName))}
+                <p className="text-2xl sm:text-3xl font-medium text-slate-800">
+                    {currentQuestionData.question}
                 </p>
-                <div className="grid grid-cols-1 gap-4">
-                    {currentQuestionData.options.map((option, index) => {
-                        const isSelected = option.text === selectedOptionText;
-                        const isDisabled = selectedOptionText !== null;
-                        
-                        let buttonClass = `bg-white text-gray-800 shadow-sm border ${activeThemeClasses.buttonBorder} ${activeThemeClasses.buttonHover}`;
-                        if (isDisabled) {
-                            buttonClass = isSelected 
-                                ? `${activeThemeClasses.buttonSelected} shadow-md transform scale-95` 
-                                : 'bg-gray-100 text-gray-500 border-gray-200 cursor-not-allowed';
-                        }
+                <div className="grid grid-cols-1 gap-4 mt-8">
+                    {currentQuestionData.type === 'slider' ? (
+                        <SliderQuestion
+                            question={currentQuestionData}
+                            onAnswer={(option) => handleAnswerClick(option, currentQuestionData.id)}
+                            activeThemeClasses={activeThemeClasses}
+                        />
+                    ) : (
+                        currentQuestionData.options.map((option) => {
+                            const isSelected = option.text === selectedOptionText;
+                            const isDisabled = selectedOptionText !== null;
+                            
+                            let buttonClass = `bg-white text-slate-700 border-2 ${activeThemeClasses.buttonBorder} ${activeThemeClasses.buttonHover}`;
+                            if (isDisabled) {
+                                buttonClass = isSelected 
+                                    ? `${activeThemeClasses.buttonSelected}` 
+                                    : 'bg-slate-100 text-slate-500 border-slate-100 cursor-not-allowed';
+                            }
 
-                        return (
-                            <button
-                                key={option.text}
-                                onClick={() => handleAnswerClick(option, currentQuestionData.id)}
-                                className={`w-full p-4 rounded-lg text-lg font-medium transition-all duration-300 ease-in-out relative ${buttonClass}`}
-                                disabled={isDisabled}
-                            >
-                                {option.text}
-                            </button>
-                        );
-                    })}
+                            return (
+                                <button
+                                    key={option.text}
+                                    onClick={() => handleAnswerClick(option, currentQuestionData.id)}
+                                    className={`w-full text-left p-4 rounded-lg text-base font-medium transition-colors duration-200 ${buttonClass}`}
+                                    disabled={isDisabled}
+                                >
+                                    {option.text}
+                                </button>
+                            );
+                        })
+                    )}
                 </div>
             </div>
 
-            <div className="flex items-center mt-8 w-full space-x-4">
+            <div className="flex items-center mt-10 w-full space-x-4">
                 {currentQuestionIndex > 0 && (
-                    <button onClick={handlePreviousQuestion} className="py-5 px-6 rounded-md text-xl font-bold text-white bg-black hover:bg-gray-800 transition-all duration-300 ease-in-out shadow-md uppercase w-40 inline-flex items-center justify-center">
-                        <ArrowLeft className="mr-2" />
-                        VOLTAR
+                    <button onClick={handlePreviousQuestion} className="py-3 px-6 rounded-lg font-bold text-slate-600 bg-slate-200 hover:bg-slate-300 transition-colors duration-200 inline-flex items-center justify-center">
+                        <ArrowLeft className="mr-2" size={20} />
+                        Voltar
                     </button>
                 )}
                 <button
                     onClick={handleNextQuestion}
-                    className={`py-5 rounded-md text-xl font-bold text-white uppercase transition-all duration-300 ease-in-out shadow-lg flex-grow inline-flex items-center justify-center ${activeThemeClasses.primary}`}
+                    className={`py-3 rounded-lg font-bold transition-colors duration-200 shadow-sm flex-grow inline-flex items-center justify-center ${activeThemeClasses.primary}`}
                     disabled={selectedOptionText === null}
                 >
-                    {currentQuestionIndex === totalQuestions - 1 ? "VER MEU PERFIL" : "PRÓXIMO PASSO"}
-                    <ArrowRight className="ml-2" />
+                    {currentQuestionIndex === totalQuestions - 1 ? "Ver Meu Perfil" : "Próximo Passo"}
+                    <ArrowRight className="ml-2" size={20} />
                 </button>
             </div>
         </>
@@ -668,73 +731,61 @@ function LeadForm({
 
     return (
         <div className="text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-blue-800 uppercase mb-4 leading-tight">
-                SEU MAPA PARA SAIR DAS DÍVIDAS COMEÇA AQUI!
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-800 mb-4">
+                Seu Mapa Para Sair das Dívidas Começa Aqui!
             </h2>
-            <p className="text-lg sm:text-xl text-gray-700 font-semibold mb-6">
-                Seu perfil principal é de <strong>{profileTitle.split(':')[1].split(' ')[1]}</strong>.
+            <p className="text-lg text-slate-500 mb-8">
+                Seu perfil principal é de <strong className={activeThemeClasses.textHighlight}>{profileTitle.split(':')[1].split(' ')[1]}</strong>.
                 Para receber seu relatório completo e agendar seu diagnóstico gratuito, {getFirstName(userName)}, preencha seus dados abaixo.
             </p>
             <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto">
-                <input type="email" placeholder="Seu Melhor E-mail" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:outline-none text-gray-800 placeholder-gray-500`} />
-                <input type="tel" placeholder="Seu WhatsApp (com DDD)" value={userWhatsapp} onChange={(e) => setUserWhatsapp(formatPhoneNumber(e.target.value))} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:outline-none text-gray-800 placeholder-gray-500`} />
-                <select value={userIncomeRange} onChange={(e) => setUserIncomeRange(e.target.value)} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:outline-none text-gray-800`}>
+                <input type="email" placeholder="Seu Melhor E-mail" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`} />
+                <input type="tel" placeholder="Seu WhatsApp (com DDD)" value={userWhatsapp} onChange={(e) => setUserWhatsapp(formatPhoneNumber(e.target.value))} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`} />
+                <select value={userIncomeRange} onChange={(e) => setUserIncomeRange(e.target.value)} required className={`w-full p-3 rounded-lg border-2 bg-white ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`}>
                     {incomeRanges.map(range => <option key={range.value} value={range.value}>{range.label}</option>)}
                 </select>
-                <select value={userDebtRange} onChange={(e) => setUserDebtRange(e.target.value)} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:outline-none text-gray-800`}>
+                <select value={userDebtRange} onChange={(e) => setUserDebtRange(e.target.value)} required className={`w-full p-3 rounded-lg border-2 bg-white ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`}>
                     {debtRanges.map(range => <option key={range.value} value={range.value}>{range.label}</option>)}
                 </select>
-                <div className="flex items-start text-left text-gray-700 text-sm mt-4">
-                    <input type="checkbox" id="lgpdConsent" checked={lgpdConsent} onChange={(e) => setLgpdConsent(e.target.checked)} required className="mr-2 mt-1 form-checkbox h-4 w-4 text-blue-600" />
+                <div className="flex items-start text-left text-slate-600 text-sm pt-2">
+                    <input type="checkbox" id="lgpdConsent" checked={lgpdConsent} onChange={(e) => setLgpdConsent(e.target.checked)} required className={`mr-2 mt-1 form-checkbox h-4 w-4 rounded ${activeThemeClasses.radio}`} />
                     <label htmlFor="lgpdConsent">
-                        Ao marcar esta caixa, você nos permite entrar em contato por e-mail e WhatsApp. Prometemos não compartilhar seus dados com terceiros.
+                        Ao marcar, você nos permite entrar em contato por e-mail e WhatsApp. Seus dados estão seguros.
                     </label>
                 </div>
                 {formError && (
-                    <div className={`p-3 rounded-md text-sm font-medium mt-4 ${activeThemeClasses.errorBg} ${activeThemeClasses.errorText}`}>
+                    <div className={`p-3 rounded-md text-sm font-medium bg-red-100 text-red-700`}>
                         {formError}
                     </div>
                 )}
-                <button type="submit" className={`w-full ${activeThemeClasses.primary} text-white font-bold py-3 px-6 rounded-full shadow-lg transform transition duration-300 hover:scale-105 inline-flex items-center justify-center`} disabled={isLoading}>
+                <button type="submit" className={`w-full font-bold py-3 px-6 rounded-lg shadow-sm transition-colors duration-200 inline-flex items-center justify-center ${activeThemeClasses.primary}`} disabled={isLoading}>
                     {isLoading ? 'ENVIANDO...' : 'QUERO MEU DIAGNÓSTICO GRATUITO!'}
-                    {!isLoading && <Send className="ml-2" />}
+                    {!isLoading && <Send className="ml-2" size={20} />}
                 </button>
             </form>
         </div>
     );
 }
 
-function RadarChart({ scores, isPreview = false }) {
+function RadarChart({ scores, isLive = false, activeThemeClasses }) {
     const skills = Object.keys(scores);
-    const strongestSkill = skills.reduce((a, b) => scores[a] > scores[b] ? a : b);
-    const weakestSkill = skills.reduce((a, b) => scores[a] < scores[b] ? a : b);
-
+    
     const points = skills.map((skill, i) => {
         const angle = (i / skills.length) * 2 * Math.PI - Math.PI / 2;
-        let value = scores[skill] / 100;
-        if (isPreview && i >= 2) value = 0.1;
+        let value = (scores[skill] || 0) / 100;
         const x = 50 + Math.cos(angle) * value * 45;
         const y = 50 + Math.sin(angle) * value * 45;
         return `${x},${y}`;
     }).join(' ');
 
+    const polygonColor = activeThemeClasses ? activeThemeClasses.textHighlight.replace('text-', 'bg-').replace(']', '/50]') : 'bg-blue-600/50';
+    const strokeColor = activeThemeClasses ? activeThemeClasses.textHighlight.replace('text-', 'stroke-') : 'stroke-blue-600';
+    
     return (
-        <div className="my-8">
-            <h4 className="text-xl font-bold text-gray-800 mb-2">{isPreview ? "Prévia do seu Termômetro" : "Seu Termômetro Financeiro"}</h4>
+        <div className="my-4">
+            {!isLive && <h4 className="text-lg font-bold text-slate-700 mb-4">Seu Termômetro Financeiro</h4>}
             
-            {isPreview && (
-                <div className="max-w-md mx-auto text-center text-gray-600 mb-4 bg-gray-50 p-3 rounded-lg">
-                    <p>Com base nas suas primeiras respostas, já começamos a desenhar seu mapa. Continue para o resultado completo!</p>
-                </div>
-            )}
-
-            {!isPreview && (
-                <div className="max-w-md mx-auto text-center text-gray-600 mb-4 bg-gray-50 p-3 rounded-lg">
-                    <p>Este gráfico mostra seus pontos fortes e as áreas que mais precisam de atenção. Quanto mais preenchida a área, mais forte você está nela.</p>
-                    <p className="mt-2">Seu ponto mais forte é em <strong>{strongestSkill}</strong>. A área com maior oportunidade de melhoria é em <strong>{weakestSkill}</strong>.</p>
-                </div>
-            )}
-            <div className="relative w-full max-w-sm mx-auto aspect-square">
+            <div className={`relative w-full max-w-[16rem] mx-auto aspect-square`}>
                 <svg viewBox="0 0 100 100" className="w-full h-full">
                     {[0.25, 0.5, 0.75, 1].map(val => (
                         <polygon key={val}
@@ -744,39 +795,51 @@ function RadarChart({ scores, isPreview = false }) {
                                 const y = 50 + Math.sin(angle) * val * 45;
                                 return `${x},${y}`;
                             }).join(' ')}
-                            fill="none" stroke="#e5e7eb" strokeWidth="0.5" />
+                            fill="none" stroke="#e2e8f0" strokeWidth="0.5" />
                     ))}
                     {skills.map((_, i) => {
                         const angle = (i / skills.length) * 2 * Math.PI - Math.PI / 2;
                         const x = 50 + Math.cos(angle) * 45;
                         const y = 50 + Math.sin(angle) * 45;
-                        return <line key={i} x1="50" y1="50" x2={x} y2={y} stroke="#e5e7eb" strokeWidth="0.5" />
+                        return <line key={i} x1="50" y1="50" x2={x} y2={y} stroke="#e2e8f0" strokeWidth="0.5" />
                     })}
-                    <polygon points={points} fill={isPreview ? "rgba(150, 150, 150, 0.5)" : "rgba(37, 99, 235, 0.5)"} stroke={isPreview ? "#9ca3af" : "#2563eb"} strokeWidth="1" />
+                    <polygon points={points} className={`fill-current ${polygonColor} ${strokeColor} transition-all duration-500`} strokeWidth="1" />
                 </svg>
                 {skills.map((skill, i) => {
                     const angle = (i / skills.length) * 2 * Math.PI - Math.PI / 2;
-                    const x = 50 + Math.cos(angle) * 52;
-                    const y = 50 + Math.sin(angle) * 52;
+                    let distance = 62;
+                    if (i === 1 || i === 3) { 
+                        distance = 72;
+                    }
+                    
+                    let x = 50 + Math.cos(angle) * distance;
+                    let y = 50 + Math.sin(angle) * distance;
+                    let textAlign = 'center';
+
+                    if (x > 51) textAlign = 'left';
+                    if (x < 49) textAlign = 'right';
+                    
                     const style = {
                         top: `${y}%`,
                         left: `${x}%`,
                         transform: 'translate(-50%, -50%)',
-                        textAlign: x > 51 ? 'left' : x < 49 ? 'right' : 'center'
+                        textAlign: textAlign,
+                        whiteSpace: 'pre-line',
                     };
-                    return <div key={skill} className="absolute text-xs font-semibold text-gray-600" style={style}>{skill.replace(/ /g, '\n')}</div>;
+                    return <div key={skill} className="absolute text-xs font-semibold text-slate-500" style={style}>{skill.replace(' ', '\n')}</div>;
                 })}
             </div>
         </div>
     );
 }
 
-function ResultsScreen({ userName, profile, formSubmitted, userAnswers }) {
+function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeThemeClasses }) {
     const [showSuccessMessage, setShowSuccessMessage] = React.useState(formSubmitted);
     const [copySuccess, setCopySuccess] = React.useState('');
     const skillScores = calculateSkillScores(userAnswers);
     const strongestSkill = Object.keys(skillScores).reduce((a, b) => skillScores[a] > skillScores[b] ? a : b);
     const weakestSkill = Object.keys(skillScores).reduce((a, b) => skillScores[a] < skillScores[b] ? a : b);
+    const firstAidTip = getFirstAidTip(weakestSkill);
 
     const shareUrl = window.location.href;
     const shareText = encodeURIComponent(`Acabei de fazer um diagnóstico financeiro gratuito e descobri o que me impede de sair das dívidas! Eles liberaram algumas vagas para esse diagnóstico que era pago. Garanta a sua antes que acabe! O link é esse: ${shareUrl}`);
@@ -814,23 +877,11 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers }) {
     };
 
     return (
-        <div className="text-center relative">
-            {/* Botões de Compartilhamento Flutuantes */}
-            <div className="hidden md:block fixed left-4 top-1/2 -translate-y-1/2 z-20">
-                <div className="flex flex-col space-y-2 bg-white p-2 rounded-lg shadow-lg border">
-                    <button onClick={() => handleShare('whatsapp')} className="p-2 text-green-500 hover:bg-green-100 rounded-full transition-colors"><WhatsAppIcon /></button>
-                    <button onClick={() => handleShare('facebook')} className="p-2 text-blue-600 hover:bg-blue-100 rounded-full transition-colors"><FacebookIcon /></button>
-                    <button onClick={handleCopy} className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors relative">
-                        <Copy size={24} />
-                        {copySuccess && <span className="absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-xs rounded">{copySuccess}</span>}
-                    </button>
-                </div>
-            </div>
-
+        <div className="text-center">
             {showSuccessMessage && ( 
-                <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 text-left" role="alert">
+                <div className="bg-green-100 border-l-4 border-green-500 text-green-800 p-4 mb-8 text-left rounded-r-lg" role="alert">
                     <div className="flex">
-                        <div className="py-1"><CheckCircle className="fill-current h-6 w-6 text-green-500 mr-4" /></div>
+                        <div className="py-1"><CheckCircle className="h-6 w-6 text-green-500 mr-4" /></div>
                         <div>
                             <p className="font-bold">Dados enviados com sucesso!</p>
                             <p className="text-sm">Seu relatório completo será enviado para seu e-mail e WhatsApp em breve.</p>
@@ -842,29 +893,30 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers }) {
                     </div>
                 </div>
             )}
-            <div className="bg-gray-50 p-6 rounded-xl shadow-inner mb-8 text-left">
-                <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">Seu Diagnóstico Rápido, {getFirstName(userName)}!</h3>
-                <div className="space-y-4">
-                    <div className="bg-white p-4 rounded-lg border">
-                        <p className="font-bold text-lg text-blue-600">Seu Perfil</p>
-                        <p className="text-gray-700">{profile.title.split(':')[1].trim()}</p>
-                        <p className="text-sm text-gray-500 mt-1">Isso mostra o principal comportamento que alimenta suas dívidas.</p>
+            <div className="bg-slate-100 p-6 rounded-xl mb-8 text-left">
+                <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">Seu Diagnóstico Rápido, {getFirstName(userName)}!</h3>
+                <div className="space-y-4 divide-y divide-slate-200">
+                    <div className="pt-4 first:pt-0">
+                        <p className={`font-bold text-lg ${activeThemeClasses.textHighlight}`}>Seu Perfil</p>
+                        <p className="text-slate-700 font-semibold">{profile.title.split(':')[1].trim()}</p>
+                        <p className="text-sm text-slate-500 mt-1">Isso mostra o principal comportamento que alimenta suas dívidas.</p>
                     </div>
-                    <div className="bg-white p-4 rounded-lg border">
-                        <p className="font-bold text-lg text-green-600">Seu Ponto de Partida</p>
-                        <p className="text-gray-700">{strongestSkill}</p>
-                        <p className="text-sm text-gray-500 mt-1">Essa é a área onde você demonstra mais consciência. Vamos usá-la como alavanca.</p>
+                    <div className="pt-4">
+                        <p className="font-bold text-lg text-slate-600">Sua Maior Oportunidade</p>
+                        <p className="text-slate-700 font-semibold">{weakestSkill}</p>
+                        <p className="text-sm text-slate-500 mt-1">Essa é a área que, com um pouco de foco, trará os maiores resultados para você.</p>
                     </div>
-                    <div className="bg-white p-4 rounded-lg border">
-                        <p className="font-bold text-lg text-orange-600">Sua Maior Oportunidade</p>
-                        <p className="text-gray-700">{weakestSkill}</p>
-                        <p className="text-sm text-gray-500 mt-1">Essa é a área que, com um pouco de foco, trará os maiores resultados para você.</p>
-                    </div>
+                    {firstAidTip && (
+                        <div className="pt-4">
+                            <p className="font-bold text-lg text-slate-600 flex items-center">{firstAidTip.icon} <span className="ml-2">{firstAidTip.title}</span></p>
+                            <p className="text-slate-700 mt-2">{firstAidTip.tip}</p>
+                        </div>
+                    )}
                 </div>
             </div>
 
-            <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-xl mb-8">
-               <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">Assista o vídeo abaixo e descubra o caminho para ter seu dinheiro sobrando em 8 semanas ou menos:</h3>
+            <div className="mb-8">
+               <h3 className="text-2xl font-bold text-slate-800 mb-4">Assista o vídeo e descubra o caminho para ter seu dinheiro sobrando em 8 semanas ou menos:</h3>
                <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
                   <iframe 
                       src="https://www.youtube.com/embed/6GueqpXKTcE" 
@@ -876,29 +928,38 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers }) {
                   ></iframe>
                </div>
             </div>
+
+            <div className="text-left bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8">
+                 <p className="text-slate-600 italic">"Peregrinei muito buscando alguém que pudesse me orientar e me resgatar do fundo do poço... ali estava uma pessoa real, que trilhou o caminho e hoje nos ensina... se você ainda está em dúvida, invista em você, no seu conhecimento... eu já iniciei o meu caminho!!!"</p>
+                 <p className="text-right font-bold text-slate-700 mt-2">~ Andréia Laureano</p>
+            </div>
             
-            <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-xl">
-                <h3 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-2">Pronto para o Próximo Passo?</h3>
-                 <p className="text-lg text-gray-600 mb-6">No diagnóstico, vamos usar seu ponto de partida em <strong>{strongestSkill}</strong> para transformar sua maior oportunidade em <strong>{weakestSkill}</strong> em uma nova força. Vamos começar?</p>
+            <div className="bg-slate-800 text-white p-8 rounded-lg">
+                <h3 className="text-2xl sm:text-3xl font-bold mb-4">O que esperar do Diagnóstico Gratuito?</h3>
+                <ul className="space-y-3 text-slate-300 text-left mb-6">
+                    <li className="flex items-start"><CheckCircle className="w-5 h-5 mr-2 mt-1 text-green-400 flex-shrink-0" /><span>Mapear suas dívidas e entender a raiz do problema.</span></li>
+                    <li className="flex items-start"><CheckCircle className="w-5 h-5 mr-2 mt-1 text-green-400 flex-shrink-0" /><span>Identificar seu principal "ralo" financeiro.</span></li>
+                    <li className="flex items-start"><CheckCircle className="w-5 h-5 mr-2 mt-1 text-green-400 flex-shrink-0" /><span>Sair com os 3 primeiros passos para retomar o controle.</span></li>
+                </ul>
                 <div className="w-full">
                     <button
                         data-cal-link="kgfinancas/diagnostico"
-                        className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-full shadow-lg transform transition duration-300 hover:scale-105 inline-flex items-center justify-center text-xl uppercase"
+                        className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-sm transition-colors duration-200 inline-flex items-center justify-center text-lg"
                     >
-                        <Calendar className="mr-2" />
+                        <Calendar className="mr-2" size={20} />
                         AGENDAR MEU DIAGNÓSTICO
                     </button>
                 </div>
             </div>
             {/* Botões de compartilhamento para mobile */}
-            <div className="md:hidden mt-8">
-                <p className="text-sm font-semibold text-gray-600 mb-2">COMPARTILHE ESSA OPORTUNIDADE:</p>
+            <div className="mt-10">
+                <p className="text-sm font-semibold text-slate-600 mb-3">COMPARTILHE ESSA OPORTUNIDADE:</p>
                 <div className="flex justify-center space-x-4">
-                    <button onClick={() => handleShare('whatsapp')} className="p-3 bg-green-100 text-green-600 rounded-full shadow-sm"><WhatsAppIcon /></button>
-                    <button onClick={() => handleShare('facebook')} className="p-3 bg-blue-100 text-blue-600 rounded-full shadow-sm"><FacebookIcon /></button>
-                    <button onClick={handleCopy} className="p-3 bg-gray-100 text-gray-600 rounded-full shadow-sm relative">
-                        <Copy size={24} />
-                         {copySuccess && <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded">{copySuccess}</span>}
+                    <button onClick={() => handleShare('whatsapp')} className="p-3 bg-slate-100 text-slate-600 rounded-full hover:bg-slate-200 transition-colors"><WhatsAppIcon size={20} /></button>
+                    <button onClick={() => handleShare('facebook')} className="p-3 bg-slate-100 text-slate-600 rounded-full hover:bg-slate-200 transition-colors"><FacebookIcon size={20} /></button>
+                    <button onClick={handleCopy} className="p-3 bg-slate-100 text-slate-600 rounded-full hover:bg-slate-200 transition-colors relative">
+                        <Copy size={20} />
+                         {copySuccess && <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-slate-800 text-white text-xs rounded">{copySuccess}</span>}
                     </button>
                 </div>
             </div>
@@ -1049,14 +1110,14 @@ function App() {
             return;
         }
 
-        const questionOrder = ['q1', 'q2', 'q3', 'q4_dificuldade', 'q5_thermometer', 'q6', 'q7', 'q8', 'q9', 'q10'];
+        const questionOrder = ['q1', 'q2', 'q3', 'q4_dificuldade', 'q5_thermometer', 'q6', 'q7', 'q8_slider', 'q9', 'q10'];
         const totalQuestions = questionOrder.length;
 
         if (currentQuestionIndex < totalQuestions - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
             setQuizState('processing');
-            setTimeout(() => setQuizState('leadForm'), 4800);
+            setTimeout(() => setQuizState('leadForm'), 3000);
         }
     };
     
@@ -1094,26 +1155,35 @@ function App() {
             const profileData = getFinancialProfile(score);
             const actionPlan = generateActionPlanReport(formattedUserName, userAnswers, score);
             const emotional = generateEmotionalReport(formattedUserName, userAnswers);
+            const skillScores = calculateSkillScores(userAnswers);
+            const pontuacaoHabilidadesDetalhada = Object.keys(skillScores).map(skillName => {
+                const skillDetails = skillInfoData.find(s => s.name === skillName);
+                return {
+                    habilidade: skillName,
+                    pontuacao: skillScores[skillName],
+                    descricao: skillDetails ? skillDetails.description : ''
+                };
+            });
 
             const payload = {
-                quizSessionId,
-                userName: formattedUserName,
-                userGender,
-                userEmail: userEmail.toLowerCase(),
-                userWhatsapp: formatPhoneNumber(userWhatsapp),
-                userIncomeRange: incomeRanges.find(r => r.value === userIncomeRange)?.label || '',
-                userDebtRange: debtRanges.find(r => r.value === userDebtRange)?.label || '',
-                totalScore: score > 0 ? score : 10,
-                financialProfile: profileData.title,
-                reports: {
-                    profile: profileData.description,
-                    actionPlan: actionPlan,
-                    emotional: emotional,
+                idSessaoQuiz: quizSessionId,
+                nome: formattedUserName,
+                genero: userGender,
+                email: userEmail.toLowerCase(),
+                whatsapp: formatPhoneNumber(userWhatsapp),
+                faixaDeRenda: incomeRanges.find(r => r.value === userIncomeRange)?.label || '',
+                faixaDeDivida: debtRanges.find(r => r.value === userDebtRange)?.label || '',
+                pontuacaoTotal: score > 0 ? score : 10,
+                perfilFinanceiro: profileData.title,
+                relatorios: {
+                    descricaoPerfil: profileData.description,
+                    planoDeAcao: actionPlan,
+                    relatorioEmocional: emotional,
                 },
-                quizAnswers: userAnswers,
-                skillScores: calculateSkillScores(userAnswers),
-                initialUrlParams,
-                lgpdConsent,
+                respostasQuiz: userAnswers,
+                pontuacaoHabilidades: pontuacaoHabilidadesDetalhada,
+                parametrosUrlInicial: initialUrlParams,
+                consentimentoLgpd: lgpdConsent,
             };
 
             const response = await fetch(webhookUrl, {
@@ -1150,13 +1220,14 @@ function App() {
                     activeThemeClasses={activeThemeClasses}
                    />;
             case 'midpointSummary':
-                return <MidpointSummaryScreen 
+                return <MidpointRadarScreen 
                     userName={userName}
                     userAnswers={userAnswers}
                     onContinue={handleContinueFromMidpoint}
+                    activeThemeClasses={activeThemeClasses}
                 />;
             case 'processing':
-                return <ProcessingScreen userName={userName} />;
+                return <ProcessingScreen activeThemeClasses={activeThemeClasses} />;
             case 'leadForm':
                 return <LeadForm 
                     userName={userName}
@@ -1176,6 +1247,7 @@ function App() {
                     profile={getFinancialProfile(score)}
                     formSubmitted={formSubmitted}
                     userAnswers={userAnswers}
+                    activeThemeClasses={activeThemeClasses}
                 />;
             case 'welcome':
             default:
@@ -1191,14 +1263,14 @@ function App() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans">
+        <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 font-sans">
              <style>{`
-                @keyframes pulse-bar {
-                    0%, 100% { height: 1rem; }
-                    50% { height: 6rem; }
+                @keyframes progress-animation {
+                    from { stroke-dashoffset: 282.7; }
+                    to { stroke-dashoffset: 141.35; }
                 }
-                .animate-pulse-bar {
-                    animation: pulse-bar 1.2s infinite ease-in-out;
+                .progress-circle {
+                    animation: progress-animation 1s ease-out forwards;
                 }
                 .aspect-w-16 {
                     position: relative;
@@ -1212,8 +1284,25 @@ function App() {
                     top: 0;
                     left: 0;
                 }
+                input[type=range].slider-thumb::-webkit-slider-thumb {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    background-color: currentColor;
+                }
+                input[type=range].slider-thumb::-moz-range-thumb {
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    background-color: currentColor;
+                    border: 0;
+                }
             `}</style>
-            <div className="relative z-10 bg-white rounded-xl shadow-2xl p-6 sm:p-8 lg:p-10 max-w-2xl w-full text-center">
+            <div className="relative z-10 bg-white rounded-2xl shadow-xl p-8 sm:p-12 max-w-4xl w-full">
                 {showRestoreModal && (
                     <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 rounded-xl">
                         <div className="bg-white p-8 rounded-lg shadow-2xl text-center max-w-sm">
