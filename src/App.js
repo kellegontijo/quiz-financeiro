@@ -1,5 +1,5 @@
 import React from 'react';
-import { DollarSign, Clock, Wallet, Map, TrendingDown, Shield, Lightbulb, Snowflake, CheckCircle, Award, BrainCircuit, Target, ArrowRight, ArrowLeft, Send, Calendar, Share2, RefreshCw, Copy } from 'lucide-react';
+import { DollarSign, Clock, Wallet, Map, TrendingDown, Shield, Lightbulb, Snowflake, CheckCircle, Award, BrainCircuit, Target, ArrowRight, ArrowLeft, Send, Calendar, Share2, RefreshCw, Copy, Users } from 'lucide-react';
 
 // ====================================================================================
 // ÍCONES PERSONALIZADOS (SVG)
@@ -324,102 +324,82 @@ const getFirstAidTip = (weakestSkill) => {
     }
 };
 
-const generateActionPlanReport = (userName, userAnswers, score) => {
-    const skillScores = calculateSkillScores(userAnswers);
+const generateCompleteReport = (userName, userAnswers, score) => {
     const profile = getFinancialProfile(score);
-    const lowestSkill = Object.keys(skillScores).reduce((a, b) => skillScores[a] < skillScores[b] ? a : b);
-
-    let report = `## Plano de Ação Inicial para ${userName}\n\n`;
-    report += `Olá, ${userName}! Com base nas suas respostas, preparamos um plano de ação inicial e personalizado para você. Este é o primeiro passo para a sua transformação financeira.\n\n`;
-    report += `**Seu Perfil Atual:** ${profile.title}\n\n`;
-    report += `---\n\n`;
-
-    report += `### 🎯 **Foco Principal: ${lowestSkill}**\n\n`;
-
-    switch (lowestSkill) {
-        case 'Controle de Gastos':
-            report += "**Diagnóstico:** Suas respostas sugerem que a maior oportunidade de melhoria está em entender para onde seu dinheiro está indo. É a sensação do 'ralo financeiro', que causa a impressão de que, por mais que você trabalhe, o dinheiro some.\n\n";
-            report += "**Plano de Ação Imediato:**\n";
-            report += "1. **Missão de 3 Dias:** Durante os próximos 3 dias, anote *absolutamente todo* gasto que você fizer, do cafézinho à conta de luz. Use um caderno ou o bloco de notas do celular. O objetivo não é julgar, é apenas criar consciência.\n";
-            report += "2. **Identifique o Vilão:** Ao final dos 3 dias, olhe para a lista e identifique UMA despesa que mais te surpreendeu. Foi um delivery? Uma compra por impulso? Apenas identifique.\n\n";
-            report += `**No nosso diagnóstico, vamos:** Transformar essa simples lista em um 'Mapa Financeiro' visual e identificar os 3 maiores 'ralos' que estão impedindo seu progresso.\n`;
-            break;
-        case 'Gestão de Dívidas':
-            report += "**Diagnóstico:** As dívidas, especialmente as de juros altos como cartão de crédito, parecem ser o maior peso no seu orçamento e na sua mente. Elas criam um ciclo vicioso que impede o crescimento.\n\n";
-            report += "**Plano de Ação Imediato:**\n";
-            report += "1. **Liste Suas Dívidas:** Pegue uma folha de papel e liste todas as suas dívidas. Para cada uma, anote: para quem você deve, o valor total e, se souber, a taxa de juros.\n";
-            report += "2. **Pare de Cavar o Buraco:** Guarde o cartão de crédito na gaveta por uma semana. Tente usar apenas o dinheiro que você tem em conta (débito ou Pix). O objetivo é parar de aumentar a dívida.\n\n";
-            report += `**No nosso diagnóstico, vamos:** Organizar essa lista e criar uma estratégia inteligente e realista para quitar suas dívidas, começando pelas mais caras, para que você economize dinheiro com juros.\n`;
-            break;
-        case 'Mentalidade Financeira':
-            report += "**Diagnóstico:** A preocupação constante com dinheiro (estresse financeiro) parece estar afetando sua qualidade de vida e sua capacidade de tomar boas decisões. A forma como pensamos sobre o dinheiro impacta diretamente nossos resultados.\n\n";
-            report += "**Plano de Ação Imediato:**\n";
-            report += "1. **Defina UMA Meta Pequena:** Pense em UM pequeno objetivo financeiro para a próxima semana. Ex: 'Não vou usar o iFood por 5 dias' ou 'Vou guardar R$ 20'. Algo que seja 100% alcançável.\n";
-            report += "2. **Comemore a Vitória:** Quando você alcançar essa pequena meta, comemore! Diga a si mesmo(a) 'Eu consegui'. O objetivo é começar a criar uma relação de sucesso e controle com o dinheiro.\n\n";
-            report += `**No nosso diagnóstico, vamos:** Aprofundar nas crenças que te limitam e criar um plano para fortalecer sua mentalidade, transformando ansiedade em confiança.\n`;
-            break;
-        case 'Planejamento Futuro':
-            report += "**Diagnóstico:** A falta de um plano claro para o futuro e de uma reserva de emergência te deixa vulnerável a imprevistos e distante dos seus maiores sonhos. Você parece estar operando no 'modo reação'.\n\n";
-            report += "**Plano de Ação Imediato:**\n";
-            report += "1. **Sonhe um Pouco:** Escreva em um papel 3 sonhos que você gostaria de realizar (uma viagem, um curso, a casa própria). Não pense em como pagar, apenas no que você quer.\n";
-            report += "2. **Comece sua Reserva (com R$ 1):** Abra o aplicativo do seu banco e guarde R$ 1 em uma 'caixinha' ou poupança. O valor não importa. O ato de começar é o mais poderoso.\n\n";
-            report += `**No nosso diagnóstico, vamos:** Transformar seus sonhos em metas com passo a passo e desenhar um plano realista para você construir sua reserva de emergência e começar a investir no seu futuro.\n`;
-            break;
-    }
-
-    report += `\n---\n\n`;
-    report += `Lembre-se, ${userName}, este é apenas o começo. O diagnóstico aprofundado é onde vamos detalhar cada um desses pontos e criar um plano financeiro que se encaixe perfeitamente na sua vida.\n\nAté breve!`;
-
-    return report;
-};
-
-const generateEmotionalReport = (userName, userAnswers) => {
+    const skillScores = calculateSkillScores(userAnswers);
+    const weakestSkill = Object.keys(skillScores).reduce((a, b) => skillScores[a] < skillScores[b] ? a : b);
     const thermometerAnswer = userAnswers.find(answer => answer.questionId === 'q5_thermometer');
-    if (!thermometerAnswer) {
-        return "O usuário não respondeu à pergunta do termômetro emocional.";
-    }
+    const emotion = thermometerAnswer ? thermometerAnswer.selectedOption : 'Não informado';
 
-    const emotion = thermometerAnswer.selectedOption;
-    let report = `## Relatório do Termômetro Emocional de ${userName}\n\n`;
-    report += `**Palavra escolhida:** ${emotion}\n\n`;
-    report += `### Análise e Pontos de Abordagem para o Diagnóstico:\n\n`;
-
+    let emotionalAnalysis = '';
     switch (emotion) {
         case 'Sobrevivência':
-            report += "**Estado Emocional:** O cliente está em modo de alerta constante. A relação com o dinheiro é baseada no medo da falta e na pressão para cobrir o básico. Provavelmente sente exaustão e falta de perspectiva.\n\n";
-            report += "**Estratégia de Comunicação:** Usar uma linguagem acolhedora e segura. Focar em 'trazer alívio' e 'criar um respiro'. O objetivo inicial é mostrar que existe um caminho para sair da pressão, antes mesmo de falar em prosperidade.\n\n";
-            report += "**Ações para o Diagnóstico:**\n";
-            report += "1. Validar o sentimento de exaustão.\n";
-            report += "2. Focar em quick wins: identificar um pequeno corte de gasto que gere alívio imediato.\n";
-            report += "3. Apresentar o conceito de 'reserva de emergência' como um 'colchão de paz'.\n";
+            emotionalAnalysis = "O sentimento de 'Sobrevivência' é exaustivo. Ele nos mantém em alerta constante, focados apenas em cobrir o básico. O primeiro passo para a mudança é criar um pequeno 'respiro' financeiro para que você possa começar a planejar, e não apenas reagir.";
             break;
         case 'Desespero':
-            report += "**Estado Emocional:** O cliente se sente perdido e sobrecarregado. Não sabe por onde começar e provavelmente já tentou métodos que não funcionaram, gerando frustração.\n\n";
-            report += "**Estratégia de Comunicação:** Focar em 'clareza', 'simplicidade' e 'passo a passo'. A promessa principal é a de organizar o caos e entregar um mapa simples de seguir.\n\n";
-            report += "**Ações para o Diagnóstico:**\n";
-            report += "1. Usar a metáfora do 'GPS Financeiro'.\n";
-            report += "2. Fazer um diagnóstico visual da situação atual (o mapa do dinheiro).\n";
-            report += "3. Definir apenas UM próximo passo claro e simples ao final da sessão.\n";
+            emotionalAnalysis = "O 'Desespero' nos paralisa. Ele vem da sensação de que o problema é grande demais e não há saída. Mas acredite, sempre há um caminho. O que falta é um mapa claro, um passo a passo simples para organizar o caos e te devolver a direção.";
             break;
-        case 'Esperança':
-            report += "**Estado Emocional:** O cliente tem uma atitude positiva, mas falta método. Ele acredita que pode melhorar, mas não sabe como. É um perfil com alta energia potencial para a mudança.\n\n";
-            report += "**Estratégia de Comunicação:** Usar uma linguagem motivacional e de parceria. Focar em 'potencializar', 'acelerar' e 'transformar esperança em realidade'.\n\n";
-            report += "**Ações para o Diagnóstico:**\n";
-            report += "1. Elogiar a mentalidade positiva.\n";
-            report += "2. Conectar os sonhos e objetivos dele a um plano numérico.\n";
-            report += "3. Apresentar ferramentas práticas (planilhas, apps) que ele possa usar para transformar a esperança em ação.\n";
+        case 'Vergonha':
+            emotionalAnalysis = "A 'Vergonha' é um sentimento que nos isola e nos impede de buscar ajuda. Saiba que você não está sozinho(a). Milhões de brasileiros enfrentam desafios financeiros. O ato de fazer este diagnóstico já é um passo corajoso para quebrar esse ciclo.";
             break;
         case 'Ansiedade':
-        case 'Vergonha':
-            report += "**Estado Emocional:** O cliente sente o peso constante da dívida, o que gera ansiedade e medo do julgamento. A vergonha pode impedi-lo de procurar ajuda ou falar sobre o assunto.\n\n";
-            report += "**Estratégia de Comunicação:** Criar um ambiente seguro e sem julgamentos. Normalizar a situação, mostrando que muitos passam por isso. Focar em 'retomar o controle' para aliviar a ansiedade.\n\n";
-            report += "**Ações para o Diagnóstico:**\n";
-            report += "1. Validar seus sentimentos e reforçar que ele não está sozinho.\n";
-            report += "2. Mostrar que o plano é uma ferramenta para reduzir a ansiedade.\n";
-            report += "3. Começar com passos pequenos e concretos para gerar sensação de progresso e controle.\n";
+            emotionalAnalysis = "A 'Ansiedade' financeira vem da falta de controle. É a preocupação constante com o futuro e com as contas que vão chegar. Um plano claro é o melhor remédio para isso, pois ele transforma a incerteza em previsibilidade.";
             break;
     }
-    
+
+    let report = `# Seu Diagnóstico Financeiro Personalizado\n\n`;
+    report += `**Um mapa para sua transformação financeira, preparado para ${userName}**\n\n`;
+    report += `---\n\n`;
+    report += `### Página 1: Seu Perfil Principal\n\n`;
+    report += `**Seu Perfil é: ${profile.title.split(':')[1].trim()}**\n\n`;
+    report += `**O que isso significa no seu dia a dia?**\n`;
+    if (profile.title.includes('Descontrolado')) {
+        report += `* Você provavelmente sente que as dívidas formam uma bola de neve, usando um crédito para pagar outro.\n`;
+        report += `* A sensação de caos e desespero pode ser constante.\n`;
+        report += `* É difícil ver uma saída clara para a situação atual.\n`;
+    } else if (profile.title.includes('Gastador')) {
+        report += `* Você provavelmente sente que trabalha muito, mas nunca vê o dinheiro sobrar.\n`;
+        report += `* A fatura do cartão de crédito é uma fonte constante de estresse e surpresas.\n`;
+        report += `* Você costuma usar a frase "eu mereço" para justificar gastos que, no fundo, sabe que não deveria fazer.\n`;
+    } else { // Desligado
+        report += `* Você paga suas contas, mas não tem um controle claro sobre suas finanças.\n`;
+        report += `* Imprevistos financeiros costumam te pegar de surpresa.\n`;
+        report += `* Você sente que poderia fazer mais com seu dinheiro, mas não sabe por onde começar.\n`;
+    }
+    report += `\n---\n\n`;
+    report += `### Página 2: Seu Termômetro Emocional\n\n`;
+    report += `**Sua palavra foi: ${emotion.toUpperCase()}**\n\n`;
+    report += `**O que essa emoção nos diz:** ${emotionalAnalysis}\n\n`;
+    report += `---\n\n`;
+    report += `### Página 3: Análise Detalhada das Suas Habilidades\n\n`;
+    Object.keys(skillScores).forEach(skill => {
+        const score = skillScores[skill];
+        report += `* **${skill}: ${score}%**\n`;
+        if (score <= 33) {
+            report += `  * **Diagnóstico:** Sua pontuação indica que esta é uma área de atenção crítica. É aqui que está a principal raiz dos seus desafios financeiros.\n`;
+        } else if (score <= 67) {
+            report += `  * **Diagnóstico:** Você já tem alguma consciência nesta área, mas ainda há muito espaço para melhorias que trarão grandes resultados.\n`;
+        } else {
+            report += `  * **Diagnóstico:** Esta é uma área onde você demonstra mais força. Vamos usá-la como base para impulsionar as outras.\n`;
+        }
+    });
+    report += `\n---\n\n`;
+    report += `### Página 4: Seu Plano de Ação Imediato\n\n`;
+    const firstAid = getFirstAidTip(weakestSkill);
+    if (firstAid) {
+        report += `**Sua Maior Oportunidade é em: ${weakestSkill}**\n\n`;
+        report += `**${firstAid.title}:** ${firstAid.tip}\n`;
+    }
+    report += `\n---\n\n`;
+    report += `### Página 5: Seus Próximos Passos Para a Liberdade\n\n`;
+    report += `**O que você descobriu até aqui:**\n`;
+    report += `* Você agora sabe seu **Perfil Comportamental**.\n`;
+    report += `* Você entende qual **Emoção** guia suas decisões.\n`;
+    report += `* Você tem clareza sobre sua **Maior Fraqueza** e seu **Ponto Forte**.\n`;
+    report += `* Você já tem uma **Missão Imediata** para começar a virar o jogo.\n\n`;
+    report += `**Este relatório é o Raio-X. O diagnóstico gratuito é o início do tratamento.**\n\n`;
+    report += `*"Peregrinei muito buscando alguém que pudesse me orientar e me resgatar do fundo do poço... ali estava uma pessoa real, que trilhou o caminho e hoje nos ensina... se você ainda está em dúvida, invista em você, no seu conhecimento... eu já iniciei o meu caminho!!!"* ~ Andréia Laureano\n`;
+
     return report;
 };
 
@@ -851,8 +831,8 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeTh
             case 'whatsapp':
                 url = `https://api.whatsapp.com/send?text=${shareText}`;
                 break;
-            case 'facebook':
-                url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+            case 'whatsapp-group':
+                url = `https://l.kellegontijo.com/grupo-financas-kelle`;
                 break;
             default:
                 return;
@@ -956,7 +936,7 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeTh
                 <p className="text-sm font-semibold text-slate-600 mb-3">COMPARTILHE ESSA OPORTUNIDADE:</p>
                 <div className="flex justify-center space-x-4">
                     <button onClick={() => handleShare('whatsapp')} className="p-3 bg-slate-100 text-slate-600 rounded-full hover:bg-slate-200 transition-colors"><WhatsAppIcon size={20} /></button>
-                    <button onClick={() => handleShare('facebook')} className="p-3 bg-slate-100 text-slate-600 rounded-full hover:bg-slate-200 transition-colors"><FacebookIcon size={20} /></button>
+                    <button onClick={() => handleShare('whatsapp-group')} className="p-3 bg-slate-100 text-green-600 rounded-full hover:bg-slate-200 transition-colors"><Users size={20} /></button>
                     <button onClick={handleCopy} className="p-3 bg-slate-100 text-slate-600 rounded-full hover:bg-slate-200 transition-colors relative">
                         <Copy size={20} />
                          {copySuccess && <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-2 py-1 bg-slate-800 text-white text-xs rounded">{copySuccess}</span>}
@@ -1153,8 +1133,7 @@ function App() {
 
             const formattedUserName = formatName(userName);
             const profileData = getFinancialProfile(score);
-            const actionPlan = generateActionPlanReport(formattedUserName, userAnswers, score);
-            const emotional = generateEmotionalReport(formattedUserName, userAnswers);
+            const completeReport = generateCompleteReport(formattedUserName, userAnswers, score);
             const skillScores = calculateSkillScores(userAnswers);
             const pontuacaoHabilidadesDetalhada = Object.keys(skillScores).map(skillName => {
                 const skillDetails = skillInfoData.find(s => s.name === skillName);
@@ -1175,11 +1154,7 @@ function App() {
                 faixaDeDivida: debtRanges.find(r => r.value === userDebtRange)?.label || '',
                 pontuacaoTotal: score > 0 ? score : 10,
                 perfilFinanceiro: profileData.title,
-                relatorios: {
-                    descricaoPerfil: profileData.description,
-                    planoDeAcao: actionPlan,
-                    relatorioEmocional: emotional,
-                },
+                relatorioCompleto: completeReport,
                 respostasQuiz: userAnswers,
                 pontuacaoHabilidades: pontuacaoHabilidadesDetalhada,
                 parametrosUrlInicial: initialUrlParams,
