@@ -432,10 +432,10 @@ function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handl
     <div className="p-4">
       <div className="text-center">
         <h2 className="text-3xl sm:text-4xl font-bold text-slate-800">
-          Diagnóstico Financeiro
+          Quiz Perfil Financeiro
         </h2>
         <p className="text-lg text-slate-500 mt-2 mb-8">
-          Descubra o perfil que te impede de sair das dívidas.
+          O primeiro passo de como fazer seu dinheiro sobrar na palma da sua mão.
         </p>
         <form onSubmit={handleSubmit} className="space-y-6 max-w-sm mx-auto">
           <input
