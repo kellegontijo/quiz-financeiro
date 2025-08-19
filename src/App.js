@@ -435,7 +435,7 @@ function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handl
           Quiz Perfil Financeiro
         </h2>
         <p className="text-lg text-slate-500 mt-2 mb-8">
-          O primeiro passo de como fazer seu dinheiro sobrar na palma da sua mão.
+          O primeiro passo de como fazer seu dinheiro <br>sobrar na palma da sua mão.
         </p>
         <form onSubmit={handleSubmit} className="space-y-6 max-w-sm mx-auto">
           <input
