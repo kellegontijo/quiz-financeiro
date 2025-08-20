@@ -214,7 +214,17 @@ const skillInfoData = [
 
 const formatName = (name) => {
   if (!name) return '';
-  return name.toLowerCase().split(' ').map((word) => {
+  
+  // Palavras a serem ignoradas (preposições)
+  const wordsToIgnore = ['de', 'da', 'do', 'das', 'dos', 'e'];
+  
+  return name.toLowerCase().split(' ').filter((word, index, array) => {
+    // Sempre incluir a primeira palavra (nome próprio)
+    if (index === 0) return true;
+    
+    // Remover palavras a serem ignoradas
+    return !wordsToIgnore.includes(word);
+  }).map((word) => {
     if (word.length === 0) return '';
     return word.charAt(0).toUpperCase() + word.slice(1);
   }).join(' ');
@@ -228,10 +238,42 @@ const getFirstName = (fullName) => {
 
 const formatPhoneNumber = (phone) => {
   if (!phone) return '';
+  // Apenas remove caracteres não numéricos, sem adicionar automaticamente o código do Brasil
+  return phone.replace(/\D/g, '');
+};
+
+const formatPhoneWithMask = (phone) => {
+  if (!phone) return '';
+  
+  // Remove tudo que não é número
   let cleanedPhone = phone.replace(/\D/g, '');
-  if (cleanedPhone.length > 2 && !cleanedPhone.startsWith('55')) {
-    cleanedPhone = '55' + cleanedPhone;
+  
+  // Limita o número de dígitos (11 para celular com nono dígito, 10 para fixo)
+  if (cleanedPhone.length > 11) {
+    cleanedPhone = cleanedPhone.substring(0, 11);
   }
+  
+  // Aplica a máscara (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
+  if (cleanedPhone.length >= 10) {
+    if (cleanedPhone.length === 10) {
+      // Telefone fixo ou celular antigo sem nono dígito
+      return `(${cleanedPhone.slice(0, 2)}) ${cleanedPhone.slice(2, 6)}-${cleanedPhone.slice(6, 10)}`;
+    } else if (cleanedPhone.length === 11) {
+      // Celular com nono dígito
+      return `(${cleanedPhone.slice(0, 2)}) ${cleanedPhone.slice(2, 7)}-${cleanedPhone.slice(7, 11)}`;
+    }
+  } else if (cleanedPhone.length > 2) {
+    // Formata parcialmente enquanto digita
+    if (cleanedPhone.length <= 6) {
+      return `(${cleanedPhone.slice(0, 2)}) ${cleanedPhone.slice(2)}`;
+    } else if (cleanedPhone.length <= 10) {
+      return `(${cleanedPhone.slice(0, 2)}) ${cleanedPhone.slice(2, 6)}-${cleanedPhone.slice(6)}`;
+    }
+  } else if (cleanedPhone.length > 0) {
+    // Formata parcialmente o DDD
+    return `(${cleanedPhone}`;
+  }
+  
   return cleanedPhone;
 };
 
@@ -689,7 +731,7 @@ function LeadForm({
             setFormError('Por favor, preencha um e-mail válido.');
             return;
         }
-        if (!userWhatsapp.trim() || userWhatsapp.length < 12) {
+        if (!userWhatsapp.trim() || userWhatsapp.length < 10) {
             setFormError('Por favor, preencha um WhatsApp válido com DDD.');
             return;
         }
@@ -719,8 +761,19 @@ function LeadForm({
                 Para receber seu relatório completo e agendar seu diagnóstico gratuito, {getFirstName(userName)}, preencha seus dados abaixo.
             </p>
             <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto">
-                <input type="email" placeholder="Seu Melhor E-mail" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`} />
-                <input type="tel" placeholder="Seu WhatsApp (com DDD)" value={userWhatsapp} onChange={(e) => setUserWhatsapp(formatPhoneNumber(e.target.value))} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`} />
+                <input type="email" placeholder="Seu Melhor E-mail" value={userEmail} onChange={(e) => setUserEmail(e.target.value.toLowerCase())} required className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`} />
+                <input 
+                  type="tel" 
+                  placeholder="Seu WhatsApp (com DDD)" 
+                  value={formatPhoneWithMask(userWhatsapp)} 
+                  onChange={(e) => {
+                    // Remove a máscara para armazenar apenas os números
+                    const rawValue = e.target.value.replace(/\D/g, '');
+                    setUserWhatsapp(rawValue);
+                  }} 
+                  required 
+                  className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`} 
+                />
                 <select value={userIncomeRange} onChange={(e) => setUserIncomeRange(e.target.value)} required className={`w-full p-3 rounded-lg border-2 bg-white ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`}>
                     {incomeRanges.map(range => <option key={range.value} value={range.value}>{range.label}</option>)}
                 </select>
@@ -739,8 +792,20 @@ function LeadForm({
                     </div>
                 )}
                 <button type="submit" className={`w-full font-bold py-3 px-6 rounded-lg shadow-sm transition-colors duration-200 inline-flex items-center justify-center ${activeThemeClasses.primary}`} disabled={isLoading}>
-                    {isLoading ? 'ENVIANDO...' : 'QUERO MEU DIAGNÓSTICO GRATUITO!'}
-                    {!isLoading && <Send className="ml-2" size={20} />}
+                    {isLoading ? (
+                        <div className="flex items-center justify-center">
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            PROCESSANDO...
+                        </div>
+                    ) : (
+                        <>
+                            {isLoading ? 'ENVIANDO...' : 'QUERO MEU DIAGNÓSTICO GRATUITO!'}
+                            {!isLoading && <Send className="ml-2" size={20} />}
+                        </>
+                    )}
                 </button>
             </form>
         </div>
@@ -922,13 +987,15 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeTh
                     <li className="flex items-start"><CheckCircle className="w-5 h-5 mr-2 mt-1 text-green-400 flex-shrink-0" /><span>Sair com os 3 primeiros passos para retomar o controle.</span></li>
                 </ul>
                 <div className="w-full">
-                    <button
-                        data-cal-link="kgfinancas/diagnostico"
+                    <a
+                        href="https://cal.com/kgfinancas/diagnostico"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-sm transition-colors duration-200 inline-flex items-center justify-center text-lg"
                     >
                         <Calendar className="mr-2" size={20} />
                         AGENDAR MEU DIAGNÓSTICO
-                    </button>
+                    </a>
                 </div>
             </div>
             {/* Botões de compartilhamento para mobile */}
@@ -1132,20 +1199,30 @@ function App() {
             const webhookUrl = 'https://webhook.kellegontijo.com/webhook/quizdf';
 
             const formattedUserName = formatName(userName);
+            console.log('formattedUserName:', formattedUserName);
+            
             const profileData = getFinancialProfile(score);
+            console.log('profileData:', profileData);
+            
             const completeReport = generateCompleteReport(formattedUserName, userAnswers, score);
+            console.log('completeReport length:', completeReport.length);
+            
             const skillScores = calculateSkillScores(userAnswers);
+            console.log('skillScores:', skillScores);
+            
             const pontuacaoHabilidadesDetalhada = Object.keys(skillScores).map(skillName => {
                 const skillDetails = skillInfoData.find(s => s.name === skillName);
                 return {
                     habilidade: skillName,
                     pontuacao: skillScores[skillName],
-                    descricao: skillDetails ? skillDetails.description : ''
+                    descricao: skillDetails ? skillDetails.description : 'Descrição não disponível'
                 };
             });
+            console.log('pontuacaoHabilidadesDetalhada:', pontuacaoHabilidadesDetalhada);
 
+            // Payload otimizado para envio rápido
             const payload = {
-                idSessaoQuiz: quizSessionId,
+                idSessaoQuiz: quizSessionId || 'sem-id',
                 nome: formattedUserName,
                 genero: userGender,
                 email: userEmail.toLowerCase(),
@@ -1154,28 +1231,57 @@ function App() {
                 faixaDeDivida: debtRanges.find(r => r.value === userDebtRange)?.label || '',
                 pontuacaoTotal: score > 0 ? score : 10,
                 perfilFinanceiro: profileData.title,
-                relatorioCompleto: completeReport,
+                // Enviando apenas um resumo para otimizar o envio
+                relatorioResumo: `Relatório completo será gerado no backend. Perfil: ${profileData.title}`,
                 respostasQuiz: userAnswers,
                 pontuacaoHabilidades: pontuacaoHabilidadesDetalhada,
                 parametrosUrlInicial: initialUrlParams,
                 consentimentoLgpd: lgpdConsent,
             };
 
+            // Log para depuração
+            console.log('Enviando payload otimizado:', payload);
+            const payloadString = JSON.stringify(payload);
+            console.log('Tamanho do payload otimizado (caracteres):', payloadString.length);
+
+            // Configuração da requisição com timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos de timeout
+
             const response = await fetch(webhookUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
+                body: payloadString,
+                signal: controller.signal
             });
 
-            if (!response.ok) throw new Error(`Erro HTTP! status: ${response.status}`);
+            clearTimeout(timeoutId);
+
+            console.log('Status da resposta:', response.status);
+            console.log('Status text da resposta:', response.statusText);
+
+            // Verificar se a resposta é OK
+            if (!response.ok) {
+                // Tentar ler o corpo da resposta para obter mais detalhes do erro
+                const errorText = await response.text().catch(() => 'Não foi possível ler o corpo da resposta de erro');
+                console.error('Corpo da resposta de erro:', errorText);
+                throw new Error(`Erro HTTP! status: ${response.status}, mensagem: ${response.statusText}. Detalhes: ${errorText}`);
+            }
             
             setFormSubmitted(true);
             setQuizState('results');
             localStorage.removeItem('quizProgress');
 
         } catch (error) {
-            console.error('Erro ao enviar dados para o n8n:', error);
-            alert('Ocorreu um erro ao enviar seus dados. Por favor, tente novamente.');
+            console.error('Erro ao enviar dados:', error);
+            // Tratamento específico para erro de fetch
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                alert('Ocorreu um erro de conexão ao enviar seus dados. Por favor, verifique sua conexão com a internet e tente novamente.');
+            } else if (error.name === 'AbortError') {
+                alert('O envio dos dados está demorando muito. Por favor, tente novamente.');
+            } else {
+                alert('Ocorreu um erro ao enviar seus dados. Por favor, tente novamente. Detalhes: ' + error.message);
+            }
         } finally {
             setIsLoading(false);
         }
