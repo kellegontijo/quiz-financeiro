@@ -18,7 +18,8 @@
     "test:coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "generate-favicons": "node generate-favicons.js",
-    "verify-favicons": "node verify-favicons.js"
+    "verify-favicons": "node verify-favicons.js",
+    "deploy:cf": "npm run build && npx wrangler deploy --config wrangler.toml"
   },
   "eslintConfig": {
     "extends": [
