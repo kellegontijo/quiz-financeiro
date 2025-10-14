@@ -109,11 +109,17 @@ const questions = [
   },
    {
     id: 'q8_slider',
-    type: 'slider',
     question: "Numa escala de 0 a 10, qual o nível da sua preocupação com dinheiro hoje?",
     skill: 'Mentalidade Financeira',
     icon: <Snowflake className="inline-block mr-2 text-cyan-500" size={24} />,
-    labels: { min: 'Pouca', max: 'Pânico Total' }
+    display: 'grid',
+    labels: { min: 'Pouca', max: 'Pânico Total' },
+    options: [
+      { text: '0', value: 3 }, { text: '1', value: 3 }, { text: '2', value: 3 },
+      { text: '3', value: 3 }, { text: '4', value: 2 }, { text: '5', value: 2 },
+      { text: '6', value: 2 }, { text: '7', value: 2 }, { text: '8', value: 1 },
+      { text: '9', value: 1 }, { text: '10', value: 1 }
+    ]
   },
   {
     id: 'q9',
@@ -591,48 +597,6 @@ function ProcessingScreen({ activeThemeClasses }) {
     );
 }
 
-function SliderQuestion({ question, onAnswer, activeThemeClasses }) {
-    const [value, setValue] = React.useState(5);
-    const [hasInteracted, setHasInteracted] = React.useState(false);
-
-    const handleInteractionEnd = () => {
-        let scoreValue;
-        if (value <= 3) {
-            scoreValue = 3;
-        } else if (value <= 7) {
-            scoreValue = 2;
-        } else {
-            scoreValue = 1;
-        }
-        onAnswer({
-            text: `Nível de preocupação: ${value}`,
-            value: scoreValue
-        });
-        setHasInteracted(true);
-    };
-
-    return (
-        <div className="py-4">
-            <input
-                type="range"
-                min="0"
-                max="10"
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
-                onMouseUp={handleInteractionEnd}
-                onTouchEnd={handleInteractionEnd}
-                className={`w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer slider-thumb ${activeThemeClasses.sliderThumb}`}
-                disabled={hasInteracted}
-            />
-            <div className="flex justify-between text-sm text-slate-500 mt-2">
-                <span>{question.labels.min}</span>
-                <span className={`font-bold text-lg ${activeThemeClasses.textHighlight}`}>{value}</span>
-                <span>{question.labels.max}</span>
-            </div>
-        </div>
-    );
-}
-
 
 function QuizScreen({ currentQuestionIndex, userAnswers, userName, handleAnswerClick, handleNextQuestion, handlePreviousQuestion, selectedOptionText, activeThemeClasses }) {
     const questionOrder = ['q1', 'q2', 'q3', 'q4_dificuldade', 'q5_thermometer', 'q6', 'q7', 'q8_slider', 'q9', 'q10'];
@@ -657,36 +621,63 @@ function QuizScreen({ currentQuestionIndex, userAnswers, userName, handleAnswerC
                 <p className="text-2xl sm:text-3xl font-medium text-slate-800">
                     {currentQuestionData.question}
                 </p>
-                <div className="grid grid-cols-1 gap-4 mt-8">
-                    {currentQuestionData.type === 'slider' ? (
-                        <SliderQuestion
-                            question={currentQuestionData}
-                            onAnswer={(option) => handleAnswerClick(option, currentQuestionData.id)}
-                            activeThemeClasses={activeThemeClasses}
-                        />
-                    ) : (
-                        currentQuestionData.options.map((option) => {
-                            const isSelected = option.text === selectedOptionText;
-                            const isDisabled = selectedOptionText !== null;
-                            
-                            let buttonClass = `bg-white text-slate-700 border-2 ${activeThemeClasses.buttonBorder} ${activeThemeClasses.buttonHover}`;
-                            if (isDisabled) {
-                                buttonClass = isSelected 
-                                    ? `${activeThemeClasses.buttonSelected}` 
-                                    : 'bg-slate-100 text-slate-500 border-slate-100 cursor-not-allowed';
-                            }
+                <div className="mt-8">
+                    {currentQuestionData.display === 'grid' ? (
+                        <>
+                            <div className="flex justify-between text-sm text-slate-500 mb-2 px-2">
+                                <span>{currentQuestionData.labels.min}</span>
+                                <span>{currentQuestionData.labels.max}</span>
+                            </div>
+                            <div className="grid grid-cols-11 gap-1.5">
+                                {currentQuestionData.options.map((option) => {
+                                    const isSelected = option.text === selectedOptionText;
+                                    const isDisabled = selectedOptionText !== null;
+                                    
+                                    let buttonClass = `bg-white text-slate-700 border-2 ${activeThemeClasses.buttonBorder} ${activeThemeClasses.buttonHover}`;
+                                    if (isDisabled) {
+                                        buttonClass = isSelected 
+                                            ? `${activeThemeClasses.buttonSelected}` 
+                                            : 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed';
+                                    }
 
-                            return (
-                                <button
-                                    key={option.text}
-                                    onClick={() => handleAnswerClick(option, currentQuestionData.id)}
-                                    className={`w-full text-left p-4 rounded-lg text-base font-medium transition-colors duration-200 ${buttonClass}`}
-                                    disabled={isDisabled}
-                                >
-                                    {option.text}
-                                </button>
-                            );
-                        })
+                                    return (
+                                        <button
+                                            key={option.text}
+                                            onClick={() => handleAnswerClick(option, currentQuestionData.id)}
+                                            className={`w-full aspect-square rounded-full text-sm font-bold transition-colors duration-200 flex items-center justify-center ${buttonClass}`}
+                                            disabled={isDisabled}
+                                        >
+                                            {option.text}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </>
+                    ) : (
+                        <div className="grid grid-cols-1 gap-4">
+                            {currentQuestionData.options.map((option) => {
+                                const isSelected = option.text === selectedOptionText;
+                                const isDisabled = selectedOptionText !== null;
+                                
+                                let buttonClass = `bg-white text-slate-700 border-2 ${activeThemeClasses.buttonBorder} ${activeThemeClasses.buttonHover}`;
+                                if (isDisabled) {
+                                    buttonClass = isSelected 
+                                        ? `${activeThemeClasses.buttonSelected}` 
+                                        : 'bg-slate-100 text-slate-500 border-slate-100 cursor-not-allowed';
+                                }
+
+                                return (
+                                    <button
+                                        key={option.text}
+                                        onClick={() => handleAnswerClick(option, currentQuestionData.id)}
+                                        className={`w-full text-left p-4 rounded-lg text-base font-medium transition-colors duration-200 ${buttonClass}`}
+                                        disabled={isDisabled}
+                                    >
+                                        {option.text}
+                                    </button>
+                                );
+                            })}
+                        </div>
                     )}
                 </div>
             </div>
@@ -961,7 +952,7 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeTh
             </div>
 
             <div className="mb-8">
-               <h3 className="text-2xl font-bold text-slate-800 mb-4">Assista o vídeo e descubra o caminho para ter seu dinheiro sobrando em 8 semanas ou menos:</h3>
+               <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">Sua vaga nas Aulas Semanais no ZOOM está 90% Garantida! Assista o vídeo rápido abaixo e descubra o que fazer para garantí-la 100%.</h3>
                <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
                   <iframe 
                       src="https://www.youtube.com/embed/6GueqpXKTcE" 
@@ -980,21 +971,22 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeTh
             </div>
             
             <div className="bg-slate-800 text-white p-8 rounded-lg">
-                <h3 className="text-2xl sm:text-3xl font-bold mb-4">O que esperar do Diagnóstico Gratuito?</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-4 text-left">Mentoria em Grupo Gratuita no Zoom!</h3>
+                <p className="text-slate-300 text-left mb-6">Participe das nossas aulas ao vivo com a Kelle e transforme sua vida financeira. É a sua chance de tirar dúvidas em tempo real, como em uma mentoria individual!</p>
                 <ul className="space-y-3 text-slate-300 text-left mb-6">
-                    <li className="flex items-start"><CheckCircle className="w-5 h-5 mr-2 mt-1 text-green-400 flex-shrink-0" /><span>Mapear suas dívidas e entender a raiz do problema.</span></li>
-                    <li className="flex items-start"><CheckCircle className="w-5 h-5 mr-2 mt-1 text-green-400 flex-shrink-0" /><span>Identificar seu principal "ralo" financeiro.</span></li>
-                    <li className="flex items-start"><CheckCircle className="w-5 h-5 mr-2 mt-1 text-green-400 flex-shrink-0" /><span>Sair com os 3 primeiros passos para retomar o controle.</span></li>
+                    <li className="flex items-start"><CheckCircle className="w-5 h-5 mr-2 mt-1 text-green-400 flex-shrink-0" /><span>Aprenda a sair das dívidas e a investir, mesmo com pouco dinheiro.</span></li>
+                    <li className="flex items-start"><CheckCircle className="w-5 h-5 mr-2 mt-1 text-green-400 flex-shrink-0" /><span>Receba dicas práticas e um passo a passo claro para organizar suas finanças.</span></li>
+                    <li className="flex items-start"><CheckCircle className="w-5 h-5 mr-2 mt-1 text-green-400 flex-shrink-0" /><span>Interaja diretamente com a Kelle e outros participantes em um ambiente de apoio.</span></li>
                 </ul>
                 <div className="w-full">
                     <a
-                        href="https://cal.com/kgfinancas/diagnostico"
+                        href="https://l.kellegontijo.com/grupo-financas-kelle"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-sm transition-colors duration-200 inline-flex items-center justify-center text-lg"
                     >
-                        <Calendar className="mr-2" size={20} />
-                        AGENDAR MEU DIAGNÓSTICO
+                        <WhatsAppIcon className="mr-2" size={20} />
+                        Me Lembra das Aulas Semanais no ZOOM!
                     </a>
                 </div>
             </div>
