@@ -1,15 +1,10 @@
 import React from 'react';
-import { DollarSign, Clock, Wallet, Map, TrendingDown, Shield, Lightbulb, Snowflake, CheckCircle, Award, BrainCircuit, Target, ArrowRight, ArrowLeft, Send, Calendar, Share2, RefreshCw, Copy, Users } from 'lucide-react';
+import { Wallet, Map, TrendingDown, Shield, Snowflake, CheckCircle, Award, BrainCircuit, Target, ArrowRight, ArrowLeft, Send, RefreshCw, Copy, Users } from 'lucide-react';
 
 // ====================================================================================
 // ÍCONES PERSONALIZADOS (SVG)
 // ====================================================================================
 
-const FacebookIcon = (props) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-  </svg>
-);
 
 const WhatsAppIcon = (props) => (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -392,6 +387,8 @@ const generateCompleteReport = (userName, userAnswers, score) => {
             break;
         case 'Ansiedade':
             emotionalAnalysis = "A 'Ansiedade' financeira vem da falta de controle. É a preocupação constante com o futuro e com as contas que vão chegar. Um plano claro é o melhor remédio para isso, pois ele transforma a incerteza em previsibilidade.";
+            break;
+        default:
             break;
     }
 
@@ -802,78 +799,10 @@ function LeadForm({
         </div>
     );
 }
-
-function RadarChart({ scores, isLive = false, activeThemeClasses }) {
-    const skills = Object.keys(scores);
-    
-    const points = skills.map((skill, i) => {
-        const angle = (i / skills.length) * 2 * Math.PI - Math.PI / 2;
-        let value = (scores[skill] || 0) / 100;
-        const x = 50 + Math.cos(angle) * value * 45;
-        const y = 50 + Math.sin(angle) * value * 45;
-        return `${x},${y}`;
-    }).join(' ');
-
-    const polygonColor = activeThemeClasses ? activeThemeClasses.textHighlight.replace('text-', 'bg-').replace(']', '/50]') : 'bg-blue-600/50';
-    const strokeColor = activeThemeClasses ? activeThemeClasses.textHighlight.replace('text-', 'stroke-') : 'stroke-blue-600';
-    
-    return (
-        <div className="my-4">
-            {!isLive && <h4 className="text-lg font-bold text-slate-700 mb-4">Seu Termômetro Financeiro</h4>}
-            
-            <div className={`relative w-full max-w-[16rem] mx-auto aspect-square`}>
-                <svg viewBox="0 0 100 100" className="w-full h-full">
-                    {[0.25, 0.5, 0.75, 1].map(val => (
-                        <polygon key={val}
-                            points={skills.map((_, i) => {
-                                const angle = (i / skills.length) * 2 * Math.PI - Math.PI / 2;
-                                const x = 50 + Math.cos(angle) * val * 45;
-                                const y = 50 + Math.sin(angle) * val * 45;
-                                return `${x},${y}`;
-                            }).join(' ')}
-                            fill="none" stroke="#e2e8f0" strokeWidth="0.5" />
-                    ))}
-                    {skills.map((_, i) => {
-                        const angle = (i / skills.length) * 2 * Math.PI - Math.PI / 2;
-                        const x = 50 + Math.cos(angle) * 45;
-                        const y = 50 + Math.sin(angle) * 45;
-                        return <line key={i} x1="50" y1="50" x2={x} y2={y} stroke="#e2e8f0" strokeWidth="0.5" />
-                    })}
-                    <polygon points={points} className={`fill-current ${polygonColor} ${strokeColor} transition-all duration-500`} strokeWidth="1" />
-                </svg>
-                {skills.map((skill, i) => {
-                    const angle = (i / skills.length) * 2 * Math.PI - Math.PI / 2;
-                    let distance = 62;
-                    if (i === 1 || i === 3) { 
-                        distance = 72;
-                    }
-                    
-                    let x = 50 + Math.cos(angle) * distance;
-                    let y = 50 + Math.sin(angle) * distance;
-                    let textAlign = 'center';
-
-                    if (x > 51) textAlign = 'left';
-                    if (x < 49) textAlign = 'right';
-                    
-                    const style = {
-                        top: `${y}%`,
-                        left: `${x}%`,
-                        transform: 'translate(-50%, -50%)',
-                        textAlign: textAlign,
-                        whiteSpace: 'pre-line',
-                    };
-                    return <div key={skill} className="absolute text-xs font-semibold text-slate-500" style={style}>{skill.replace(' ', '\n')}</div>;
-                })}
-            </div>
-        </div>
-    );
-}
-
 function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeThemeClasses }) {
     const [showSuccessMessage, setShowSuccessMessage] = React.useState(formSubmitted);
     const [copySuccess, setCopySuccess] = React.useState('');
     const skillScores = calculateSkillScores(userAnswers);
-    const strongestSkill = Object.keys(skillScores).reduce((a, b) => skillScores[a] > skillScores[b] ? a : b);
     const weakestSkill = Object.keys(skillScores).reduce((a, b) => skillScores[a] < skillScores[b] ? a : b);
     const firstAidTip = getFirstAidTip(weakestSkill);
 
