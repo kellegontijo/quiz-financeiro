@@ -1117,7 +1117,7 @@ function App() {
     const handleLeadCapture = async () => {
         setIsLoading(true);
         try {
-            const webhookUrl = 'https://webhook.kellegontijo.com/webhook/quizdf';
+            const webhookUrl = 'https://webhook.kellegontijo.com/webhook/bcb85004-61e9-4f7b-8464-1c12a5aa26dc/quizdf/:quizdf-tag';
 
             const formattedUserName = formatName(userName);
             console.log('formattedUserName:', formattedUserName);
