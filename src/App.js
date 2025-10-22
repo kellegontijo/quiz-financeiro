@@ -882,7 +882,7 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeTh
 
             <div className="mb-8">
                <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">Sua vaga nas Aulas Semanais no ZOOM está 90% Garantida! Assista o vídeo rápido abaixo e descubra o que fazer para garantí-la 100%.</h3>
-               <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+               <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg" style={{ display: 'none' }}>
                   <iframe 
                       src="https://www.youtube.com/embed/6GueqpXKTcE" 
                       title="YouTube video player" 
@@ -912,10 +912,10 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeTh
                         href="https://l.kellegontijo.com/grupo-financas-kelle"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-lg shadow-sm transition-colors duration-200 inline-flex items-center justify-center text-lg"
+                        className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg shadow-sm transition-colors duration-200 inline-flex items-center justify-center text-lg"
                     >
                         <WhatsAppIcon className="mr-2" size={20} />
-                        Me Lembra das Aulas Semanais no ZOOM!
+                        Entre no Grupo VIP Agora e Seja Lembrado das Aula no ZOOM
                     </a>
                 </div>
             </div>
