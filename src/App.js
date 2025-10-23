@@ -489,7 +489,7 @@ function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handl
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             required
-            className={`w-full p-3 rounded-lg border-2 ${activeThemeClasses.inputBorder} focus:ring-1 transition-colors duration-200`}
+            className="w-full p-3 rounded-lg border-2 border-slate-300 bg-slate-100 focus:ring-1 transition-colors duration-200"
           />
           <div className="flex justify-center space-x-4">
             <label className="inline-flex items-center cursor-pointer">
@@ -1302,7 +1302,7 @@ function App() {
                     border: 0;
                 }
             `}</style>
-            <div className={`relative z-10 ${quizState === 'welcome' ? 'bg-white bg-opacity-80' : 'bg-white'} rounded-2xl shadow-xl p-8 sm:p-12 max-w-4xl w-full`}>
+            <div className={`relative z-10 ${quizState === 'welcome' ? 'bg-white bg-opacity-0 border border-white' : 'bg-white'} rounded-2xl shadow-xl p-8 sm:p-12 max-w-4xl w-full`}>
                 {showRestoreModal && (
                     <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 rounded-xl">
                         <div className="bg-white p-8 rounded-lg shadow-2xl text-center max-w-sm">
