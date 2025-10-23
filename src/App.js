@@ -1302,7 +1302,7 @@ function App() {
                     border: 0;
                 }
             `}</style>
-            <div className={`relative z-10 ${quizState === 'welcome' ? 'bg-white bg-opacity-0 border border-white' : 'bg-white'} rounded-2xl shadow-xl p-8 sm:p-12 max-w-4xl w-full`} style={quizState === 'welcome' ? { borderColor: '#ffffff' } : {}}>
+            <div className={`relative z-10 ${quizState === 'welcome' ? 'bg-white bg-opacity-0 border border-white border-opacity-100' : 'bg-white'} rounded-2xl shadow-xl p-8 sm:p-12 max-w-4xl w-full`} style={quizState === 'welcome' ? { borderColor: '#ffffff' } : {}}>
                 {showRestoreModal && (
                     <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 rounded-xl">
                         <div className="bg-white p-8 rounded-lg shadow-2xl text-center max-w-sm">
