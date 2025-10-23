@@ -1261,7 +1261,8 @@ function App() {
                 backgroundImage: `url('/img/background-quiz.png')`, 
                 backgroundSize: 'cover', 
                 backgroundPosition: 'center',
-                backgroundAttachment: 'fixed'
+                backgroundAttachment: 'fixed',
+                filter: 'brightness(0.7)'  // Escurece a imagem de fundo
              } : {}}>
              <style>{`
                 @keyframes progress-animation {
@@ -1301,7 +1302,7 @@ function App() {
                     border: 0;
                 }
             `}</style>
-            <div className={`relative z-10 ${quizState === 'welcome' ? 'bg-white bg-opacity-90' : 'bg-white'} rounded-2xl shadow-xl p-8 sm:p-12 max-w-4xl w-full`}>
+            <div className={`relative z-10 ${quizState === 'welcome' ? 'bg-white bg-opacity-70' : 'bg-white'} rounded-2xl shadow-xl p-8 sm:p-12 max-w-4xl w-full`}>
                 {showRestoreModal && (
                     <div className="absolute inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 rounded-xl">
                         <div className="bg-white p-8 rounded-lg shadow-2xl text-center max-w-sm">
