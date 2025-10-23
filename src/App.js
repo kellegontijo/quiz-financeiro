@@ -1258,7 +1258,7 @@ function App() {
     return (
         <div className={`min-h-screen flex items-center justify-center p-4 font-sans ${quizState === 'welcome' ? 'bg-slate-100' : 'bg-slate-100'}`} 
              style={quizState === 'welcome' ? { 
-                backgroundImage: `url('/img/background-quiz.png')`, 
+                backgroundImage: `url('/img/background-quiz.jpg')`, 
                 backgroundSize: 'cover', 
                 backgroundPosition: 'center',
                 backgroundAttachment: 'fixed',
