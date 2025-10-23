@@ -1261,8 +1261,7 @@ function App() {
                 backgroundImage: `url('/img/background-quiz.jpg')`, 
                 backgroundSize: 'cover', 
                 backgroundPosition: 'center',
-                backgroundAttachment: 'fixed',
-                filter: 'brightness(0.35)'  // Escurece a imagem em 65%
+                backgroundAttachment: 'fixed'
              } : {}}>
              <style>{`
                 @keyframes progress-animation {
