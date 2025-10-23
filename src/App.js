@@ -881,22 +881,13 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeTh
             </div>
 
             <div className="mb-8">
-               <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">Sua vaga nas Aulas Semanais no ZOOM está 90% Garantida! Assista o vídeo rápido abaixo e descubra o que fazer para garantí-la 100%.</h3>
-               <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg" style={{ display: 'none' }}>
-                  <iframe 
-                      src="https://www.youtube.com/embed/6GueqpXKTcE" 
-                      title="YouTube video player" 
-                      frameBorder="0" 
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                      allowFullScreen
-                      className="w-full h-full"
-                  ></iframe>
-               </div>
+               <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">Sua vaga nas Aulas Semanais no ZOOM está 90% Garantida! Veja depoimentos de pessoas que já transformaram suas vidas financeiras e descubra como garantir sua vaga 100% entrando no Grupo VIP!</h3>
             </div>
 
-            <div className="text-left bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8">
-                 <p className="text-slate-600 italic">"Peregrinei muito buscando alguém que pudesse me orientar e me resgatar do fundo do poço... ali estava uma pessoa real, que trilhou o caminho e hoje nos ensina... se você ainda está em dúvida, invista em você, no seu conhecimento... eu já iniciei o meu caminho!!!"</p>
-                 <p className="text-right font-bold text-slate-700 mt-2">~ Andréia Laureano</p>
+            <div className="flex flex-col items-center mb-8 space-y-6">
+                <img src="/img/depoimento-eliani.jpg" alt="Depoimento de Eliani" className="w-full max-w-md rounded-xl shadow-lg border-2 border-white transition-transform duration-300 hover:scale-110" />
+                <img src="/img/depoimento-keren-rodrigues.png" alt="Depoimento de Keren Rodrigues" className="w-full max-w-md rounded-xl shadow-lg border-2 border-white transition-transform duration-300 hover:scale-110" />
+                <img src="/img/depoimento-rose-garcia.jpg" alt="Depoimento de Rose Garcia" className="w-full max-w-md rounded-xl shadow-lg border-2 border-white transition-transform duration-300 hover:scale-110" />
             </div>
             
             <div className="bg-slate-800 text-white p-8 rounded-lg">
