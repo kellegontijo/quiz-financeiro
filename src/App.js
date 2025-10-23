@@ -476,10 +476,10 @@ function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handl
   return (
     <div className="p-4">
       <div className="text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-slate-800">
+        <h2 className="text-3xl sm:text-4xl font-bold text-white">
           Quiz Seu Perfil Financeiro
         </h2>
-        <p className="text-lg text-slate-500 mt-2 mb-8">
+        <p className="text-lg text-white mt-2 mb-8">
           O primeiro passo de como fazer seu dinheiro sobrar na palma da sua mão.
         </p>
         <form onSubmit={handleSubmit} className="space-y-6 max-w-sm mx-auto">
@@ -494,15 +494,15 @@ function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handl
           <div className="flex justify-center space-x-4">
             <label className="inline-flex items-center cursor-pointer">
               <input type="radio" name="gender" value="feminino" checked={userGender === 'feminino'} onChange={(e) => setUserGender(e.target.value)} className={`form-radio h-5 w-5 ${activeThemeClasses.radio}`} />
-              <span className="ml-2 text-slate-700">Feminino</span>
+              <span className="ml-2 text-white">Feminino</span>
             </label>
             <label className="inline-flex items-center cursor-pointer">
               <input type="radio" name="gender" value="masculino" checked={userGender === 'masculino'} onChange={(e) => setUserGender(e.target.value)} className={`form-radio h-5 w-5 ${activeThemeClasses.radio}`} />
-              <span className="ml-2 text-slate-700">Masculino</span>
+              <span className="ml-2 text-white">Masculino</span>
             </label>
             <label className="inline-flex items-center cursor-pointer">
               <input type="radio" name="gender" value="outros" checked={userGender === 'outros'} onChange={(e) => setUserGender(e.target.value)} className={`form-radio h-5 w-5 ${activeThemeClasses.radio}`} />
-              <span className="ml-2 text-slate-700">Outro</span>
+              <span className="ml-2 text-white">Outro</span>
             </label>
           </div>
           {formError && (
