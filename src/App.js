@@ -489,7 +489,7 @@ function WelcomeScreen({ userName, setUserName, userGender, setUserGender, handl
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             required
-            className="w-full p-3 rounded-lg border-2 border-slate-300 bg-slate-100 focus:ring-1 transition-colors duration-200"
+            className="w-full p-3 rounded-lg border-2 border-slate-300 bg-white text-black focus:ring-1 transition-colors duration-200"
           />
           <div className="flex justify-center space-x-4">
             <label className="inline-flex items-center cursor-pointer">
