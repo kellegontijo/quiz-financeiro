@@ -1262,7 +1262,7 @@ function App() {
                 backgroundSize: 'cover', 
                 backgroundPosition: 'center',
                 backgroundAttachment: 'fixed',
-                filter: 'brightness(0.6)'  // Escurece a imagem de fundo
+                filter: 'brightness(0.4)'  // Escurece mais a imagem de fundo
              } : {}}>
              <style>{`
                 @keyframes progress-animation {
