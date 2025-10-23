@@ -817,7 +817,7 @@ function ResultsScreen({ userName, profile, formSubmitted, userAnswers, activeTh
                 url = `https://api.whatsapp.com/send?text=${shareText}`;
                 break;
             case 'whatsapp-group':
-                url = `https://l.kellegontijo.com/grupo-financas-kelle`;
+                url = `https://l.kellegontijo.com/entrarnogrupovip`;
                 break;
             default:
                 return;
